@@ -106,7 +106,7 @@ ARG knime_community_trusted_repository=http://update.knime.org/community-contrib
 ARG knime_python_extension=org.knime.features.python2.feature.group/3.6.1.v201808311614
 ARG knime_r_extension=org.knime.features.r.feature.group/3.6.1.v201808311614
 ARG knime_openms_extension=de.openms.feature.feature.group/2.3.0.201712211252
-ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.7.v201803061425
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.9.v201809131534
 
 
 
