@@ -1,23 +1,24 @@
 # KNIME_docker_vnc
 Docker file and associated files for running KNIME inside the Docker container build on top of Ubuntu with desktop environment accessible via VNC.
 
-Prebuilt Docker images are available on Docker hub [https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/).
-
-## Project structure and overall usage
-
-
-
-The project is meant for sharing docker files and accompanied files/scripts. Docker and other files can be used to build your own docker images.
-
-In case you want to use already build the docker images you can use prebuild images on docker hub (see below).
+The repository is meant for sharing docker files and accompanied files/scripts and to make easier usage of prebuild docker images hosted on docker hub ([https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/)).
 
 ## Prebuild Docker Images Usage
 
 This chapter explains how to run Docker image on your machine.
 
-At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
+1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
+2. Clone this repository, especially scripts folder containing "start_container.sh" file.
+3. Adjust "start_container.sh" file to meet your requirements, especially folder containing your workspace(s) and timezone you want to use. Please, check the script file itself for all the details. The file needs to be executable prior its usage!
+4. Start container running the "start_container.sh" with 3 parameters: IMAGE_NAME PORT_TO_RUN_ON WORKSPACE
+   - e.g. on linux run "./start_container.sh cfprot/knime:3.5.3c 5901 test" where:
+      - "cfprot/knime:3.5.3c" points to a concrete docker image version of cfprot/knime docker image
+      - "5901" specifies the port on which the container will be accesible for VNC connection
+      - "test" is the folder within workspaces folder (see "volume_remote_location" settings in the script)
 
-
+Script file contains several settings you might want to adjust, e.g.:
+- absolute path to the folder that contains your KNIME workspace folder(s) you want to use within the container ("volume_remote_location")
+- timezone
 
 ## List of used programs and extensions and the respective licences
 
@@ -81,3 +82,5 @@ Docker image contains the below mentioned selected tools found needed and or hel
 - [imp4p](https://cran.r-project.org/web/packages/imp4p/index.html)
     - The imp4p consists of the following General Public License (GPL), version 3 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 
+# Licence
+This version of docker file and accompanied files are available under the GNU GPL 3.0 License (see the [LICENSE](../master/LICENSE) file for details), unless stated otherwise.

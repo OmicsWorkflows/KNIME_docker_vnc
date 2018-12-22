@@ -1,11 +1,17 @@
 #!/bin/bash
 
-# you can start it directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
-# e.g. "./start_container.sh knime:3.5.3c 5901 test"
-# order of parameters must be kept (we don't support switches...yet(?))
+# you can start the container using this script directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
+# e.g. "./start_container.sh knime:3.5.3c 5901 test" where
+#     "knime:3.5.3c" points to a concrete docker image version
+#     "5901" specifies the port on which the container will be accesible for VNC connection
+#     "test" is the folder within workspaces folder (see "volume_remote_location" below)
+# order of parameters must be kept (we don't support switches...)
+
+
 
 default_image_name="cfprot/knime:latest"
 default_workspace=""
+# folder containing folder you want to mount as your KNIME workspace folder
 volume_remote_location="/media/copy/712006-Proteomics/KNIME_workspaces/"
 volume_mount_point="/home/knimeuser/knime-workspace"
 image_name=""
