@@ -13,7 +13,7 @@ ARG dockerfile_version=3.6.1a
 ENV knime_folder=${knimeuser_home}/knime
 ARG knime_workspace_folder=${knimeuser_home}/knime-workspace
 
-ARG files_to_copy_folder=./files_to_copy/dockerfile_version
+ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
 ARG copied_files_folder=/usr/copied_files
 
 ############################################# Basic packages + folders #################################################################################

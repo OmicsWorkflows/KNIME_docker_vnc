@@ -1,7 +1,15 @@
 # KNIME_docker_vnc
-Docker file and associated files for running KNIME inside the Docker container build on top of Ubuntu 18.04 with xfce desktop environment accessible via VNC.
+Docker file and associated files for running KNIME inside the Docker container build on top of Ubuntu with desktop environment accessible via VNC.
 
 Prebuilt Docker images are available on Docker hub [https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/).
+
+## Project structure and overall usage
+
+
+
+The project is meant for sharing docker files and accompanied files/scripts. Docker and other files can be used to build your own docker images.
+
+In case you want to use already build the docker images you can use prebuild images on docker hub (see below).
 
 ## Prebuild Docker Images Usage
 
