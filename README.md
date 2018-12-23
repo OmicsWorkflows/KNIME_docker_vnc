@@ -15,21 +15,24 @@ This chapter explains how to run Docker image on your machine.
       - "cfprot/knime:3.5.3c" points to a concrete docker image version of cfprot/knime docker image
       - "5901" specifies the port on which the container will be accesible for VNC connection
       - "test" is the folder within workspaces folder (see "volume_remote_location" settings in the script)
+5. Enter the password for the VNC server that will be needed to access the running container.
+5. Access the running container using VNC viewer at specified port number and using the specified password, e.g. localhost:5901. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release. 
 
-Script file contains several settings you might want to adjust, e.g.:
-- absolute path to the folder that contains your KNIME workspace folder(s) you want to use within the container ("volume_remote_location")
-- timezone
 
 ## List of used programs and extensions and the respective licences
 
 Please note that only the latest docker file/image version is considered here.
- 
+
+The repository utilizes [docker](https://www.docker.com/) files and the docker images are hosted on [docker hub](https://hub.docker.com).
+
 Docker image contains the below mentioned selected tools found needed and or helping during the work with the KNIME environment. It runs on top of Ubuntu 18.04 LTS. The current version of the docker environment contains the following list of programs. Please inspect your local installation and contact us if you can not locate your local version and or license terms associated to the used program(s).
 
 #### Operation system and its components
 
 - [Ubuntu](https://www.ubuntu.com/) 18.04
   - The Ubuntu consists of the following Ubuntu License. Licence terms are available here: https://www.ubuntu.com/licensing
+- [TigerVNC](https://tigervnc.org/) 1.9.0
+  - The TigerVNC consists of the following GNU General Public Licence. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
 
 #### Programs
 
