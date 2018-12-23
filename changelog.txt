@@ -1,0 +1,119 @@
+#########################
+3.7.0a
+
+December 2018
+########################
+- xfce goodies were installed on top of xfce base desktop environment
+
+- KNIME upgraded to 3.7.0 including R (3.7.0.v201810230750) and Python (3.7.0.v201812041252) extensions
+- KNIME OpenMS extension upgraded to 2.4.0.201810261314
+- KNIME PIA extension upgraded to 1.3.9.v201809131534
+- KNIME Testing Framework extension added version 3.7.0.v201811021340
+- KNIME Expressions extension added, version 3.7.0.v201811301633
+- KNIME Report Designer extension added, version 3.7.0.v201808081048
+
+- pip python package upgraded to 18.1
+- numpy python package upgraded to 1.15.4
+- matplotlib python package upgraded to 3.0.2
+- scipy python package upgraded to 1.2.0
+
+
+#########################
+3.6.1a
+
+8 September 2018
+########################
+- KNIME upgraded to 3.6.1
+- KNIME python extension upgraded to 3.6.1.v201808311614
+- KNIME r extension upgraded to 3.6.1.v201808311614
+- pip python package upgraded to 18.0
+- numpy python package upgraded to 1.15.1
+- pandas python package upgraded to 0.23.4
+- seaborn pytho package upgraded to 0.9.0
+- matplotlib python package upgraded to 2.2.3
+
+
+#########################
+3.6.0x
+
+10 August 2018
+########################
+- dockerfile based on Ubuntu 18.04
+- KNIME 3.6.0 used
+- R packages vsn and imp4p added
+- upgraded numpy to 1.14.5 (newest version)
+- upgraded pandas to 0.23.3 (newest version)
+- removed byobu terminal
+- added mc basic ubuntu package
+- switched to xfce desktop environment due to better user experience and less issues with building the image/container
+- knime_python_extension updated to 3.6.0.v201807061638
+- tigervncserver is no longer installed - just unpacked (there is no prepared installation file for ubuntu 18.04 yet)
+- tigervncserver updated to 1.9.0
+- need to set user's login shell with chsh (otherwise terminal would cause bugs in 18.04)
+- installing R...installing specific version no longer works
+(R installed now using only 'apt-get install r-base' which is ok, but doesn't give control over the R version installed - which then affects bioclite packages version because they depend on R version)
+
+
+
+
+#########################
+3.5.3c
+
+11th June 2018
+########################
+-added Biobase package to R via biocLite() 
+-dockerfile made cleaner - removed commented code about freefilesync + custom knime nodes
+-removed knime update site "...community-contributions/trunk" because it might contain experimental versions of extensions
+-downgraded openms to 2.3.0.201712211252 because experimental version was in use
+-changed default Xmx to 4g for knime in knime.ini (max available memory)
+-upgraded pandas to 0.23.0 (newest version)
+-upgraded statsmodels to 0.9.0 (newest version)
+-upgraded scipy to 1.1.0
+-reorganized pip commands so that pip --upgade pip goes first + added setuptools + other packages are now installed in one install command
+(this helps if networking problem - updated pip cca 9.0.1 is more robust than ubuntu 16.04 default pip (cca 8.1.1) if networking problems, retrying if exception)
+
+
+
+##########################
+3.5.3b
+
+15th May 2018
+##########################
+
+-changed name of knime workspace folder to "knime-workspace"
+it is because from now on, preferred way is to expose only one remote knime workspace folder to user
+(previously he could acces al the workspaces)
+
+
+
+###########################
+3.5.3
+
+4th May 2018
+##########################
+
+-initial release
+
+from ubuntu:16.04
+
+knime: 3.5.3
+knime repositories version: 3.5
+
+knime extensions:
+-python: 3.5.2.v201802051356
+-r: 3.5.1.v201712211140
+-openms: 2.3.0.201804252103
+-pia: 1.3.7.v201803061425
+
+tigervnc: tigervncserver_1.8.0-1ubuntu1_amd64.deb
+
+pip packages:
+-pip: 9.0.3
+-numpy: 1.14.3
+-pandas: 0.22.0
+-seaborn: 0.8.1
+-statsmodels: 0.8.0
+-matplotlib: 2.2.2
+-scipy: 1.0.1
+
+r:3.4.4-1xenial0
