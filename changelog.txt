@@ -14,7 +14,6 @@ December 2018
 
 - pip python package upgraded to 18.1
 - numpy python package upgraded to 1.15.4
-- matplotlib python package upgraded to 3.0.2
 - scipy python package upgraded to 1.2.0
 
 
