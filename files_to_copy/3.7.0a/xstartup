@@ -12,3 +12,4 @@ autocutsel -fork
 # x-window-manager &
 
 startxfce4 &
+xset s off

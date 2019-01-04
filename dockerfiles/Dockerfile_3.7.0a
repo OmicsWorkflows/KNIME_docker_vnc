@@ -242,9 +242,6 @@ EXPOSE 5901
 USER ${knimeuser}
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
 
-# disable screensaver
-RUN xset s off
-
 
 #TO BUILD eg: sudo docker build -t knime .
 # use -f flag for different dockerfile as PATH/Dockerfile
