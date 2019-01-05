@@ -13,7 +13,7 @@ autocutsel -fork
 
 startxfce4 &
 
-### disable screensaver and power management
-xset -dpms &
-xset s noblank &
-xset s off &
+### disable screensaver and power management - disabled as it was not working as expected
+#xset -dpms &
+#xset s noblank &
+#xset s off &
