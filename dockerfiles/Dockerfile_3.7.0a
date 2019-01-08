@@ -66,7 +66,7 @@ RUN chown -R ${knimeuser} ${knimeuser_home}
 
 #RUN apt-get update -y
 # installs desktop environment
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install \
     xfce4 \
     xfce4-goodies \
     locales -y
