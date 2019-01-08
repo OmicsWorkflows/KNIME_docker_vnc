@@ -19,13 +19,21 @@ ARG copied_files_folder=/usr/copied_files
 ############################################# Basic packages + folders #################################################################################
 # libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
 
-RUN \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get install -y build-essential && \
-  apt-get install -y software-properties-common && \
-  apt-get install -y curl git mc htop man unzip wget && \
-  apt-get install -y libwebkitgtk-3.0-0 gedit sudo firefox
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    firefox \
+    gedit \
+    git \
+    htop \
+    libwebkitgtk-3.0-0 \
+    man \
+    mc \
+    software-properties-common \
+    sudo \
+    unzip \
+    wget \
+ && rm -rf /var/lib/apt/lists/*
 
 # create folders
 RUN mkdir ${knimeuser_home}
@@ -56,12 +64,13 @@ RUN chown -R ${knimeuser} ${knimeuser_home}
 
 ########################################################### GUI #################################################################################
 
-RUN apt-get update -y
-# desktop environment
-RUN DEBIAN_FRONTEND=noninteractive apt-get install xfce4 xfce4-goodies locales -y
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install xfce4 locales -y
+#RUN apt-get update -y
+# installs desktop environment
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
+    xfce4 \
+    xfce4-goodies \
+    locales
 # removes power management and screensaver packages
-#RUN apt-get purge -y *power* *screensaver*
 RUN apt-get purge -y xscreensaver xscreensaver-data xfce4-power-manager xfce4-power-manager-data
 
 
@@ -81,8 +90,7 @@ RUN chsh -s /bin/bash ${knimeuser}
 RUN \
   echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java8-installer
+  apt-get update && apt-get install -y oracle-java8-installer
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
@@ -156,14 +164,23 @@ RUN chmod +x ${knimeuser_home}/.vnc/xstartup
 ################################################## R ####################################################################################
 # install default ubuntu R (depending on the version of R, versions of bioconductor + bioconductor packages install, but we didn't find a way how to install custom version of R on ubuntu 18.04 yet)
 
-RUN apt-get update -y && apt-get install r-base r-base-dev -y
+RUN apt-get update && apt-get install -y \
+    r-base \
+    r-base-dev
 RUN R --version
 
 # install R packages
 RUN R -e 'install.packages(c("Rserve"),repos="http://cran.rstudio.com/")'
-RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("preprocessCore");biocLite("limma");biocLite("Biobase");biocLite("vsn")'
 ## "pcaMethods" and "impute" packages needs to be installed prior imp4p installation!
-RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("pcaMethods");biocLite("impute")'
+RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
+    biocLite("Biobase"); \
+    biocLite("impute") \
+    biocLite("limma"); \
+    biocLite("pcaMethods"); \
+    biocLite("preprocessCore"); \
+    biocLite("vsn") \
+    '
+#RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("pcaMethods");biocLite("impute")'
 RUN R -e 'install.packages("imp4p")'
 
 
@@ -242,7 +259,8 @@ RUN chown ${knimeuser} /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
 EXPOSE 5901
-USER ${knimeuser}
+# currently disabled, logs as the root user
+#USER ${knimeuser}
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
 
 
