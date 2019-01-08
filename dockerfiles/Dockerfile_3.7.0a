@@ -174,7 +174,7 @@ RUN R -e 'install.packages(c("Rserve"),repos="http://cran.rstudio.com/")'
 ## "pcaMethods" and "impute" packages needs to be installed prior imp4p installation!
 RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
     biocLite("Biobase"); \
-    biocLite("impute") \
+    biocLite("impute"); \
     biocLite("limma"); \
     biocLite("pcaMethods"); \
     biocLite("preprocessCore"); \
