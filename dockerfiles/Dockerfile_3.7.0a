@@ -69,7 +69,7 @@ RUN chown -R ${knimeuser} ${knimeuser_home}
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     xfce4 \
     xfce4-goodies \
-    locales
+    locales -y
 # removes power management and screensaver packages
 RUN apt-get purge -y xscreensaver xscreensaver-data xfce4-power-manager xfce4-power-manager-data
 
