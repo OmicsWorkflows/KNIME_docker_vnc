@@ -260,7 +260,7 @@ RUN chown ${knimeuser} /etc/timezone
 
 EXPOSE 5901
 # currently disabled, logs as the root user
-#USER ${knimeuser}
+USER ${knimeuser}
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
 
 
