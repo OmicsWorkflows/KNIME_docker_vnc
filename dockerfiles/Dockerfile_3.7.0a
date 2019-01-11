@@ -59,7 +59,7 @@ WORKDIR ${knimeuser_home}
 RUN chmod -R 770 ${knimeuser_home}
 
 RUN groupadd -r ${knimeuser} && useradd --no-log-init -r -g ${knimeuser} -d ${knimeuser_home} ${knimeuser}
-RUN chown -R ${knimeuser}:${knimeuser} ${knimeuser_home}
+RUN chown -R ${knimeuser}: ${knimeuser_home}
 
 
 ########################################################### GUI #################################################################################
@@ -156,7 +156,7 @@ RUN rm -r /root/${tigervnc_file}
 
 # vnc startup - create so that there is no problem with file does not exist on vnc init
 RUN mkdir ${knimeuser_home}/.vnc
-RUN chown ${knimeuser}:${knimeuser} ${knimeuser_home}/.vnc
+RUN chown ${knimeuser}: ${knimeuser_home}/.vnc
 RUN cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup
 RUN chmod +x ${knimeuser_home}/.vnc/xstartup
 
@@ -245,17 +245,17 @@ RUN cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/
 RUN touch ${knimeuser_home}/version-${dockerfile_version}
 
 ## make folders available to knimeuser
-RUN chown -R ${knimeuser}:${knimeuser} ${copied_files_folder}
+RUN chown -R ${knimeuser}: ${copied_files_folder}
 
-RUN chown -R ${knimeuser}:${knimeuser} ${knime_folder}
-RUN chown -R ${knimeuser}:${knimeuser} ${knimeuser_home}/Desktop
-RUN chown -R ${knimeuser}:${knimeuser} ${knime_workspace_folder}
+RUN chown -R ${knimeuser}: ${knime_folder}
+RUN chown -R ${knimeuser}: ${knimeuser_home}/Desktop
+RUN chown -R ${knimeuser}: ${knime_workspace_folder}
 
 ## make shortcuts executable
 RUN chmod -R 770 ${knimeuser_home}/Desktop
 
 # enabling timezone setting by entrypoint.sh by knimeuser
-RUN chown ${knimeuser}:${knimeuser} /etc/timezone
+RUN chown ${knimeuser}: /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
 EXPOSE 5901
