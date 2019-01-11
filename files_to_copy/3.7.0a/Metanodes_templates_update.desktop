@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Metanodes templates update
+Comment=Updates the git repository for the KNIME Metanodes templates
+Exec=/usr/copied_files/metanodes_update.sh
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/home/knimeuser/knime/icon.xpm
