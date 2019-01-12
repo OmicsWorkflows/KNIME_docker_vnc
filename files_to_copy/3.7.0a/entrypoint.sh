@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# changes the ownership on the mounted volume
-chown -R knimeuser: /home/knimeuser/knime-workspace
-
-# switches to the knimeuser
-su - knimeuser
-
 vncpasswd
 
 if [ ! -v "$CONTAINER_TIMEZONE" ]; then
@@ -20,3 +14,9 @@ fi
 rm -f /tmp/.X1-lock
 rm -f /tmp/.X11-unix/*
 vncserver :1 -geometry 1680x1050 -depth 24 && tail -F $HOME/.vnc/*.log
+
+# changes the ownership on the mounted volume
+chown -R knimeuser: /home/knimeuser/knime-workspace
+
+# switches to the knimeuser
+su - knimeuser
