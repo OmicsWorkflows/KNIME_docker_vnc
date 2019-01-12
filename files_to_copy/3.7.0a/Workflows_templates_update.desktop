@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Name=Workflows templates update
-Comment=Updates the git repository for the KNIME Workflows templates
-Exec=/usr/copied_files/workflows_update.sh.sh
-Terminal=false
-X-MultipleArgs=false
-Type=Application
-Icon=/home/knimeuser/knime/icon.xpm

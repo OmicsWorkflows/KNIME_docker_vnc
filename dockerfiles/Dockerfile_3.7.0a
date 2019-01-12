@@ -48,8 +48,8 @@ RUN mkdir ${knime_workspace_folder}
 COPY ${files_to_copy_folder} ${copied_files_folder}
 RUN chmod 755 ${copied_files_folder}/entrypoint.sh
 RUN chmod 755 ${copied_files_folder}/knime_with_workspace.sh
-RUN chmod 755 ${copied_files_folder}/metanodes_update.sh
-RUN chmod 755 ${copied_files_folder}/workflows_update.sh
+RUN chmod 755 ${copied_files_folder}/metanodes_reset.sh
+RUN chmod 755 ${copied_files_folder}/workflows_reset.sh
 
 # set default locations
 ENV HOME ${knimeuser_home}
@@ -240,13 +240,13 @@ RUN mkdir ${knimeuser_home}/Desktop
 RUN cp ${copied_files_folder}/knime.desktop /usr/share/applications
 RUN cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/
 
-# shortcut to Metanodes template update
-RUN cp ${copied_files_folder}/Metanodes_templates_update.desktop /usr/share/applications
-RUN cp /usr/share/applications/Metanodes_templates_update.desktop ${knimeuser_home}/Desktop/
+# shortcut to Metanodes template reset
+RUN cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications
+RUN cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/
 
-# shortcut to Workflows template update
-RUN cp ${copied_files_folder}/Workflows_templates_update.desktop /usr/share/applications
-RUN cp /usr/share/applications/Workflows_templates_update.desktop ${knimeuser_home}/Desktop/
+# shortcut to Workflows template reset
+RUN cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications
+RUN cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
 
 
 ########################################################## FINAL ACTIONS ############################################################################
