@@ -269,8 +269,8 @@ RUN chown ${knimeuser}: /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
 EXPOSE 5901
-# currently disabled, logs as the root user
-USER ${knimeuser}
+# currently disabled, logs as the root user, the user is changed within the entrypoint.sh script
+#USER ${knimeuser}
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
 
 

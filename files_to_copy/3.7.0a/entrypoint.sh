@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# changes the ownership on the mounted volume
+chown -R knimeuser: /home/knimeuser/knime-workspace
+
+# switches to the knimeuser
+su - knimeuser
+
 vncpasswd
 
 if [ ! -v "$CONTAINER_TIMEZONE" ]; then
