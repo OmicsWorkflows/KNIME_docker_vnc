@@ -9,14 +9,16 @@ This chapter explains how to run Docker image on your machine.
 
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
 2. Clone this repository, especially scripts folder containing "start_container.sh" file.
-3. Adjust "start_container.sh" file to meet your requirements, especially folder containing your KNIME workspace(s) and timezone you want to use. Please, check the script file itself for all the details. The file needs to be executable prior its usage!
+3. Adjust "start_container.sh" file to meet your requirements, especially folder containing your workspace(s) and timezone you want to use. Please, check the script file itself for all the details. The script needs to be executable prior its usage!
 4. Start container running the "start_container.sh" with 3 parameters: IMAGE_NAME PORT_TO_RUN_ON WORKSPACE
-   - e.g. on linux run "./start_container.sh cfprot/knime:3.7.0a 5901 test" where:
-      - "cfprot/knime:3.7.0a" points to a concrete docker image version of cfprot/knime docker image
+   - e.g. on linux run "./start_container.sh cfprot/knime:3.5.3c 5901 test" where:
+      - "cfprot/knime:3.5.3c" points to a concrete docker image version of cfprot/knime docker image
       - "5901" specifies the port on which the container will be accesible for VNC connection
       - "test" is the folder within workspaces folder (see "volume_remote_location" settings in the script)
 5. Enter the password for the VNC server that will be needed to access the running container.
-5. Access the running container using VNC viewer at specified port number and using the specified password, e.g. localhost:5901. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release. 
+6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. localhost:5901. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
+7. Click on the "" when starting the container for the first time to get the default Xfce layout.
+8. Adjust the access right KNIME has to have write access to the KNIME workspace folder.
 
 
 ## List of used programs and extensions and the respective licences
