@@ -9,7 +9,7 @@ This chapter explains how to run Docker image on your machine.
 
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
 2. Clone this repository, especially scripts folder containing "start_container.sh" file.
-3. Adjust "start_container.sh" file to meet your requirements, especially folder containing your workspace(s) and timezone you want to use. Please, check the script file itself for all the details. The file needs to be executable prior its usage!
+3. Adjust "start_container.sh" file to meet your requirements, especially folder containing your KNIME workspace(s) and timezone you want to use. Please, check the script file itself for all the details. The file needs to be executable prior its usage!
 4. Start container running the "start_container.sh" with 3 parameters: IMAGE_NAME PORT_TO_RUN_ON WORKSPACE
    - e.g. on linux run "./start_container.sh cfprot/knime:3.7.0a 5901 test" where:
       - "cfprot/knime:3.7.0a" points to a concrete docker image version of cfprot/knime docker image
