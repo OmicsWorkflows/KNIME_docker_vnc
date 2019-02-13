@@ -14,6 +14,7 @@ This chapter explains how to run Docker image on your machine.
       - start_container.bat (Windows) - to start docker container on Windows
       - start_container.sh (Linux) - to start docker container on Linux
 3. Adjust "start_container" script for your platform (Windows, Linux) to meet your requirements, especially folder containing your workspace(s) and timezone you want to use. Please, check the script file itself for all the details.
+   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container not to loose the results in case the container needs to be recreated. This needs to setup shared drive on Windows machines (see e.g. https://docs.docker.com/docker-for-windows/#shared-drives for more details).
 4. Start container running the "start_container" script, with 3 parameters: IMAGE_NAME PORT_TO_RUN_ON WORKSPACE
    - the script has to be executable prior its usage!
    - the specified folder has to be writable on the host system running the container!
