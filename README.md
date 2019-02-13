@@ -8,15 +8,24 @@ The repository is meant for sharing docker files and accompanied files/scripts a
 This chapter explains how to run Docker image on your machine.
 
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
-2. Clone this repository, especially scripts folder containing "start_container.sh" file.
-3. Adjust "start_container.sh" file to meet your requirements, especially folder containing your workspace(s) and timezone you want to use. Please, check the script file itself for all the details.
-4. Start container running the "start_container.sh" with 3 parameters: IMAGE_NAME PORT_TO_RUN_ON WORKSPACE
+2. Clone this repository, especially scripts folder containing scripts to assist you to run the docker container.
+   - there are platform specific (Linux, Windows) scripts for concrete actions
+      - portainer_start.sh (Linux) - to start the portainer image to enable easier containers/images administration
+      - start_container.bat (Windows) - to start docker container on Windows
+      - start_container.sh (Linux) - to start docker container on Linux
+3. Adjust "start_container" script for your platform (Windows, Linux) to meet your requirements, especially folder containing your workspace(s) and timezone you want to use. Please, check the script file itself for all the details.
+4. Start container running the "start_container" script, with 3 parameters: IMAGE_NAME PORT_TO_RUN_ON WORKSPACE
    - the script has to be executable prior its usage!
    - the specified folder has to be writable on the host system running the container!
-   - e.g. on linux run "./start_container.sh cfprot/knime:3.5.3c 5901 test" where:
-      - "cfprot/knime:3.6.1a" points to a concrete docker image version of cfprot/knime docker image
-      - "5901" specifies the port on which the container will be accesible for VNC connection
-      - "test" is the folder within workspaces folder (see "volume_remote_location" settings in the script)
+   - you can also run the script file itself without any argument, it will ask you to provide the 3 above mentioned parameters individually
+   - examples for container start are:
+      - **Windows**: "start_container.bat cfprot/knime:3.7.0a 5901 test"
+      - **Linux**: "./start_container.sh cfprot/knime:3.7.0a 5901 test"      
+      - where:
+         - "**cfprot/knime:3.7.0a**" points to a concrete docker image version of cfprot/knime docker image
+         - "**5901**" specifies the port on which the container will be accesible for VNC connection
+         - "**test**" is the folder within workspaces folder (see "volume_remote_location" settings in the script)
+   - Please note that the remote image from the docker hub will be downloaded automatically prior its first usage which will take some time.
 5. Enter the password for the VNC server that will be needed to access the running container.
 6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. localhost:5901. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
 7. Click on the "Use default config" when starting the container for the first time to get the default Xfce layout.
