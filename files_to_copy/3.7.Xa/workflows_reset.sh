@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# shows the notification about the initiated task
+notify-send -i software-update-available "Workflows templates repository" \
+"<b>Repository reset started!</b> \
+\rPlease wait till it is finished..."
+
 # navigates to the KNIME_Workflows repository, change the folder if needed
 cd /home/knimeuser/knime-workspace/gitfolders/KNIME_Workflows
 
@@ -10,4 +15,7 @@ git reset --hard origin/master
 git clean -f -d
 
 # shows the notification about the finished task
-notify-send "Workflows reset completed!"
+notify-send -i process-completed "Workflows templates repository" \
+"<b>Repository reset completed!</b> \
+\rYou can start to use them in KNIME! \
+\rWorkspace refresh may be needed..."
