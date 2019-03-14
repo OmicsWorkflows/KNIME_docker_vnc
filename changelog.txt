@@ -1,4 +1,14 @@
 #########################
+3.7.Xa
+
+x 2019
+########################
+- scripts for reset of Metanodes and Workflows templates git repositories were adjusted to show the start and end of the reset routine
+
+- R package UpSetR added
+
+
+#########################
 3.7.0a
 
 January 2019

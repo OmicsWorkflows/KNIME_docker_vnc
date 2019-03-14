@@ -186,8 +186,8 @@ RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
     biocLite("preprocessCore"); \
     biocLite("vsn") \
     '
-#RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("pcaMethods");biocLite("impute")'
-RUN R -e 'install.packages("imp4p")'
+
+RUN R -e 'install.packages("imp4p", "UpSetR")'
 
 
 ####################################################### PYTHON ######################################################################
