@@ -143,7 +143,7 @@ ARG tigervnc_file=tigervnc-1.9.0.x86_64
 
 
 ## pip packages versions
-ARG pip_matplotlib_version=3.0.3
+ARG pip_matplotlib_version=2.2.4
 ARG pip_numpy_version=1.16.2
 ARG pip_pandas_version=0.24.2
 ARG pip_pip_version=19.0.3
