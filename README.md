@@ -94,8 +94,12 @@ Docker image contains the below mentioned selected tools found needed and or hel
     - The impute consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
 - [limma](https://bioconductor.org/packages/release/bioc/html/limma.html)
     - The limma consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+- [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
+    - The plotly consists of the following MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/plotly/LICENSE
 - [preprocessCore](https://www.bioconductor.org/packages/release/bioc/html/preprocessCore.html)
     - The preprocessCore consists of the following GNU Library General Public (LGPL) License, version 2 (or higher) license. Licence terms are available here: https://www.r-project.org/Licenses/LGPL-2
+- [UpSetR](https://cran.r-project.org/web/packages/UpSetR/index.html)
+    - The UpSetR consists of the following MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/UpSetR/LICENSE
 - [Rserve](https://cran.r-project.org/web/packages/Rserve/index.html)
     - The Rserve consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
 - [vsn](https://bioconductor.org/packages/release/bioc/html/vsn.html)

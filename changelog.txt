@@ -5,7 +5,10 @@ x 2019
 ########################
 - scripts for reset of Metanodes and Workflows templates git repositories were adjusted to show the start and end of the reset routine
 
+- few additional system components installed because of plotly
+
 - R package UpSetR added
+- R package plotly added
 
 
 #########################

@@ -35,6 +35,12 @@ RUN apt-get update && apt-get install -y \
     wget \
  && rm -rf /var/lib/apt/lists/*
 
+# installs additional system packages needed for plotly
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+ && rm -rf /var/lib/apt/lists/*
+
 # create folders
 RUN mkdir ${knimeuser_home}
 RUN mkdir ${knime_workspace_folder}
@@ -187,7 +193,7 @@ RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
     biocLite("vsn") \
     '
 
-RUN R -e 'install.packages("imp4p", "UpSetR")'
+RUN R -e 'install.packages("imp4p", "UpSetR", "plotly")'
 
 
 ####################################################### PYTHON ######################################################################
