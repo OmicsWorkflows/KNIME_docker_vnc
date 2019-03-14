@@ -193,7 +193,7 @@ RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
     biocLite("vsn") \
     '
 
-RUN R -e 'install.packages("imp4p", "UpSetR", "plotly")'
+RUN R -e 'install.packages(c("imp4p", "UpSetR", "plotly"))'
 
 
 ####################################################### PYTHON ######################################################################
