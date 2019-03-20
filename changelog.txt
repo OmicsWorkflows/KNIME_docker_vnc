@@ -5,6 +5,8 @@ March 2019
 ########################
 - scripts for reset of Metanodes and Workflows templates git repositories were adjusted to show the start and end of the reset routine
 
+- added configuration files for xfce so one does not have to setup panels manually
+
 - few additional system components installed because of plotly
 
 - KNIME upgraded to 3.7.1 including R (3.7.1.v201901291055) and Python (3.7.1.v201901281201) extensions
