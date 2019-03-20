@@ -25,7 +25,7 @@ This chapter explains how to run Docker image on your machine.
       - where:
          - "**cfprot/knime:3.7.1a**" points to a concrete docker image version of cfprot/knime docker image
          - "**5901**" specifies the port on which the container will be accesible for VNC connection
-         - "**test**" is the folder within workspaces folder (see "volume_remote_location" settings in the script)
+         - "**test**" is the folder within workspaces folder (see "volume_remote_location" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
    - Please note that the remote image from the docker hub will be downloaded automatically prior its first usage which will take some time.
 5. Enter the password for the VNC server that will be needed to access the running container.
 6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. localhost:5901. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
