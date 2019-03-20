@@ -1,4 +1,28 @@
 #########################
+3.7.1a
+
+March 2019
+########################
+- scripts for reset of Metanodes and Workflows templates git repositories were adjusted to show the start and end of the reset routine
+
+- added configuration files for xfce so one does not have to setup panels manually
+
+- few additional system components installed because of plotly
+
+- KNIME upgraded to 3.7.1 including R (3.7.1.v201901291055) and Python (3.7.1.v201901281201) extensions
+- KNIME PIA extension upgraded to 1.3.10.v201903121258
+- KNIME Expressions extension upgraded to 3.7.1.v201901281157
+
+- pip python package upgraded to 19.0.3
+- numpy python package upgraded to 1.16.2
+- matplotlib python package upgraded to 3.0.3
+- scipy python package upgraded to 1.2.1
+
+- R package UpSetR added
+- R package plotly added
+
+
+#########################
 3.7.0a
 
 January 2019

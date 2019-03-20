@@ -20,12 +20,12 @@ This chapter explains how to run Docker image on your machine.
    - the specified folder has to be writable on the host system running the container!
    - you can also run the script file itself without any argument, it will ask you to provide the 3 above mentioned parameters individually
    - examples for container start are:
-      - **Windows**: "start_container.bat cfprot/knime:3.7.0a 5901 test"
-      - **Linux**: "./start_container.sh cfprot/knime:3.7.0a 5901 test"      
+      - **Windows**: "start_container.bat cfprot/knime:3.7.1a 5901 test"
+      - **Linux**: "./start_container.sh cfprot/knime:3.7.1a 5901 test"      
       - where:
-         - "**cfprot/knime:3.7.0a**" points to a concrete docker image version of cfprot/knime docker image
+         - "**cfprot/knime:3.7.1a**" points to a concrete docker image version of cfprot/knime docker image
          - "**5901**" specifies the port on which the container will be accesible for VNC connection
-         - "**test**" is the folder within workspaces folder (see "volume_remote_location" settings in the script)
+         - "**test**" is the folder within workspaces folder (see "volume_remote_location" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
    - Please note that the remote image from the docker hub will be downloaded automatically prior its first usage which will take some time.
 5. Enter the password for the VNC server that will be needed to access the running container.
 6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. localhost:5901. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
@@ -44,7 +44,7 @@ Docker image contains the below mentioned selected tools found needed and or hel
 #### Operation system and its components (alphabetical order)
 - [git](https://git-scm.com/) 2.17.1
   - The TigerVNC consists of the following GNU General Public Licence. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
-- [KNIME](https://www.knime.com/) 3.7.0
+- [KNIME](https://www.knime.com/) 3.7.1
   - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
 - [Python](https://www.python.org/) 2.7.15rc1
   - The Python consists of the following Python 2.7 License. Licence terms are available here: https://docs.python.org/2.7/license.html
@@ -59,14 +59,14 @@ Docker image contains the below mentioned selected tools found needed and or hel
 
 #### KNIME extensions on top of the standard KNIME Analytics Platform installation (alphabetical order)
 
-- KNIME Expressions (org.knime.features.testingapplication.feature.group/3.7.0.v201811021340)
-- KNIME Interactive R Statistics Integration (org.knime.features.r.feature.group/3.7.0.v201810230750)
-- KNIME Python Integration (org.knime.features.python2.feature.group/3.7.0.v201812041252)
+- KNIME Expressions (org.knime.features.testingapplication.feature.group/3.7.1.v201901281157)
+- KNIME Interactive R Statistics Integration (org.knime.features.r.feature.group/3.7.1.v201901291055)
+- KNIME Python Integration (org.knime.features.python2.feature.group/3.7.1.v201901281201)
 - KNIME Report Designer (com.knime.features.reporting.designer.feature.group/3.7.0.v201808081048)
 - KNIME Testing Framework (org.knime.features.testingapplication.feature.group/3.7.0.v201811021340)
 - [OpenMS](http://www.openms.de/) 2.4.0 (de.openms.feature.feature.group/2.4.0.201810261314)
     - The OpenMS consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [PIA](https://github.com/mpc-bioinformatics/pia) 1.3.9 (de.mpc.pia.feature.feature.group/1.3.9.v201809131534)
+- [PIA](https://github.com/mpc-bioinformatics/pia) 1.3.10 (de.mpc.pia.feature.feature.group/1.3.9.v201903121258)
     - The PIA consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 
 #### Python 3 packages (alphabetical order)
@@ -94,8 +94,12 @@ Docker image contains the below mentioned selected tools found needed and or hel
     - The impute consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
 - [limma](https://bioconductor.org/packages/release/bioc/html/limma.html)
     - The limma consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+- [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
+    - The plotly consists of the following MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/plotly/LICENSE
 - [preprocessCore](https://www.bioconductor.org/packages/release/bioc/html/preprocessCore.html)
     - The preprocessCore consists of the following GNU Library General Public (LGPL) License, version 2 (or higher) license. Licence terms are available here: https://www.r-project.org/Licenses/LGPL-2
+- [UpSetR](https://cran.r-project.org/web/packages/UpSetR/index.html)
+    - The UpSetR consists of the following MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/UpSetR/LICENSE
 - [Rserve](https://cran.r-project.org/web/packages/Rserve/index.html)
     - The Rserve consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
 - [vsn](https://bioconductor.org/packages/release/bioc/html/vsn.html)

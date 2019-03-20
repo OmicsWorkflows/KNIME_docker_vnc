@@ -1,0 +1,279 @@
+FROM ubuntu:18.04
+
+################### set environmental variables ########################
+
+## user that will be using the container
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+
+# change the version of the docker file here to correspond to the docker file name
+ARG dockerfile_version=3.7.1a
+
+## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
+ENV knime_folder=${knimeuser_home}/knime
+ARG knime_workspace_folder=${knimeuser_home}/knime-workspace
+
+ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
+ARG copied_files_folder=/usr/copied_files
+
+############################################# Basic packages + folders #################################################################################
+# libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    firefox \
+    gedit \
+    git \
+    htop \
+    libwebkitgtk-3.0-0 \
+    man \
+    mc \
+    software-properties-common \
+    sudo \
+    unzip \
+    wget \
+ && rm -rf /var/lib/apt/lists/*
+
+# installs additional system packages needed for plotly
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+ && rm -rf /var/lib/apt/lists/*
+
+# create folders
+RUN mkdir ${knimeuser_home}
+RUN mkdir ${knime_workspace_folder}
+
+# copy external files to docker image
+COPY ${files_to_copy_folder} ${copied_files_folder}
+COPY ./files_to_copy/${dockerfile_version}/home_folder/.config ${knimeuser_home}/.config
+RUN chmod 755 ${copied_files_folder}/entrypoint.sh
+RUN chmod 755 ${copied_files_folder}/knime_with_workspace.sh
+RUN chmod 755 ${copied_files_folder}/metanodes_reset.sh
+RUN chmod 755 ${copied_files_folder}/workflows_reset.sh
+
+# set default locations
+ENV HOME ${knimeuser_home}
+WORKDIR ${knimeuser_home}
+
+################################################ set KNIMEUSER ############################################################################
+# use different user to use container
+
+RUN chmod -R 770 ${knimeuser_home}
+
+RUN groupadd -r ${knimeuser} && useradd --no-log-init -r -g ${knimeuser} -d ${knimeuser_home} ${knimeuser}
+RUN chown -R ${knimeuser}: ${knimeuser_home}
+
+
+########################################################### GUI #################################################################################
+
+#RUN apt-get update -y
+# installs desktop environment
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install \
+    xfce4 \
+    xfce4-goodies \
+    locales -y
+# removes power management and screensaver packages
+RUN apt-get purge -y \
+    xscreensaver \
+    xscreensaver-data \
+    xfce4-power-manager \
+    xfce4-power-manager-data
+
+
+####################### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason)
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# set bash as knimeuser's login shell
+RUN chsh -s /bin/bash ${knimeuser}
+
+
+
+############################################ JAVA ###############################################################################################
+# Install Java.
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && apt-get install -y oracle-java8-installer
+
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
+
+#################################################################################################################################################
+####################################### ARGs settings ###########################################################################################
+#################################################################################################################################################
+
+# version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
+ARG knime_version=3.7.1
+
+## links to online repositories to be used when installing knime extensions
+
+ARG knime_store_repository=http://update.knime.org/store/3.7
+ARG knime_analytics_platform_repository=http://update.knime.org/analytics-platform/3.7
+ARG knime_community_trusted_repository=http://update.knime.org/community-contributions/trusted/3.7
+
+
+## names + versions of extensions that will be additionally installed to knime (they are installed manually in KNIME section)
+## if you add other extension, it needs to be added into the KNIME installation part as well
+
+ARG knime_python_extension=org.knime.features.python2.feature.group/3.7.1.v201901281201
+ARG knime_r_extension=org.knime.features.r.feature.group/3.7.1.v201901291055
+ARG knime_testing_framework_extension=org.knime.features.testingapplication.feature.group/3.7.0.v201811021340
+ARG knime_expressions_extension=org.knime.features.expressions.feature.group/3.7.1.v201901281157
+ARG knime_reporting_designer_extension=com.knime.features.reporting.designer.feature.group/3.7.0.v201808081048
+ARG knime_openms_extension=de.openms.feature.feature.group/2.4.0.201810261314
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.10.v201903121258
+
+
+
+## filenames of software to be installed within the image
+
+ARG knime_file=knime_${knime_version}.linux.gtk.x86_64.tar.gz
+ARG tigervnc_file=tigervnc-1.9.0.x86_64
+
+
+
+## pip packages versions
+ARG pip_matplotlib_version=2.2.4
+ARG pip_numpy_version=1.16.2
+ARG pip_pandas_version=0.23.4
+ARG pip_pip_version=19.0.3
+ARG pip_scipy_version=1.2.1
+ARG pip_seaborn_version=0.9.0
+ARG pip_statsmodels_version=0.9.0
+
+
+
+############################################## VNC #####################################################################################
+
+# download and unpack tigervnc (support for encryption if using tigervnc viewer)
+
+ADD https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
+RUN tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
+RUN cp -a /root/${tigervnc_file}/. /
+
+# so that copy/paste VNC client-server works
+RUN apt-get install autocutsel -y
+
+RUN rm -r /root/${tigervnc_file}
+
+# vnc startup - create so that there is no problem with file does not exist on vnc init
+RUN mkdir ${knimeuser_home}/.vnc
+RUN chown ${knimeuser}: ${knimeuser_home}/.vnc
+RUN cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup
+RUN chmod +x ${knimeuser_home}/.vnc/xstartup
+
+
+################################################## R ####################################################################################
+# install default ubuntu R (depending on the version of R, versions of bioconductor + bioconductor packages install, but we didn't find a way how to install custom version of R on ubuntu 18.04 yet)
+
+RUN apt-get update && apt-get install -y \
+    r-base \
+    r-base-dev
+RUN R --version
+
+# install R packages
+RUN R -e 'install.packages(c("Rserve"),repos="http://cran.rstudio.com/")'
+## "pcaMethods" and "impute" packages needs to be installed prior imp4p installation!
+RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
+    biocLite("Biobase"); \
+    biocLite("impute"); \
+    biocLite("limma"); \
+    biocLite("pcaMethods"); \
+    biocLite("preprocessCore"); \
+    biocLite("vsn") \
+    '
+
+RUN R -e 'install.packages(c("imp4p", "UpSetR", "plotly"))'
+
+
+####################################################### PYTHON ######################################################################
+
+#install python 2+3 + necessary packages
+RUN apt-get update -y  && apt-get install python-dev python-pip python-tk -y
+RUN pip install --upgrade pip==${pip_pip_version}
+RUN pip install --upgrade setuptools
+RUN pip install numpy==${pip_numpy_version} \
+    pandas==${pip_pandas_version} \
+    seaborn==${pip_seaborn_version} \
+    statsmodels==${pip_statsmodels_version} \
+    matplotlib==${pip_matplotlib_version} \
+    scipy==${pip_scipy_version}
+
+RUN apt-get update -y  && apt-get install python3-dev python3-pip python3-tk -y
+RUN pip3 install --upgrade pip==${pip_pip_version}
+RUN pip3 install --upgrade setuptools
+RUN pip3 install numpy==${pip_numpy_version} \
+    pandas==${pip_pandas_version} \
+    seaborn==${pip_seaborn_version} \
+    statsmodels==${pip_statsmodels_version} \
+    matplotlib==${pip_matplotlib_version} \
+    scipy==${pip_scipy_version}
+
+################################################################# KNIME ####################################################################
+
+# install KNIME with root
+ADD http://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
+RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/
+RUN rm ${knimeuser_home}/${knime_file}
+
+#rename knime folder to be without the version
+RUN mv ${knimeuser_home}/knime_${knime_version} ${knime_folder}
+#make knime executable
+RUN chmod +x ${knime_folder}/knime
+
+# install knime extensions (python,r, etc.; the versions are specified above)
+RUN ${knime_folder}/knime -clean -purgeHistory -application org.eclipse.equinox.p2.director \
+-noSplash -repository ${knime_store_repository} -repository ${knime_analytics_platform_repository} \
+-repository ${knime_community_trusted_repository} \
+-i ${knime_python_extension} -i ${knime_r_extension} -i ${knime_testing_framework_extension} -i ${knime_expressions_extension} \
+-i ${knime_reporting_designer_extension} -i ${knime_openms_extension} -i ${knime_pia_extension}
+
+# change max heap for knime (default is 2048m, i.e. -Xmx2g, which might not always be sufficient)
+RUN sed -i 's/-Xmx.*/-Xmx6g/' ${knime_folder}/knime.ini
+
+
+##################################### SHORTCUTS ####################################################################################################
+
+RUN mkdir ${knimeuser_home}/Desktop
+
+# shortcut to knime
+RUN cp ${copied_files_folder}/knime.desktop /usr/share/applications
+RUN cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/
+
+# shortcut to Metanodes template reset
+RUN cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications
+RUN cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/
+
+# shortcut to Workflows template reset
+RUN cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications
+RUN cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
+
+
+########################################################## FINAL ACTIONS ############################################################################
+
+## create version file in knimeuser home, just for info
+RUN touch ${knimeuser_home}/version-${dockerfile_version}
+
+## make folders available to knimeuser
+RUN chown -R ${knimeuser}: ${copied_files_folder}
+
+RUN chown -R ${knimeuser}: ${knime_folder}
+RUN chown -R ${knimeuser}: ${knimeuser_home}/Desktop
+RUN chown -R ${knimeuser}: ${knime_workspace_folder}
+
+## make shortcuts executable
+RUN chmod -R 770 ${knimeuser_home}/Desktop
+
+# enabling timezone setting by entrypoint.sh by knimeuser
+RUN chown ${knimeuser}: /etc/timezone
+#RUN chown -h ${knimeuser} /etc/localtime
+
+EXPOSE 5901
+USER ${knimeuser}
+ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
