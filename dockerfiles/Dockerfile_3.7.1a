@@ -45,11 +45,6 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir ${knimeuser_home}
 RUN mkdir ${knime_workspace_folder}
 
-# create also dconf folder = hack for gnome desktop permission error, could be probably solved better (sticky bits for knimeuser home?)
-# disabled for xfce desktop environment
-RUN mkdir ${knimeuser_home}/.cache
-RUN mkdir ${knimeuser_home}/.cache/dconf
-
 # copy external files to docker image
 COPY ${files_to_copy_folder} ${copied_files_folder}
 COPY ./files_to_copy/${dockerfile_version}/home_folder/.config ${knimeuser_home}/.config
