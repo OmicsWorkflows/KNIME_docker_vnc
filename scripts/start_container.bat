@@ -41,4 +41,4 @@ if "%~3"=="" (
 
 set workspace_path=%volume_remote_location%%workspace%
 
-docker run -it --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% %image_name%
+docker run -it --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% --rm %image_name%
