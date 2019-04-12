@@ -1,4 +1,12 @@
 #########################
+next
+
+x 2019
+########################
+- scripts for reset of Metanodes and Workflows templates git repositories were corrected to point to the directories (e.g. ".../gitfolders/KNIME_workflows" instead of ".../gitfolders/KNIME_Workflows")
+
+
+#########################
 3.7.1a
 
 March 2019
