@@ -105,5 +105,15 @@ Docker image contains the below mentioned selected tools found needed and or hel
 - [vsn](https://bioconductor.org/packages/release/bioc/html/vsn.html)
     - The vsn consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
 
+# Contributors
+
+The project is maintained by people from several laboratories (in alphabetical order):
+- [Laboratory of cellular communication](http://www.sci.muni.cz/bryjalab/), Department of Experimental Biology, Faculty of Science, Masaryk University, Brno, Czech Republic 
+  - Kristína Gömöryová
+- [Proteomics Research group](https://www.ceitec.eu/proteomics-zbynek-zdrahal/rg49), Central European Institute of Technology, Masaryk University, Brno, Czech Republic
+  - David Potěšil
+    - member of [EuBIC](https://eupa.org/eupa-initiatives/eubic/) ![EuBIC logo](eubic_logo.png)
+
+
 # Licence
 This version of docker file and accompanied files are available under the GNU GPL 3.0 License (see the [LICENSE](../master/LICENSE) file for details), unless stated otherwise.
