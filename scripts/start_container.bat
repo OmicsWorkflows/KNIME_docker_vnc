@@ -1,23 +1,28 @@
 @echo off
-:: you can start the container using this script directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
-:: e.g. "start_container.bat cfprot/knime:3.5.3c 5901 test" where
+:: you can start the container running this script in the commandline directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
+:: e.g. ".\start_container.bat cfprot/knime:3.5.3c 5901 test" where
 ::     "cfprot/knime:3.5.3c" points to a concrete docker image version
 ::     "5901" specifies the port on which the container will be accesible for VNC connection
 ::     "test" is the folder within workspaces folder (see "volume_remote_location" below)
 :: order of parameters must be kept (we don't support switches...)
+::
+:: alternatively just run the script file itself and provide it with the parameters it requests
 
 
 
-:: folder containing folder you want to mount as your KNIME workspace folder
+:: folder containing subfolder you want to mount as your KNIME workspace folder (it must end with the "\", e.g. "D:\knime-workspaces\")
 set volume_remote_location=D:\knime-workspaces\
 set timezone="Europe/Prague"
 
+
+
+:: END OF SETTINGS PART OF THE SCRIPT
 
 :: folder inside the container where volume will be mounted, do not change
 set volume_mount_point="/home/knimeuser/knime-workspace"
 
 if "%~1"=="" (
-    set /P image_name="Please provide docker image name: "
+    set /P image_name="Please provide docker image name (e.g. cfprot/knime:3.7.1a): "
 ) else (
     set image_name=%~1
 )
