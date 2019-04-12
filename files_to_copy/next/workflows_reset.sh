@@ -6,7 +6,7 @@ notify-send -i software-update-available "Workflows templates repository" \
 \rPlease wait till it is finished..."
 
 # navigates to the KNIME_Workflows repository, change the folder if needed
-cd /home/knimeuser/knime-workspace/gitfolders/KNIME_Workflows
+cd /home/knimeuser/knime-workspace/gitfolders/KNIME_workflows
 
 # resets the repository; change "master" branch to the appropriate one if needed
 git fetch origin

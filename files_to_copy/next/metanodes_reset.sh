@@ -6,7 +6,7 @@ notify-send -i software-update-available "Metanodes templates repository" \
 \rPlease wait till it is finished..."
 
 # navigates to the KNIME_Metanodes repository, change the folder if needed
-cd /home/knimeuser/knime-workspace/gitfolders/KNIME_Metanodes
+cd /home/knimeuser/knime-workspace/gitfolders/KNIME_metanodes
 
 # resets the repository; change "master" branch to the appropriate one if needed
 git fetch origin
