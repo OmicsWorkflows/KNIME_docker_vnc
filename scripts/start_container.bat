@@ -10,16 +10,17 @@
 
 
 
-:: folder containing subfolder you want to mount as your KNIME workspace folder (it must end with the "\", e.g. "D:\knime-workspaces\")
-set volume_remote_location=D:\knime-workspaces\
+:: folder containing subfolder you want to mount as your KNIME workspace folder (e.g. "D:\knime-workspaces\")
+set folder_with_workspaces=D:\knime-workspaces\
 set timezone="Europe/Prague"
 
 
 
 :: END OF SETTINGS PART OF THE SCRIPT
 
+
 :: folder inside the container where volume will be mounted, do not change
-set volume_mount_point="/home/knimeuser/knime-workspace"
+set volume_mount_point=/home/knimeuser/knime-workspace
 
 if "%~1"=="" (
     set /P image_name="Please provide docker image name (e.g. cfprot/knime:3.7.1a): "
@@ -39,6 +40,13 @@ if "%~3"=="" (
     set workspace=%~3
 )
 
-set workspace_path=%volume_remote_location%%workspace%
+call :joinpath %folder_with_workspaces% %workspace%
 
 docker run -it --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% --rm %image_name%
+
+:: joins folder_with_workspaces and workspace varibles into a absolute path in more robust way
+:joinpath
+set Path1=%~1
+set Path2=%~2
+if {%Path1:~-1,1%}=={\} (set workspace_path=%Path1%%Path2%) else (set workspace_path=%Path1%\%Path2%)
+goto :eof
