@@ -28,11 +28,10 @@ This chapter explains how to run Docker image on your machine.
          - "**test**" is the folder within workspaces folder (see "volume_remote_location" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
    - Please note that the remote image from the docker hub will be downloaded automatically prior its first usage which will take some time.
 5. Enter the password for the VNC server that will be needed to access the running container. No need for view only password, so enter N/n when asked.
-- after entering the VNC password there will be messages from the docker container start you can ignore
-- you can close the window with the script output
-6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. localhost:5901. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
-7. Click on the "Use default config" when starting the container for the first time to get the default Xfce layout.
-8. Adjust the access rights to the KNIME workspace folder KNIME has to have write access to the KNIME workspace folder.
+   - after entering the VNC password there will be messages from the docker container start you can ignore
+   - you can close the window with the script output
+6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. "localhost::5901" in case of connecting into the locally running container. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
+7. Adjust the access rights to the KNIME workspace folder KNIME has to have write access to the KNIME workspace folder.
 
 
 ## List of used programs and extensions and the respective licences
