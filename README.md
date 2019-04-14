@@ -15,6 +15,7 @@ This chapter explains how to run Docker image on your machine.
       - start_container.sh (Linux) - to start docker container on Linux
 3. Adjust "start_container" script for your platform (Windows, Linux) to meet your requirements, especially folder containing your workspace(s) and timezone you want to use. Please, check the script file itself for all the details.
    - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container not to loose the results in case the container needs to be recreated. This needs to setup shared drive on Windows machines (see e.g. https://docs.docker.com/docker-for-windows/#shared-drives for more details).
+   - adjust the access rights to the KNIME workspace folder if needed; KNIME has to have write access to the KNIME workspace folder
 4. Start container running the "start_container" script, with 3 parameters: IMAGE_NAME PORT_TO_RUN_ON WORKSPACE
    - the script has to be executable prior its usage!
    - the specified folder has to be writable on the host system running the container!
@@ -31,7 +32,10 @@ This chapter explains how to run Docker image on your machine.
    - after entering the VNC password there will be messages from the docker container start you can ignore
    - you can close the window with the script output
 6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. "localhost::5901" in case of connecting into the locally running container. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
-7. Adjust the access rights to the KNIME workspace folder KNIME has to have write access to the KNIME workspace folder.
+7. You can transfer data to and from the running container using the specified workspace folder that is identical on your computer and inside the container
+   - e.g. "C:\knime-workspaces\test" on your computer (you specify this folder during the container start)
+   - "/home/knimeuser/knime-workspace/" inside the running container (this is fixed destination folder specified during the docker image build)
+
 
 
 ## List of used programs and extensions and the respective licences
