@@ -7,6 +7,8 @@ The repository is meant for sharing docker files and accompanied files/scripts a
 
 This chapter explains how to run Docker image on your machine.
 
+Please note that the procedure below was successfully tested on Ubuntu 18.04 and Windows 10 Professional with Docker for desktop application installed. Docker toolbox (Windows 7 Profesional and Windows 10 Home) has been tested but there was an issue with read only access to the mounted workspace.
+
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
 2. Clone this repository, especially scripts folder containing scripts to assist you to run the docker container.
    - there are platform specific (Linux, Windows) scripts for concrete actions
