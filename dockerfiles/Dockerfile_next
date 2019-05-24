@@ -235,7 +235,7 @@ RUN ${knime_folder}/knime -clean -purgeHistory -application org.eclipse.equinox.
 -i ${knime_reporting_designer_extension} -i ${knime_openms_extension} -i ${knime_pia_extension}
 
 # change max heap for knime (default is 2048m, i.e. -Xmx2g, which might not always be sufficient)
-RUN sed -i 's/-Xmx.*/-Xmx6g/' ${knime_folder}/knime.ini
+RUN sed -i 's/-Xmx.*/-Xmx4g/' ${knime_folder}/knime.ini
 
 
 ##################################### SHORTCUTS ####################################################################################################
