@@ -189,16 +189,18 @@ RUN apt-get install -y \
 RUN R --version
 
 # install R packages
-RUN R -e 'install.packages(c("Rserve"),repos="http://cran.rstudio.com/")'
+RUN R -e 'install.packages(c("Rserve", "BiocManager"),repos="http://cran.rstudio.com/")'
 ## "pcaMethods" and "impute" packages needs to be installed prior imp4p installation!
-RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
-    biocLite("Biobase"); \
-    biocLite("impute"); \
-    biocLite("limma"); \
-    biocLite("pcaMethods"); \
-    biocLite("preprocessCore"); \
-    biocLite("vsn") \
-    '
+#RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
+#    biocLite("Biobase"); \
+#    biocLite("impute"); \
+#    biocLite("limma"); \
+#    biocLite("pcaMethods"); \
+#    biocLite("preprocessCore"); \
+#    biocLite("vsn") \
+#    '
+
+RUN R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "vsn")'
 
 RUN R -e 'install.packages(c("imp4p", "UpSetR", "plotly"))'
 
