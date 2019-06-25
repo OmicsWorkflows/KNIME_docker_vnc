@@ -95,13 +95,14 @@ RUN chsh -s /bin/bash ${knimeuser}
 
 ############################################ JAVA ###############################################################################################
 # Install Java.
-RUN \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && apt-get install -y oracle-java8-installer
+# currently disabled for testing
+#RUN \
+#  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+#  add-apt-repository -y ppa:webupd8team/java && \
+#  apt-get update && apt-get install -y oracle-java8-installer
 
 # Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+#ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 
 #################################################################################################################################################
@@ -109,7 +110,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 #################################################################################################################################################
 
 # version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
-ARG knime_version=3.7.1
+ARG knime_version=3.7.2
 
 ## links to online repositories to be used when installing knime extensions
 
@@ -121,13 +122,13 @@ ARG knime_community_trusted_repository=http://update.knime.org/community-contrib
 ## names + versions of extensions that will be additionally installed to knime (they are installed manually in KNIME section)
 ## if you add other extension, it needs to be added into the KNIME installation part as well
 
-ARG knime_python_extension=org.knime.features.python2.feature.group/3.7.1.v201901281201
+ARG knime_python_extension=org.knime.features.python2.feature.group/3.7.2.v201904170931
 ARG knime_r_extension=org.knime.features.r.feature.group/3.7.1.v201901291055
 ARG knime_testing_framework_extension=org.knime.features.testingapplication.feature.group/3.7.0.v201811021340
-ARG knime_expressions_extension=org.knime.features.expressions.feature.group/3.7.1.v201901281157
+ARG knime_expressions_extension=org.knime.features.expressions.feature.group/3.7.2.v201904170930
 ARG knime_reporting_designer_extension=com.knime.features.reporting.designer.feature.group/3.7.0.v201808081048
 ARG knime_openms_extension=de.openms.feature.feature.group/2.4.0.201810261314
-ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.10.v201903121258
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.11.v201906191447
 
 
 
@@ -139,13 +140,14 @@ ARG tigervnc_file=tigervnc-1.9.0.x86_64
 
 
 ## pip packages versions
-ARG pip_matplotlib_version=2.2.4
-ARG pip_numpy_version=1.16.2
-ARG pip_pandas_version=0.23.4
-ARG pip_pip_version=19.0.3
-ARG pip_scipy_version=1.2.1
+ARG pip3_matplotlib_version=3.1.0
+ARG pip2_matplotlib_version=2.2.4
+ARG pip_numpy_version=1.16.4
+ARG pip_pandas_version=0.24.2
+ARG pip_pip_version=19.1.1
+ARG pip_scipy_version=1.3.0
 ARG pip_seaborn_version=0.9.0
-ARG pip_statsmodels_version=0.9.0
+ARG pip_statsmodels_version=0.10.0
 
 
 
@@ -170,7 +172,10 @@ RUN chmod +x ${knimeuser_home}/.vnc/xstartup
 
 
 ################################################## R ####################################################################################
-# install default ubuntu R (depending on the version of R, versions of bioconductor + bioconductor packages install, but we didn't find a way how to install custom version of R on ubuntu 18.04 yet)
+# install latest ubuntu R from the specified repository (depending on the version of R, versions of bioconductor + bioconductor packages install)
+
+# adds repository for the latest R version (3.6 at the time of writing)
+RUN echo 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     r-base \
@@ -202,7 +207,7 @@ RUN pip install numpy==${pip_numpy_version} \
     pandas==${pip_pandas_version} \
     seaborn==${pip_seaborn_version} \
     statsmodels==${pip_statsmodels_version} \
-    matplotlib==${pip_matplotlib_version} \
+    matplotlib==${pip2_matplotlib_version} \
     scipy==${pip_scipy_version}
 
 RUN apt-get update -y  && apt-get install python3-dev python3-pip python3-tk -y
@@ -212,7 +217,7 @@ RUN pip3 install numpy==${pip_numpy_version} \
     pandas==${pip_pandas_version} \
     seaborn==${pip_seaborn_version} \
     statsmodels==${pip_statsmodels_version} \
-    matplotlib==${pip_matplotlib_version} \
+    matplotlib==${pip3_matplotlib_version} \
     scipy==${pip_scipy_version}
 
 ################################################################# KNIME ####################################################################
