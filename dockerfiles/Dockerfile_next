@@ -200,7 +200,7 @@ RUN R -e 'install.packages(c("Rserve", "BiocManager"),repos="http://cran.rstudio
 #    biocLite("vsn") \
 #    '
 
-RUN R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "vsn")'
+RUN R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))'
 
 RUN R -e 'install.packages(c("imp4p", "UpSetR", "plotly"))'
 
