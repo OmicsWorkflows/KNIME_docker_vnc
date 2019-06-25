@@ -180,7 +180,10 @@ RUN echo 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' > /et
 
 RUN apt-get update
 RUN apt-get install -y \
-    r-base
+    r-base \
+    r-base-core \
+    r-recommended \
+    r-base-html
 #    r-base-dev
 RUN R --version
 
