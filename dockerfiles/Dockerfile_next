@@ -182,9 +182,9 @@ ENV R_BASE_VERSION 3.6.0
 
 RUN apt-get update
 RUN apt-get install -y \
-	r-base=${R_BASE_VERSION}* \
-	r-base-dev=${R_BASE_VERSION}*
-#    r-recommended=${R_BASE_VERSION}* \
+	r-base=${R_BASE_VERSION} \
+	r-base-dev=${R_BASE_VERSION}
+#    r-recommended=${R_BASE_VERSION} \
 
 RUN R --version
 
