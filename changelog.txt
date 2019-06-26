@@ -15,11 +15,13 @@ x 2019
 - numpy python package upgraded to 1.16.4
 - pandas python package upgraded to 0.24.2
 - pip python package upgraded to 19.1.1
-- scipy python package upgraded to 1.3.0
+- scipy python package upgraded to 1.2.2
 - statsmodels python package upgraded to 0.10.0
 
 - added extra repository for R having the latest versions (3.5 and 3.6)
-
+- R version specified explicitly
+- R 3.6.0 installed
+- BioConductor packages are now installed using BiocManager::install()
 
 
 #########################
