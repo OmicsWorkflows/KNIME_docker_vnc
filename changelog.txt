@@ -21,6 +21,7 @@ x 2019
 - added extra repository for R having the latest versions (3.5 and 3.6)
 - R version specified explicitly
 - R 3.6.0 installed
+- RServe package installed from different repository to get latest version (https://rforge.net/)
 - BioConductor packages are now installed using BiocManager::install()
 
 
