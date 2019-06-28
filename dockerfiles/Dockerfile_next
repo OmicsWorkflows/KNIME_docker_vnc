@@ -280,9 +280,10 @@ RUN touch ${knimeuser_home}/version-${dockerfile_version}
 ## make folders available to knimeuser
 RUN chown -R ${knimeuser}: ${copied_files_folder}
 
-RUN chown -R ${knimeuser}: ${knime_folder}
-RUN chown -R ${knimeuser}: ${knimeuser_home}/Desktop
-RUN chown -R ${knimeuser}: ${knime_workspace_folder}
+RUN chown -R ${knimeuser}: ${knimeuser_home}
+#RUN chown -R ${knimeuser}: ${knime_folder}
+#RUN chown -R ${knimeuser}: ${knimeuser_home}/Desktop
+#RUN chown -R ${knimeuser}: ${knime_workspace_folder}
 
 ## make shortcuts executable
 RUN chmod -R 770 ${knimeuser_home}/Desktop
