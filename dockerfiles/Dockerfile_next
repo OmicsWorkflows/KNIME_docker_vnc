@@ -205,7 +205,7 @@ RUN R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudi
 #    '
 
 # installs R packages from Bioconductor
-RUN R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))'
+RUN R -e 'BiocManager::install(c("Biobase", "DEP", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))'
 
 # installs R packages from GitHub
 RUN R -e 'remotes::install_github(c("const-ae/proDA"))'
