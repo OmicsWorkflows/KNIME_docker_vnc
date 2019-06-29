@@ -193,7 +193,7 @@ RUN R --version
 
 # install R packages
 RUN R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-RUN R -e 'install.packages(c("BiocManager"),repos="http://cran.rstudio.com/")'
+RUN R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
 ## "pcaMethods" and "impute" packages needs to be installed prior imp4p installation!
 #RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
 #    biocLite("Biobase"); \
@@ -204,8 +204,13 @@ RUN R -e 'install.packages(c("BiocManager"),repos="http://cran.rstudio.com/")'
 #    biocLite("vsn") \
 #    '
 
+# installs R packages from Bioconductor
 RUN R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))'
 
+# installs R packages from GitHub
+RUN R -e 'remotes::install_github(c("const-ae/proDA"))'
+
+# installs additional R packages from default R cran
 RUN R -e 'install.packages(c("imp4p", "UpSetR", "plotly"))'
 
 
