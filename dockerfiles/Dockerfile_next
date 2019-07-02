@@ -22,7 +22,7 @@ ARG copied_files_folder=/usr/copied_files
 # libxml2-dev is needed by some R packages ("XML" needed by "MSnbase")
 # needs to be done in noninteractive way to install tzdata
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install\
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     build-essential \
     curl \
     firefox \
@@ -37,7 +37,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteract
     software-properties-common \
     sudo \
     unzip \
-    wget -y \
+    wget \
  && rm -rf /var/lib/apt/lists/*
 
 # installs additional system packages needed for plotly
