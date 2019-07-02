@@ -18,6 +18,8 @@ ARG copied_files_folder=/usr/copied_files
 
 ############################################# Basic packages + folders #################################################################################
 # libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
+# netcfd is needed by some R packages ("ncdf4" needed by "mzR" for "MSnbase")
+# libxml2-dev is needed by some R packages ("XML" needed by "MSnbase")
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -27,8 +29,10 @@ RUN apt-get update && apt-get install -y \
     git \
     htop \
     libwebkitgtk-3.0-0 \
+    libxml2-dev \
     man \
     mc \
+    netcdf \
     software-properties-common \
     sudo \
     unzip \
