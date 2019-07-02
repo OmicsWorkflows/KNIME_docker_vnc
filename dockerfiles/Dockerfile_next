@@ -20,8 +20,9 @@ ARG copied_files_folder=/usr/copied_files
 # libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
 # r-cran-ncdf4 is needed by some R packages ("ncdf4" needed by "mzR" for "MSnbase")
 # libxml2-dev is needed by some R packages ("XML" needed by "MSnbase")
+# needs to be done in noninteractive way to install tzdata
 
-RUN apt-get update && apt-get install -y \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install\
     build-essential \
     curl \
     firefox \
