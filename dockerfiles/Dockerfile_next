@@ -198,7 +198,8 @@ RUN R --version
 
 # installs additional system packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    r-cran-ncdf4
+#    r-cran-ncdf4
+    netcdf-bin
 
 # install R packages
 RUN R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
