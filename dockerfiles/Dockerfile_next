@@ -196,6 +196,10 @@ RUN apt-get install -y \
 
 RUN R --version
 
+# installs additional system packages
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    r-cran-ncdf4
+
 # install R packages
 RUN R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
 RUN R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
