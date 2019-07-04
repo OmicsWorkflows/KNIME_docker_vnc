@@ -18,7 +18,6 @@ ARG copied_files_folder=/usr/copied_files
 
 ############################################# Basic packages + folders #################################################################################
 # libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
-# r-cran-ncdf4 is needed by some R packages ("ncdf4" needed by "mzR" for "MSnbase")
 # libxml2-dev is needed by some R packages ("XML" needed by "MSnbase")
 # needs to be done in noninteractive way to install tzdata
 
@@ -33,7 +32,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteract
     libxml2-dev \
     man \
     mc \
-    r-cran-ncdf4 \
     software-properties-common \
     sudo \
     unzip \
@@ -180,7 +178,6 @@ RUN chmod +x ${knimeuser_home}/.vnc/xstartup
 # install latest ubuntu R from the specified repository (depending on the version of R, versions of bioconductor + bioconductor packages install)
 
 # adds repository and its GPG key for the latest R version (3.6 at the time of writing)
-#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" > /etc/apt/sources.list.d/cran.list
 
@@ -190,30 +187,16 @@ RUN apt-get update
 RUN apt-get install -y \
 	r-base=${R_BASE_VERSION}* \
 	r-base-dev=${R_BASE_VERSION}*
-#	r-base \
-#	r-base-dev
-#    r-recommended=${R_BASE_VERSION} \
 
-RUN R --version
+#RUN R --version
 
-# installs additional system packages
+# installs additional system packages for DEP/MSnbase/mzR R packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-#    r-cran-ncdf4
-    # netcdf-bin \
     libnetcdf-dev
 
-# install R packages
+# install R packages sources and Rserve
 RUN R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
 RUN R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
-## "pcaMethods" and "impute" packages needs to be installed prior imp4p installation!
-#RUN R -e 'source("https://bioconductor.org/biocLite.R"); \
-#    biocLite("Biobase"); \
-#    biocLite("impute"); \
-#    biocLite("limma"); \
-#    biocLite("pcaMethods"); \
-#    biocLite("preprocessCore"); \
-#    biocLite("vsn") \
-#    '
 
 # installs R packages from Bioconductor
 RUN R -e 'BiocManager::install(c("Biobase", "DEP", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))'
