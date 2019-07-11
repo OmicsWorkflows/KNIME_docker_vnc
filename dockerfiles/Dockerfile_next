@@ -181,7 +181,7 @@ RUN chmod +x ${knimeuser_home}/.vnc/xstartup
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" > /etc/apt/sources.list.d/cran.list
 
-ENV R_BASE_VERSION 3.6.0
+ENV R_BASE_VERSION 3.6.1
 
 RUN apt-get update
 RUN apt-get install -y \
@@ -205,7 +205,7 @@ RUN R -e 'BiocManager::install(c("Biobase", "DEP", "impute", "limma", "pcaMethod
 RUN R -e 'remotes::install_github(c("const-ae/proDA"))'
 
 # installs additional R packages from default R cran
-RUN R -e 'install.packages(c("imp4p", "UpSetR", "plotly"))'
+RUN R -e 'install.packages(c("imp4p", "compositions", "plotly", "robCompositions", "UpSetR"))'
 
 
 ####################################################### PYTHON ######################################################################
