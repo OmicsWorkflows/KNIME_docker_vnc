@@ -32,6 +32,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteract
     libxml2-dev \
     man \
     mc \
+    ncbi-blast+ \
     pandoc \
     software-properties-common \
     sudo \
