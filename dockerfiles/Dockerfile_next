@@ -192,16 +192,12 @@ RUN apt-get install -y \
 
 #RUN R --version
 
-# installs additional system packages for DEP/MSnbase/mzR R packages
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    libnetcdf-dev
-
 # install R packages sources and Rserve
 RUN R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
 RUN R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
 
 # installs R packages from Bioconductor
-RUN R -e 'BiocManager::install(c("Biobase", "DEP", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))'
+RUN R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))'
 
 # installs R packages from GitHub
 RUN R -e 'remotes::install_github(c("const-ae/proDA"))'
