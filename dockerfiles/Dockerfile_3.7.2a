@@ -7,7 +7,7 @@ ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=next
+ARG dockerfile_version=3.7.2a
 
 ## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
 ENV knime_folder=${knimeuser_home}/knime
@@ -18,7 +18,6 @@ ARG copied_files_folder=/usr/copied_files
 
 ############################################# Basic packages + folders #################################################################################
 # libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
-# libxml2-dev is needed by some R packages ("XML" needed by "MSnbase")
 # needs to be done in noninteractive way to install tzdata
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -29,7 +28,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteract
     git \
     htop \
     libwebkitgtk-3.0-0 \
-    libxml2-dev \
     man \
     mc \
     ncbi-blast+ \
@@ -133,7 +131,7 @@ ARG knime_testing_framework_extension=org.knime.features.testingapplication.feat
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/3.7.2.v201904170930
 ARG knime_reporting_designer_extension=com.knime.features.reporting.designer.feature.group/3.7.0.v201808081048
 ARG knime_openms_extension=de.openms.feature.feature.group/2.4.0.201810261314
-ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.11.v201906191447
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.11.v201907181152
 
 
 
@@ -145,14 +143,14 @@ ARG tigervnc_file=tigervnc-1.9.0.x86_64
 
 
 ## pip packages versions
-ARG pip3_matplotlib_version=3.1.0
+ARG pip3_matplotlib_version=3.1.1
 ARG pip2_matplotlib_version=2.2.4
 ARG pip_numpy_version=1.16.4
-ARG pip_pandas_version=0.24.2
+ARG pip_pandas_version=0.25.0
 ARG pip_pip_version=19.1.1
-ARG pip_scipy_version=1.2.2
+ARG pip_scipy_version=1.3.0
 ARG pip_seaborn_version=0.9.0
-ARG pip_statsmodels_version=0.10.0
+ARG pip_statsmodels_version=0.10.1
 
 
 
