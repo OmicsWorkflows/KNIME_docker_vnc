@@ -16,6 +16,7 @@ ARG knime_workspace_folder=${knimeuser_home}/knime-workspace
 ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
 ARG copied_files_folder=/usr/copied_files
 
+
 ############################################# Basic packages + folders #################################################################################
 # libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
 # needs to be done in noninteractive way to install tzdata
