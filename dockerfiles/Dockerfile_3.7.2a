@@ -149,7 +149,7 @@ ARG pip2_matplotlib_version=2.2.4
 ARG pip_numpy_version=1.16.4
 ARG pip_pandas_version=0.24.2
 ARG pip_pip_version=19.1.1
-ARG pip_scipy_version=1.3.0
+ARG pip_scipy_version=1.2.2
 ARG pip_seaborn_version=0.9.0
 ARG pip_statsmodels_version=0.10.1
 
