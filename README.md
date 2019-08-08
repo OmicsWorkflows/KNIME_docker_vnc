@@ -23,10 +23,10 @@ Please note that the procedure below was successfully tested on Ubuntu 18.04 and
    - the specified folder has to be writable on the host system running the container!
    - you can also run the script file itself without any argument, it will ask you to provide the 3 above mentioned parameters individually
    - examples for container start are:
-      - **Windows**: "start_container.bat cfprot/knime:3.7.1a 5901 test"
-      - **Linux**: "./start_container.sh cfprot/knime:3.7.1a 5901 test"      
+      - **Windows**: "start_container.bat cfprot/knime:3.7.2a 5901 test"
+      - **Linux**: "./start_container.sh cfprot/knime:3.7.2a 5901 test"      
       - where:
-         - "**cfprot/knime:3.7.1a**" points to a concrete docker image version of cfprot/knime docker image
+         - "**cfprot/knime:3.7.2a**" points to a concrete docker image version of cfprot/knime docker image
          - "**5901**" specifies the port on which the container will be accesible for VNC connection
          - "**test**" is the folder within workspaces folder (see "volume_remote_location" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
    - Please note that the remote image from the docker hub will be downloaded automatically prior its first usage which will take some time.
@@ -46,18 +46,18 @@ Please note that only the latest docker file/image version is considered here.
 
 The repository utilizes [docker](https://www.docker.com/) files and the docker images are hosted on [docker hub](https://hub.docker.com).
 
-Docker image contains the below mentioned selected tools found needed and or helping during the work with the KNIME environment. It runs on top of Ubuntu 18.04 LTS. The current version of the docker environment contains the following list of programs. Please inspect your local installation and contact us if you can not locate your local version and or license terms associated to the used program(s).
+Docker image contains the below mentioned selected tools found needed and or helping during the work with the KNIME environment. It runs on top of Ubuntu 18.04 LTS. The current version of the docker environment contains the following list of programs and other additional programs and packages required by the following ones. Please inspect your local installation and contact us if you can not locate your local application/package version and or license terms associated to the used program(s).
 
 #### Operation system and its components (alphabetical order)
 - [git](https://git-scm.com/) 2.17.1
-  - The TigerVNC consists of the following GNU General Public Licence. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
+  - The git consists of the following GNU General Public License version 2.0. Licence terms are available here: http://opensource.org/licenses/GPL-2.0
 - [KNIME](https://www.knime.com/) 3.7.2
   - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
 - [Python](https://www.python.org/) 2.7.15+
   - The Python consists of the following Python 2.7 License. Licence terms are available here: https://docs.python.org/2.7/license.html
 - [Python](https://www.python.org/) 3.6.8
   - The Python consists of the following Python 3.6 License. Licence terms are available here: https://docs.python.org/3.6/license.html
-- [R](https://www.r-project.org/) 3.6.0
+- [R](https://www.r-project.org/) 3.6.1
   - The R consists of the following GNU General Public Licences. Licence terms are available here: https://www.r-project.org/Licenses/
 - [TigerVNC](https://tigervnc.org/) 1.9.0
   - The TigerVNC consists of the following GNU General Public Licence. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
@@ -66,35 +66,35 @@ Docker image contains the below mentioned selected tools found needed and or hel
 
 #### KNIME extensions on top of the standard KNIME Analytics Platform installation (alphabetical order)
 
-- KNIME Expressions (org.knime.features.testingapplication.feature.group/3.7.1.v201901281157)
+- KNIME Expressions (org.knime.features.expressions.feature.group/3.7.2.v201904170930)
 - KNIME Interactive R Statistics Integration (org.knime.features.r.feature.group/3.7.1.v201901291055)
-- KNIME Python Integration (org.knime.features.python2.feature.group/3.7.1.v201901281201)
+- KNIME Python Integration (org.knime.features.python2.feature.group/3.7.2.v201904170931)
 - KNIME Report Designer (com.knime.features.reporting.designer.feature.group/3.7.0.v201808081048)
 - KNIME Testing Framework (org.knime.features.testingapplication.feature.group/3.7.0.v201811021340)
-- [OpenMS](http://www.openms.de/) 2.4.0 (de.openms.feature.feature.group/2.4.0.201810261314)
+- [OpenMS](http://www.openms.de/) 2.4.0 (de.openms.feature.feature.group/2.4.0.201810261315)
     - The OpenMS consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [PIA](https://github.com/mpc-bioinformatics/pia) 1.3.10 (de.mpc.pia.feature.feature.group/1.3.9.v201903121258)
+- [PIA](https://github.com/mpc-bioinformatics/pia) 1.3.11 (de.mpc.pia.feature.feature.group/1.3.11.v201907181152)
     - The PIA consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 
-#### Python 3 packages (alphabetical order)
-- [matplotlib](https://matplotlib.org/) 2.2.3
+#### Python 3 or 2 packages (alphabetical order)
+- [matplotlib](https://matplotlib.org/) 3.1.0 (python 3) and 2.2.4 (python 2)
     - The matplotlib consists of the following Python Software Foundation License (BSD compatible). Licence terms are available here: https://matplotlib.org/users/license.html
-- [numpy](http://www.numpy.org/) 1.15.4
+- [numpy](http://www.numpy.org/) 1.16.4
     - The numpy consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [pandas](https://pandas.pydata.org/) 0.23.4
+- [pandas](https://pandas.pydata.org/) 0.24.2
     - The pandas consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [pip](https://pip.pypa.io/) 19.2.1
+    - The pip consists of the following MIT License (MIT). Licence terms are available here: https://github.com/pypa/pip/blob/master/LICENSE.txt
+- [scipy](https://www.scipy.org/) 1.2.2
+    - The scipy consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 - [seaborn](https://seaborn.pydata.org/) 0.9.0
     - The seaborn consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [scipy](https://www.scipy.org/) 1.2.0
-    - The scipy consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [statsmodels](https://www.statsmodels.org/stable/index.html) 0.9.0
+- [statsmodels](https://www.statsmodels.org/stable/index.html) 0.10.1
     - The statsmodels consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 
 #### R libraries (alphabetical order)
 - [Biobase](https://bioconductor.org/packages/release/bioc/html/Biobase.html)
     - The Biobase consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
-- [DEP](https://bioconductor.org/packages/release/bioc/html/DEP.html)
-    - The DEP consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
 - [imp4p](https://cran.r-project.org/web/packages/imp4p/index.html)
     - The imp4p consists of the following General Public License (GPL), version 3 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [impute](http://www.bioconductor.org/packages/release/bioc/html/impute.html)
@@ -119,12 +119,15 @@ Docker image contains the below mentioned selected tools found needed and or hel
 # Contributors
 
 The project is maintained by people from several laboratories (in alphabetical order):
-- [Laboratory of cellular communication](http://www.sci.muni.cz/bryjalab/), Department of Experimental Biology, Faculty of Science, Masaryk University, Brno, Czech Republic 
-  - Kristína Gömöryová
-- [Proteomics Research group](https://www.ceitec.eu/proteomics-zbynek-zdrahal/rg49), Central European Institute of Technology, Masaryk University, Brno, Czech Republic
-  - David Potěšil
-    - member of [EuBIC](https://eupa.org/eupa-initiatives/eubic/) ![EuBIC logo](eubic_logo.png)
+- Kristína Gömöryová
+  - [Laboratory of cellular communication](http://www.sci.muni.cz/bryjalab/), Department of Experimental Biology, Faculty of Science, Masaryk University, Brno, Czech Republic 
+- David Potěšil
+  - [Proteomics Research group](https://www.ceitec.eu/proteomics-zbynek-zdrahal/rg49), Central European Institute of Technology, Masaryk University, Brno, Czech Republic
+  - member of [EuBIC](https://eupa.org/eupa-initiatives/eubic/) ![EuBIC logo](eubic_logo.png)
 
+# Acknowledgement
 
+We would like to acknowledge work of all the people behind all open-source software, especially the one we are using for the docker image build.
+ 
 # Licence
 This version of docker file and accompanied files are available under the GNU GPL 3.0 License (see the [LICENSE](../master/LICENSE) file for details), unless stated otherwise.
