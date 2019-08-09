@@ -1,23 +1,29 @@
 @echo off
-:: you can start the container using this script directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
-:: e.g. "start_container.bat cfprot/knime:3.5.3c 5901 test" where
+:: you can start the container running this script in the commandline directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
+:: e.g. ".\start_container.bat cfprot/knime:3.5.3c 5901 test" where
 ::     "cfprot/knime:3.5.3c" points to a concrete docker image version
 ::     "5901" specifies the port on which the container will be accesible for VNC connection
 ::     "test" is the folder within workspaces folder (see "volume_remote_location" below)
 :: order of parameters must be kept (we don't support switches...)
+::
+:: alternatively just run the script file itself and provide it with the parameters it requests
 
 
 
-:: folder containing folder you want to mount as your KNIME workspace folder
-set volume_remote_location=D:\knime-workspaces\
+:: folder containing subfolder you want to mount as your KNIME workspace folder (e.g. "D:\knime-workspaces\")
+set folder_with_workspaces=D:\knime-workspaces\
 set timezone="Europe/Prague"
 
 
+
+:: END OF SETTINGS PART OF THE SCRIPT
+
+
 :: folder inside the container where volume will be mounted, do not change
-set volume_mount_point="/home/knimeuser/knime-workspace"
+set volume_mount_point=/home/knimeuser/knime-workspace
 
 if "%~1"=="" (
-    set /P image_name="Please provide docker image name: "
+    set /P image_name="Please provide docker image name (e.g. cfprot/knime:3.7.1a): "
 ) else (
     set image_name=%~1
 )
@@ -34,6 +40,13 @@ if "%~3"=="" (
     set workspace=%~3
 )
 
-set workspace_path=%volume_remote_location%%workspace%
+call :joinpath %folder_with_workspaces% %workspace%
 
-docker run -it --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% %image_name%
+docker run -it --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% --rm %image_name%
+
+:: joins folder_with_workspaces and workspace varibles into a absolute path in more robust way
+:joinpath
+set Path1=%~1
+set Path2=%~2
+if {%Path1:~-1,1%}=={\} (set workspace_path=%Path1%%Path2%) else (set workspace_path=%Path1%\%Path2%)
+goto :eof
