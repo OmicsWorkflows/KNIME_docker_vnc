@@ -6,6 +6,9 @@ August 2019
 - scripts for reset of Metanodes and Workflows templates git repositories were corrected to point to the directories (e.g. ".../gitfolders/KNIME_workflows" instead of ".../gitfolders/KNIME_Workflows")
 - scripts for container start were changed to remove automatically exited container
 - Java installation disabled for testing the system performance and stability
+- pandoc Ubuntu package added
+- ncbi-blast+ Ubuntu package added
+
 - KNIME upgraded to 3.7.2
 - KNIME python extension upgraded to 3.7.2.v201904170931
 - KNIME PIA extension upgraded to 1.3.11.v201907181152
