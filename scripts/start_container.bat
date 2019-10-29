@@ -1,7 +1,8 @@
 @echo off
+@SETLOCAL EnableDelayedExpansion
 :: you can start the container running this script in the commandline directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
-:: e.g. ".\start_container.bat cfprot/knime:3.5.3c 5901 test" where
-::     "cfprot/knime:3.5.3c" points to a concrete docker image version
+:: e.g. ".\start_container.bat cfprot/knime:latest 5901 test" where
+::     "cfprot/knime:latest" points to the latest docker image version (replace 'latest' by any older image version, e.g. 3.7.2a)
 ::     "5901" specifies the port on which the container will be accesible for VNC connection
 ::     "test" is the folder within workspaces folder (see "volume_remote_location" below)
 :: order of parameters must be kept (we don't support switches...)
@@ -14,7 +15,8 @@
 set folder_with_workspaces=D:\knime-workspaces\
 set timezone="Europe/Prague"
 
-
+:: default docker image version to be used
+set default_image_name=cfprot/knime:latest
 
 :: END OF SETTINGS PART OF THE SCRIPT
 
@@ -23,7 +25,12 @@ set timezone="Europe/Prague"
 set volume_mount_point=/home/knimeuser/knime-workspace
 
 if "%~1"=="" (
-    set /P image_name="Please provide docker image name (e.g. cfprot/knime:3.7.1a): "
+    set /P image_name_input="Please provide docker image name (leave empty for cfprot/knime:latest): "
+    if "!image_name_input!" == "" (
+        set image_name=%default_image_name%
+    ) else (
+        set image_name=!image_name_input!
+    )
 ) else (
     set image_name=%~1
 )

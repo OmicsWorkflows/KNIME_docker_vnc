@@ -28,7 +28,7 @@ else
 fi
 
 if (($# < 2 ));then
- echo "Which port should the container run on?"
+ echo "Which port should the container run on? (e.g. 5901)"
  read port
 else
  port=$2
