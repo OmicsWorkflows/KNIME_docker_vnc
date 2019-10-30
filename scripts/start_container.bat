@@ -37,17 +37,39 @@ if "%~1"=="" (
 
 if "%~2"=="" (
     set /P port="Which port should the container run on? (e.g. 5901): "
+    if "!port!"=="" (
+        echo No port selected. You have to provide valid port on which the container will be accessible using VNC viewer.
+        echo The script will exit now.
+        pause
+        exit
+    )
 ) else (
     set port=%2
 )
 
 if "%~3"=="" (
     set /P workspace="Name of the workspace to use: "
+    if "!workspace!"=="" (
+        echo No workspace directory name selected. Valid directory inside "%folder_with_workspaces%" folder has to be specified.
+        echo The script will exit now.
+        pause
+        exit
+    )
 ) else (
     set workspace=%~3
 )
 
 call :joinpath %folder_with_workspaces% %workspace%
+
+:: checks for the presence of the workspace directory
+if not exist !workspace_path! (
+    echo The script will exit now.
+    echo The expected workspace directory "!workspace_path!" does not exists.
+    echo Is the workspaces folder ^("%folder_with_workspaces%"^) set correctly in the script?
+    echo Check also that the provided workspace folder ^("!workspace!"^) exists in the workspaces folder.
+    pause
+    exit
+)
 
 docker run -it --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% --rm %image_name%
 
