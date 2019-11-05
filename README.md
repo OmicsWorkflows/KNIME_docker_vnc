@@ -40,7 +40,6 @@ Please note that the procedure below was successfully tested on Ubuntu 18.04 and
    - stop and kill the running container with name "knime5901": `docker stop knime5901`
         - WARNING: you may loose not saved work from inside of your container as this will remove the container completely and you will not be able to access it again! Save your work and close the KNIME application prior this command running optimally!
 9. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
-10. Do save your work not to loose any progress in your data processing.
 
 
 
