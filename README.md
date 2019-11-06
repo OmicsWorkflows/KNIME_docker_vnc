@@ -7,10 +7,10 @@ The repository is meant for sharing docker files and accompanied files/scripts a
 
 This chapter explains how to run Docker image on your machine.
 
-Please note that the procedure below was successfully tested on Ubuntu 18.04 and Windows 10 Professional with Docker for desktop application installed. Docker toolbox (Windows 7 Profesional and Windows 10 Home) has been tested but there was an issue with read only access to the mounted workspace.
+Please note that the procedure below was successfully tested on Ubuntu 18.04 and Windows 10 Professional with Docker for desktop application installed. Docker toolbox (Windows 7 Professional and Windows 10 Home) has been tested but there was an issue with read only access to the mounted workspace.
 
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
-2. Clone this repository to get the scripts folder containing scripts to assist you to run the docker container in the next steps.
+2. [Download](https://github.com/OmicsWorkflows/KNIME_docker_vnc/archive/master.zip) and unzip or clone this repository to get e.g. "scripts" folder containing scripts to assist you to run the docker container in the next steps.
    - there are platform specific (Linux, Windows) scripts for concrete actions
       - start_container.bat (Windows) - to start docker container on Windows
       - start_container.sh (Linux) - to start docker container on Linux
@@ -38,7 +38,7 @@ Please note that the procedure below was successfully tested on Ubuntu 18.04 and
 8. The container will run until you restart your system that is running the container. If you would like to get information on the running docker containers or stop the currently running container, you can use the following commands on the command line (on both Windows and Linux systems)
    - list the running docker containers: `docker ps -a`
    - stop and kill the running container with name "knime5901": `docker stop knime5901`
-        - WARNING: you may loose not saved work from inside of your container as this will remove the container completely and you will not be able to access it again! Save your work and close the KNIME application prior this command running optimally!
+        - WARNING: you may lose not saved work from inside of your container as this will remove the container completely and you will not be able to access it again! Save your work and close the KNIME application prior this command running optimally!
 9. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
 
 
