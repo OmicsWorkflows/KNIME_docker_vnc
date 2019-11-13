@@ -10,7 +10,8 @@
 
 
 default_image_name="cfprot/knime:latest"
-default_workspace=""
+default_port=5901
+default_workspace="knime-workspace"
 # folder containing folder you want to mount as your KNIME workspace folder
 volume_remote_location="/media/copy/712006-Proteomics/KNIME_workspaces/"
 volume_mount_point="/home/knimeuser/knime-workspace"
@@ -28,8 +29,11 @@ else
 fi
 
 if (($# < 2 ));then
- echo "Which port should the container run on? (e.g. 5901)"
+ echo "Which port should the container run on? (e.g. 5901; leave blank to use '$default_port')"
  read port
+ if [ -z "$port" ];then
+  port=$default_port
+ fi
 else
  port=$2
 fi
@@ -37,7 +41,7 @@ fi
 
 # todo folder name + check for existence
 if (($# < 3 ));then
- echo "Name of the workspace to use: "
+ echo "Name of the workspace to use (leave blank to use '$default_workspace'): "
  read workspace
  if [ -z "$workspace" ];then
   workspace=$default_workspace
