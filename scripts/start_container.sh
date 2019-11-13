@@ -7,16 +7,29 @@
 #     "test" is the folder within workspaces folder (see "volume_remote_location" below)
 # order of parameters must be kept (we don't support switches...)
 
+##########################################################
+### settings to be adjusted on the given PC/Mac/server ###
+##########################################################
 
 
+# folder containing folder you want to mount as your KNIME workspace folder
+volume_remote_location="/media/copy/712006-Proteomics/KNIME_workspaces/"
+# timezone in which the container will run
+timezone="Europe/Prague"
+
+
+# default settings for the container start you may modify in case you do not want to specify them frequently on the container start
 default_image_name="cfprot/knime:latest"
 default_port=5901
 default_workspace="knime-workspace"
-# folder containing folder you want to mount as your KNIME workspace folder
-volume_remote_location="/media/copy/712006-Proteomics/KNIME_workspaces/"
+
+
+#######################################
+### END OF THE SCRIPT SETTINGS PART ###
+#######################################
+
 volume_mount_point="/home/knimeuser/knime-workspace"
 image_name=""
-timezone="Europe/Prague"
 
 if (($# < 1 ));then
  echo "Please provide docker image name (leave blank to use '$default_image_name')"
