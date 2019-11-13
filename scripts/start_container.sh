@@ -7,9 +7,9 @@
 #     "test" is the folder within workspaces folder (see "volume_remote_location" below)
 # order of parameters must be kept (we don't support switches...)
 
-##########################################################
-### settings to be adjusted on the given PC/Mac/server ###
-##########################################################
+######################################################
+### settings to be adjusted on the given PC/server ###
+######################################################
 
 
 # folder containing folder you want to mount as your KNIME workspace folder
