@@ -10,15 +10,21 @@
 :: alternatively just run the script file itself and provide it with the parameters it requests
 
 
+::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::: settings to be adjusted on the given PC/server :::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: folder containing subfolder you want to mount as your KNIME workspace folder (e.g. "D:\knime-workspaces\")
 set folder_with_workspaces=D:\knime-workspaces\
+:: timezone in which the container will run
 set timezone="Europe/Prague"
 
 :: default docker image version to be used
 set default_image_name=cfprot/knime:latest
 
-:: END OF SETTINGS PART OF THE SCRIPT
+:::::::::::::::::::::::::::::::::::::::
+::: END OF THE SCRIPT SETTINGS PART :::
+:::::::::::::::::::::::::::::::::::::::
 
 
 :: folder inside the container where volume will be mounted, do not change

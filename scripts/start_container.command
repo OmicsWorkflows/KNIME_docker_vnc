@@ -2,18 +2,21 @@
 
 # you can start the container using this script directly with 3 parameters: [IMAGE_NAME] [PORT_TO_RUN_ON] [WORKSPACE],
 # e.g. "./start_container.sh cfprot/knime:3.5.3c 5901 test" where
-#     "cfprot/knime:3.5.3c" points to a concrete docker image version
+#     "cfprot/knime:latest" points to the latest docker image version (replace 'latest' by any older image version, e.g. 3.7.2a)
 #     "5901" specifies the port on which the container will be accesible for VNC connection
 #     "test" is the folder within workspaces folder (see "volume_remote_location" below)
 # order of parameters must be kept (we don't support switches...)
+#
+# alternatively just run the script file itself and provide it with the parameters it requests
+
 
 ################################################
 ### settings to be adjusted on the given Mac ###
 ################################################
 
 
-# folder containing folder you want to mount as your KNIME workspace folder
-volume_remote_location="/Users/user_name/"
+# folder containing subfolder you want to mount as your KNIME workspace folder (e.g. "/Users/user_name/knime-workspaces/")
+folder_with_workspaces="/Users/user_name/knime-workspaces/"
 # timezone in which the container will run
 timezone="Europe/Prague"
 
@@ -63,10 +66,10 @@ else
  workspace=$3
 fi
 
-if [ ! -d $volume_remote_location$workspace ];then
-echo "$volume_remote_location$workspace directory not found"
+if [ ! -d $folder_with_workspaces$workspace ];then
+echo "$folder_with_workspaces$workspace directory not found"
 exit 1
 fi
 
-docker run -it --name knime$port -p $port:5901 -v $volume_remote_location$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name
+docker run -it --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name
 
