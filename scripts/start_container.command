@@ -10,13 +10,13 @@
 # alternatively just run the script file itself and provide it with the parameters it requests
 
 
-######################################################
-### settings to be adjusted on the given PC/server ###
-######################################################
+################################################
+### settings to be adjusted on the given Mac ###
+################################################
 
 
-# folder containing subfolder you want to mount as your KNIME workspace folder (e.g. "/home/user_name/knime-workspaces/")
-folder_with_workspaces="/media/copy/712006-Proteomics/KNIME_workspaces/"
+# folder containing subfolder you want to mount as your KNIME workspace folder (e.g. "/Users/user_name/knime-workspaces/")
+folder_with_workspaces="/Users/user_name/knime-workspaces/"
 # timezone in which the container will run
 timezone="Europe/Prague"
 
