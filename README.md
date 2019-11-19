@@ -10,6 +10,9 @@ This chapter explains how to run Docker image on your machine.
 Please note that the procedure below was successfully tested on Ubuntu 18.04 (64-bit), Windows 10 (64-bit, Professional and Educational version) and on Mac OS (Catalina 10.15.2) with Docker for desktop application installed. Docker toolbox (Windows 7 Professional and Windows 10 Home) has been tested as well but there was an issue with read only access to the mounted workspace which is limiting for the optimal container usage and we do not recommend to use it.
 
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
+   - links to the stable docker installation files are for Windows and Mac as follows:
+      - Windows - https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe
+      - Mac - https://download.docker.com/mac/stable/Docker.dmg
    - please note that the docker application needs virtualization enabled on your system and it may need to be enabled in the bios of your system
    - please note that docker application uses different type of virtualization than e.g. VirtualBox application so these two can not run on simultaneously
 2. [Download](https://github.com/OmicsWorkflows/KNIME_docker_vnc/archive/master.zip) and unzip or clone this repository using your version control system to get e.g. "scripts" folder containing scripts to assist you to run the docker container in the next steps.
