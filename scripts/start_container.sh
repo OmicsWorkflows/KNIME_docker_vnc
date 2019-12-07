@@ -32,10 +32,6 @@ default_workspace="knime-workspace"
 #######################################
 
 
-# sets the MTU value used during the container start instead of default one (1500)
-# some OpenStack installation has MTU e.g. 1442 and internet connection does not work with the default settings
-MTU=1400
-
 volume_mount_point="/home/knimeuser/knime-workspace"
 image_name=""
 
@@ -76,5 +72,4 @@ echo "$folder_with_workspaces$workspace directory not found"
 exit 1
 fi
 
-docker run -it --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name --mtu=$MTU
-
+docker run -it --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name
