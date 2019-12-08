@@ -100,7 +100,7 @@ RUN chsh -s /bin/bash ${knimeuser}
 ############################################## VNC #####################################################################################
 
 # tigervnc file name
-ARG tigervnc_file=tigervnc-1.9.0.x86_64
+ARG tigervnc_file=tigervnc-1.10.0.x86_64
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 
@@ -152,14 +152,14 @@ RUN R -e 'install.packages(c("imp4p", "compositions", "plotly", "robCompositions
 ####################################################### PYTHON ######################################################################
 
 # pip packages versions
-ARG pip3_matplotlib_version=3.1.0
+ARG pip3_matplotlib_version=3.1.2
 ARG pip2_matplotlib_version=2.2.4
-ARG pip_numpy_version=1.16.4
-ARG pip_pandas_version=0.24.2
-ARG pip_pip_version=19.2.1
-ARG pip_scipy_version=1.2.2
+ARG pip_numpy_version=1.17.4
+ARG pip_pandas_version=0.25.3
+ARG pip_pip_version=19.3.1
+ARG pip_scipy_version=1.3.3
 ARG pip_seaborn_version=0.9.0
-ARG pip_statsmodels_version=0.10.1
+ARG pip_statsmodels_version=0.10.2
 
 
 #install python 2+3 + necessary packages
@@ -186,26 +186,27 @@ RUN pip3 install numpy==${pip_numpy_version} \
 ################################################################# KNIME ####################################################################
 
 # version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
-ARG knime_version=3.7.2
+ARG knime_version=4.1.0
 
 # KNIME file name to be downloaded and installed
 ARG knime_file=knime_${knime_version}.linux.gtk.x86_64.tar.gz
 
 # links to online repositories to be used when installing knime extensions
 
-ARG knime_store_repository=http://update.knime.org/store/3.7
-ARG knime_analytics_platform_repository=http://update.knime.org/analytics-platform/3.7
-ARG knime_community_trusted_repository=http://update.knime.org/community-contributions/trusted/3.7
+ARG knime_partners_repository=https://update.knime.com/partner/4.1
+ARG knime_analytics_platform_repository=https://update.knime.com/analytics-platform/4.1
+ARG knime_community_trusted_repository=https://update.knime.com/community-contributions/trusted/4.1
+ARG knime_community_experimental_repository=https://update.knime.com/community-contributions/4.1
 
 # names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
 # if you add other extension, it needs to be added into the KNIME installation part as well
 
-ARG knime_python_extension=org.knime.features.python2.feature.group/3.7.2.v201904170931
-ARG knime_r_extension=org.knime.features.r.feature.group/3.7.1.v201901291055
-ARG knime_testing_framework_extension=org.knime.features.testingapplication.feature.group/3.7.0.v201811021340
-ARG knime_expressions_extension=org.knime.features.expressions.feature.group/3.7.2.v201904170930
-ARG knime_reporting_designer_extension=com.knime.features.reporting.designer.feature.group/3.7.0.v201808081048
-ARG knime_openms_extension=de.openms.feature.feature.group/2.4.0.201810261315
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.1.0.v201911281838
+ARG knime_r_extension=org.knime.features.r.feature.group/4.1.0.v201911110939
+ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.1.0.v201911291649
+ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.1.0.v201911251323
+ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.0.0.v201911110939
+ARG knime_openms_extension=de.openms.feature.feature.group/2.4.0.201810261316
 ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.11.v201907181152
 
 
@@ -221,8 +222,8 @@ RUN chmod +x ${knime_folder}/knime
 
 # install knime extensions (python,r, etc.; the versions are specified above)
 RUN ${knime_folder}/knime -clean -purgeHistory -application org.eclipse.equinox.p2.director \
--noSplash -repository ${knime_store_repository} -repository ${knime_analytics_platform_repository} \
--repository ${knime_community_trusted_repository} \
+-noSplash -repository ${knime_partners_repository} -repository ${knime_analytics_platform_repository} \
+-repository ${knime_community_trusted_repository} -repository ${knime_community_experimental_repository} \
 -i ${knime_python_extension} -i ${knime_r_extension} -i ${knime_testing_framework_extension} -i ${knime_expressions_extension} \
 -i ${knime_reporting_designer_extension} -i ${knime_openms_extension} -i ${knime_pia_extension}
 
