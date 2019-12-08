@@ -156,7 +156,8 @@ ARG pip3_matplotlib_version=3.1.2
 ARG pip2_matplotlib_version=2.2.4
 ARG pip2_numpy_version=1.16.5
 ARG pip3_numpy_version=1.17.4
-ARG pip_pandas_version=0.25.3
+ARG pip3_pandas_version=0.25.3
+ARG pip2_pandas_version=0.24.2
 ARG pip_pip_version=19.3.1
 ARG pip_scipy_version=1.3.3
 ARG pip_seaborn_version=0.9.0
@@ -168,7 +169,7 @@ RUN apt-get update -y  && apt-get install python-dev python-pip python-tk -y
 RUN pip install --upgrade pip==${pip_pip_version}
 RUN pip install --upgrade setuptools
 RUN pip install numpy==${pip2_numpy_version} \
-    pandas==${pip_pandas_version} \
+    pandas==${pip2_pandas_version} \
     seaborn==${pip_seaborn_version} \
     statsmodels==${pip_statsmodels_version} \
     matplotlib==${pip2_matplotlib_version} \
@@ -178,7 +179,7 @@ RUN apt-get update -y  && apt-get install python3-dev python3-pip python3-tk -y
 RUN pip3 install --upgrade pip==${pip_pip_version}
 RUN pip3 install --upgrade setuptools
 RUN pip3 install numpy==${pip3_numpy_version} \
-    pandas==${pip_pandas_version} \
+    pandas==${pip3_pandas_version} \
     seaborn==${pip_seaborn_version} \
     statsmodels==${pip_statsmodels_version} \
     matplotlib==${pip3_matplotlib_version} \
