@@ -100,7 +100,7 @@ RUN chsh -s /bin/bash ${knimeuser}
 ############################################## VNC #####################################################################################
 
 # tigervnc file name
-ARG tigervnc_file=tigervnc-1.10.0.x86_64
+ARG tigervnc_file=tigervnc-1.10.1.x86_64
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 ADD https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
@@ -176,6 +176,11 @@ RUN pip install numpy==${pip2_numpy_version} \
 
 ### installs additional python 3 packages
 # pip3 packages versions
+ARG pip3_dash_version=1.7.0
+ARG pip3_dash-bio_version=0.4.5
+ARG pip3_dash-core-components_version=1.6.0
+ARG pip3_dash-html-components_version=1.0.2
+ARG pip3_dash-table_version=4.5.1
 ARG pip3_matplotlib_version=3.1.2
 ARG pip3_numpy_version=1.17.4
 ARG pip3_pandas_version=0.25.3
@@ -186,7 +191,13 @@ ARG pip3_statsmodels_version=0.10.2
 
 RUN pip3 install --upgrade pip==${pip3_pip_version}
 RUN pip3 install --upgrade setuptools
-RUN pip3 install numpy==${pip3_numpy_version} \
+RUN pip3 install \
+    dash==${pip3_dash_version} \
+    dash-bio==${pip3_dash-bio_version} \
+    dash-core-components==${pip3_dash-core-components_version} \
+    dash-html-components==${pip3_dash-html-components_version} \
+    dash-table==${pip3_dash-table_version} \
+    numpy==${pip3_numpy_version} \
     pandas==${pip3_pandas_version} \
     seaborn==${pip3_seaborn_version} \
     statsmodels==${pip3_statsmodels_version} \
