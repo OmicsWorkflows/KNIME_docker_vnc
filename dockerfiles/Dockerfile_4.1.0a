@@ -35,7 +35,7 @@ USER ${knimeuser}
 # libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
 # needs to be done in noninteractive way to install tzdata
 
-RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
     build-essential \
     curl \
     firefox \
@@ -50,13 +50,13 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=nonint
     software-properties-common \
     unzip \
     wget \
- && rm -rf /var/lib/apt/lists/*
+ && sudo rm -rf /var/lib/apt/lists/*
 
 # installs additional system packages needed for plotly
-RUN sudo apt-get update && apt-get install -y \
+RUN sudo apt-get update && sudo apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
- && rm -rf /var/lib/apt/lists/*
+ && sudo rm -rf /var/lib/apt/lists/*
 
 # create folders
 #RUN mkdir ${knimeuser_home}
@@ -87,11 +87,11 @@ WORKDIR ${knimeuser_home}
 
 #RUN apt-get update -y
 # installs desktop environment
-RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install \
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install \
     xfce4 \
     xfce4-goodies \
     locales -y \
- && rm -rf /var/lib/apt/lists/*
+ && sudo rm -rf /var/lib/apt/lists/*
 
 # removes power management and screensaver packages
 RUN sudo apt-get purge -y \
@@ -143,11 +143,11 @@ RUN sudo echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" 
 
 ENV R_BASE_VERSION 3.6.1
 
-RUN apt-get update && \
-    apt-get -y install \
+RUN sudo apt-get update && \
+    sudo apt-get -y install \
 	r-base=${R_BASE_VERSION}* \
 	r-base-dev=${R_BASE_VERSION}* \
- && rm -rf /var/lib/apt/lists/*
+ && sudo rm -rf /var/lib/apt/lists/*
 
 # install R packages sources and Rserve
 RUN R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
@@ -166,8 +166,8 @@ RUN R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "r
 ####################################################### PYTHON ######################################################################
 
 ### installs system libraries for python 2 and 3
-RUN sudo apt-get update -y  && apt-get install python-dev python-pip python-tk -y
-RUN sudo apt-get update -y  && apt-get install python3-dev python3-pip python3-tk -y
+RUN sudo apt-get update -y  && sudo apt-get install python-dev python-pip python-tk -y
+RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip python3-tk -y
 
 
 ### installs additional python 2 packages
