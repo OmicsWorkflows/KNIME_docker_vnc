@@ -123,7 +123,7 @@ RUN sudo tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
 RUN sudo cp -a /root/${tigervnc_file}/. /
 
 # so that copy/paste VNC client-server works
-RUN sudo apt-get update && sudo apt-get install autocutsel -y
+RUN sudo apt-get update && sudo apt-get install autocutsel -y \
  && sudo rm -rf /var/lib/apt/lists/*
 
 RUN sudo rm -r /root/${tigervnc_file}
