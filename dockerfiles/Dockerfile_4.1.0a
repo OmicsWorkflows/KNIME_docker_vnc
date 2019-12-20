@@ -90,7 +90,7 @@ WORKDIR ${knimeuser_home}
 RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install \
     xfce4 \
     xfce4-goodies \
-    locales -y
+    locales -y \
  && rm -rf /var/lib/apt/lists/*
 
 # removes power management and screensaver packages
