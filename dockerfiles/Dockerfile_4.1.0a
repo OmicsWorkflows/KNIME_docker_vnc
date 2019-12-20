@@ -149,7 +149,7 @@ RUN sudo apt-get update && sudo apt-get install -y \
 	r-base-dev=${R_BASE_VERSION}* \
  && sudo rm -rf /var/lib/apt/lists/*
 
-RUN mkdir ${knimeuser_home}/.local/R_libs
+RUN mkdir ~/.local/R_libs
 RUN echo "R_LIBS_USER=~/.local/R_libs/" > ${knimeuser_home}/.Renviron
 
 # install R packages sources and Rserve
