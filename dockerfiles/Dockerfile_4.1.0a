@@ -140,7 +140,7 @@ RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
 
 # adds repository and its GPG key for the latest R version (3.6 at the time of writing)
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN sudo echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" > /etc/apt/sources.list.d/cran.list
+RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" | sudo tee /etc/apt/sources.list.d/cran.list > /dev/null
 
 ENV R_BASE_VERSION 3.6.1
 
