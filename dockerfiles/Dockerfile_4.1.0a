@@ -142,7 +142,7 @@ RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" | sudo tee /etc/apt/sources.list.d/cran.list > /dev/null
 
-ENV R_BASE_VERSION 3.6.1
+ENV R_BASE_VERSION 3.6.2
 
 RUN sudo apt-get update && sudo apt-get install -y \
 	r-base=${R_BASE_VERSION}* \
