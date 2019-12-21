@@ -271,16 +271,16 @@ RUN sed -i 's/-Xmx.*/-Xmx4g/' ${knime_folder}/knime.ini
 RUN mkdir ${knimeuser_home}/Desktop
 
 # shortcut to knime
-RUN cp ${copied_files_folder}/knime.desktop /usr/share/applications
-RUN cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/
+RUN sudo cp ${copied_files_folder}/knime.desktop /usr/share/applications
+RUN sudo cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/
 
 # shortcut to Metanodes template reset
-RUN cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications
-RUN cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/
+RUN sudo cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications
+RUN sudo cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/
 
 # shortcut to Workflows template reset
-RUN cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications
-RUN cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
+RUN sudo cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications
+RUN sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
 
 
 ########################################################## FINAL ACTIONS ############################################################################
