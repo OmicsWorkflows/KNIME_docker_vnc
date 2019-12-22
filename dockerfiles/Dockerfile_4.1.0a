@@ -152,21 +152,17 @@ RUN sudo apt-get update && sudo apt-get install -y \
 # install Rserve
 RUN sudo R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
 
-# changes the path to the R libraries so non root user can install them
-RUN mkdir -p ~/.local/R_libs
-RUN echo "R_LIBS_USER=~/.local/R_libs/" > ${knimeuser_home}/.Renviron
-
 # install R packages sources
-RUN R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
+RUN sudo R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
 
 # installs stable R packages from Bioconductor
-RUN R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
+RUN sudo R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
 
 # installs R packages from GitHub - not used now, used for proDA
 #RUN R -e 'remotes::install_github(c("const-ae/proDA"))'
 
 # installs additional R packages from default R cran
-RUN R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
+RUN sudo R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
 
 
 ####################################################### PYTHON ######################################################################
