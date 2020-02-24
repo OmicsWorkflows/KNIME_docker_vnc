@@ -7,7 +7,7 @@ ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=4.1.0a
+ARG dockerfile_version=4.1.1a
 
 ## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
 ENV knime_folder=${knimeuser_home}/knime
@@ -175,11 +175,11 @@ RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip pyth
 ### installs additional python 2 packages
 # pip2 packages versions
 ARG pip2_matplotlib_version=2.2.4
-ARG pip2_numpy_version=1.16.5
+ARG pip2_numpy_version=1.18.1
 ARG pip2_pandas_version=0.24.2
-ARG pip2_scipy_version=1.2.2
+ARG pip2_scipy_version=1.4.1
 ARG pip2_seaborn_version=0.9.0
-ARG pip2_statsmodels_version=0.10.2
+ARG pip2_statsmodels_version=0.11.1
 
 RUN pip install --user \
     numpy==${pip2_numpy_version} \
@@ -192,17 +192,17 @@ RUN pip install --user \
 
 ### installs additional python 3 packages
 # pip3 packages versions
-ARG pip3_dash_version=1.7.0
-ARG pip3_dash_bio_version=0.4.5
-ARG pip3_dash_core_components_version=1.6.0
+ARG pip3_dash_version=1.9.0
+ARG pip3_dash_bio_version=0.4.7
+ARG pip3_dash_core_components_version=1.8.0
 ARG pip3_dash_html_components_version=1.0.2
-ARG pip3_dash_table_version=4.5.1
-ARG pip3_matplotlib_version=3.1.2
-ARG pip3_numpy_version=1.17.4
-ARG pip3_pandas_version=0.25.3
-ARG pip3_scipy_version=1.3.3
-ARG pip3_seaborn_version=0.9.0
-ARG pip3_statsmodels_version=0.10.2
+ARG pip3_dash_table_version=4.6.0
+ARG pip3_matplotlib_version=3.1.3
+ARG pip3_numpy_version=1.18.1
+ARG pip3_pandas_version=1.0.1
+ARG pip3_scipy_version=1.4.1
+ARG pip3_seaborn_version=0.10.0
+ARG pip3_statsmodels_version=0.11.1
 
 RUN pip3 install \
     dash==${pip3_dash_version} \
@@ -220,7 +220,7 @@ RUN pip3 install \
 ################################################################# KNIME ####################################################################
 
 # version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
-ARG knime_version=4.1.0
+ARG knime_version=4.1.1
 
 # KNIME file name to be downloaded and installed
 ARG knime_file=knime_${knime_version}.linux.gtk.x86_64.tar.gz
@@ -235,9 +235,9 @@ ARG knime_community_experimental_repository=https://update.knime.com/community-c
 # names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
 # if you add other extension, it needs to be added into the KNIME installation part as well
 
-ARG knime_python_extension=org.knime.features.python2.feature.group/4.1.0.v201911281838
-ARG knime_r_extension=org.knime.features.r.feature.group/4.1.0.v201911110939
-ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.1.0.v201911291649
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.1.1.v202001312017
+ARG knime_r_extension=org.knime.features.r.feature.group/4.1.1.v202001312017
+ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.1.1.v202001312017
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.1.0.v201911251323
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.0.0.v201911110939
 ARG knime_openms_extension=de.openms.feature.feature.group/2.4.0.201810261316
