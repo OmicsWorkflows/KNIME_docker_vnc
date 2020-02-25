@@ -28,7 +28,7 @@ git reset --hard origin/master
 git clean -f -d
 
 # shows the notification about the finished task
-notify-send -u critical -i process-completed "Workflows templates repository" \
+notify-send -u critical -i process-completed "Metanodes templates repository" \
 "<b>Repository reset completed!</b> \
 \rYou can start to use them in KNIME! \
 \rWorkspace refresh in KNIME may be needed! \
