@@ -72,4 +72,4 @@ echo "$folder_with_workspaces$workspace directory not found"
 exit 1
 fi
 
-docker run -it --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name
+docker run -it --shm-size=1g --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name
