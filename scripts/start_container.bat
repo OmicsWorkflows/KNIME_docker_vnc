@@ -77,7 +77,7 @@ if not exist !workspace_path! (
     exit
 )
 
-docker run -it --shm-size=4g --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% --rm %image_name%
+docker run -it --shm-size=1g --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% --rm %image_name%
 
 if errorlevel 1 (
    echo Error level returned is %errorlevel%
