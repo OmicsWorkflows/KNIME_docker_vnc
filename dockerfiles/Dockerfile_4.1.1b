@@ -65,10 +65,14 @@ RUN mkdir ${knime_workspace_folder}
 # copy external files to docker image
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
 COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/home_folder/.config ${knimeuser_home}/.config
+COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/home_folder/.local ${knimeuser_home}/.local
 RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
-    chmod 755 ${copied_files_folder}/workflows_reset.sh
+    chmod 755 ${copied_files_folder}/workflows_reset.sh && \
+    chmod 755 ${knimeuser_home}/.local/share/virtualenvs/3.7.2a/3.7.2a_py27.sh && \
+    chmod 755 ${knimeuser_home}/.local/share/virtualenvs/3.7.2a/3.7.2a_py36.sh && \
+    chmod 755 ${knimeuser_home}/.local/share/virtualenvs/4.1.1b/4.1.1b_py37.sh
 
 # set default locations
 ENV HOME ${knimeuser_home}
@@ -250,6 +254,8 @@ RUN pipenv install \
     statsmodels==${pip3_statsmodels_version} \
     matplotlib==${pip3_matplotlib_version} \
     scipy==${pip3_scipy_version}
+
+WORKDIR ${knimeuser_home}
 
 ################################################################# KNIME ####################################################################
 
