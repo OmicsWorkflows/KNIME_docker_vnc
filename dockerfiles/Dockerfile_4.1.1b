@@ -186,7 +186,7 @@ ARG 372a_pip2_scipy_version=1.2.2
 ARG 372a_pip2_seaborn_version=0.9.0
 ARG 372a_pip2_statsmodels_version=0.10.1
 
-RUN pipenv install --python 2.7.15+
+RUN pipenv install --python 2.7.15
 
 RUN pipenv install \
     matplotlib==${372a_pip2_matplotlib_version} \
