@@ -7,7 +7,7 @@ ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=4.1.1a
+ARG dockerfile_version=4.1.1b
 
 ## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
 ENV knime_folder=${knimeuser_home}/knime
