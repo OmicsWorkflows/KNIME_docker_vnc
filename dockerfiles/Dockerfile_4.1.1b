@@ -188,9 +188,9 @@ RUN pipenv install \
     matplotlib==${372a_pip2_matplotlib_version} \
     numpy==${372a_pip2_numpy_version} \
     pandas==${372a_pip2_pandas_version} \
-    scipy==${372a_pip2_scipy_version}
+    scipy==${372a_pip2_scipy_version} \
     seaborn==${372a_pip2_seaborn_version} \
-    statsmodels==${372a_pip2_statsmodels_version} \
+    statsmodels==${372a_pip2_statsmodels_version}
 
 
 WORKDIR ${knimeuser_home}/.pipenv/3.7.2a/py27
@@ -208,9 +208,9 @@ RUN pipenv install \
     matplotlib==${372a_pip3_matplotlib_version} \
     numpy==${372a_pip3_numpy_version} \
     pandas==${372a_pip3_pandas_version} \
-    scipy==${372a_pip3_scipy_version}
+    scipy==${372a_pip3_scipy_version} \
     seaborn==${372a_pip3_seaborn_version} \
-    statsmodels==${372a_pip3_statsmodels_version} \
+    statsmodels==${372a_pip3_statsmodels_version}
 
 #RUN pip install --user \
 #    numpy==${pip2_numpy_version} \
@@ -238,18 +238,18 @@ ARG pip3_scipy_version=1.4.1
 ARG pip3_seaborn_version=0.10.0
 ARG pip3_statsmodels_version=0.11.1
 
-#RUN pip3 install \
-#    dash==${pip3_dash_version} \
-#    dash-bio==${pip3_dash_bio_version} \
-#    dash-core-components==${pip3_dash_core_components_version} \
-#    dash-html-components==${pip3_dash_html_components_version} \
-#    dash-table==${pip3_dash_table_version} \
-#    numpy==${pip3_numpy_version} \
-#    pandas==${pip3_pandas_version} \
-#    seaborn==${pip3_seaborn_version} \
-#    statsmodels==${pip3_statsmodels_version} \
-#    matplotlib==${pip3_matplotlib_version} \
-#    scipy==${pip3_scipy_version}
+RUN pipenv install \
+    dash==${pip3_dash_version} \
+    dash-bio==${pip3_dash_bio_version} \
+    dash-core-components==${pip3_dash_core_components_version} \
+    dash-html-components==${pip3_dash_html_components_version} \
+    dash-table==${pip3_dash_table_version} \
+    numpy==${pip3_numpy_version} \
+    pandas==${pip3_pandas_version} \
+    seaborn==${pip3_seaborn_version} \
+    statsmodels==${pip3_statsmodels_version} \
+    matplotlib==${pip3_matplotlib_version} \
+    scipy==${pip3_scipy_version}
 
 ################################################################# KNIME ####################################################################
 
