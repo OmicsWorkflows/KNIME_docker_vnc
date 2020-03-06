@@ -158,9 +158,6 @@ RUN sudo R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.r
 # installs stable R packages from Bioconductor
 RUN sudo R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
 
-# installs R packages from GitHub - not used now, used for proDA
-#RUN R -e 'remotes::install_github(c("const-ae/proDA"))'
-
 # installs additional R packages from default R cran
 RUN sudo R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
 
