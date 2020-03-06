@@ -1,0 +1,8 @@
+#!/bin/bash
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+xsetroot -solid grey
+autocutsel -fork
+startxfce4 &
