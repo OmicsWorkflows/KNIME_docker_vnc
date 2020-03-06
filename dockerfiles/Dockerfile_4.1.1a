@@ -237,7 +237,7 @@ ARG knime_r_extension=org.knime.features.r.feature.group/4.1.1.v202001312017
 ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.1.1.v202001312017
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.1.0.v201911251323
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.0.0.v201911110939
-ARG knime_openms_extension=de.openms.feature.feature.group/2.5.0.202002201806
+ARG knime_openms_extension=de.openms.feature.feature.group/2.5.0.202002241222
 ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.11.v201907181152
 
 
