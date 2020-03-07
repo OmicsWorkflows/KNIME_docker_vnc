@@ -13,7 +13,7 @@ March 2020
 - KNIME upgraded to 4.1.1
 - majority of the KNIME plugins were upgraded, see https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences for more details
 
-- python3 upgraded to 3.7.4
+- python3 upgraded to 3.6.9
 - python packages versions were separated for python2 and python3
 -- it is expected that the python2 implementation will be dropped from the next versions
 -- some environment based packaging system si planned for the next versions

@@ -75,7 +75,7 @@ Docker image contains the below mentioned selected tools found needed and or hel
   - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
 - [Python](https://www.python.org/) 2.7.15+
   - The Python consists of the following Python 2.7 License. Licence terms are available here: https://docs.python.org/2.7/license.html
-- [Python](https://www.python.org/) 3.7.4
+- [Python](https://www.python.org/) 3.6.9
   - The Python consists of the following Python 3.6 License. Licence terms are available here: https://docs.python.org/3.6/license.html
 - [R](https://www.r-project.org/) 3.6.2
   - The R consists of the following GNU General Public Licences. Licence terms are available here: https://www.r-project.org/Licenses/
