@@ -72,4 +72,16 @@ echo "$folder_with_workspaces$workspace directory not found"
 exit 1
 fi
 
-docker run -it --shm-size=1g --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name
+CONTAINER_NAME="knime$port"
+
+# checks for the presence of exited container with the name identical to the one to be created and removes it if exists
+CID=$(docker ps -q -f status=exited -f name=^/${CONTAINER_NAME}$)
+if [ ! "${CID}" ]; then
+  echo "Exited container with the name '$CONTAINER_NAME' doesn't exist, will be created now."
+else
+  echo "Exited container with the name '$CONTAINER_NAME' exists already, will try to remove it for you and recreated."
+  docker rm $CONTAINER_NAME
+fi
+unset CID
+
+docker run -it --shm-size=1g --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone $image_name
