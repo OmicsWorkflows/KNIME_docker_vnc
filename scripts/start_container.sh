@@ -79,7 +79,7 @@ CID=$(docker ps -q -f status=exited -f name=^/${CONTAINER_NAME}$)
 if [ ! "${CID}" ]; then
   echo "Exited container with the name '$CONTAINER_NAME' doesn't exist, will be created now."
 else
-  echo "Exited container with the name '$CONTAINER_NAME' exists already, will try to remove it for you and recreated."
+  echo "Exited container with the name '$CONTAINER_NAME' exists already, will try to remove it for you and will be recreated."
   docker rm $CONTAINER_NAME
 fi
 unset CID
