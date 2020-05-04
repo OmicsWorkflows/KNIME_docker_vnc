@@ -146,6 +146,7 @@ ENV R_BASE_VERSION 3.6.2
 
 RUN sudo apt-get update && sudo apt-get install -y \
 	r-base=${R_BASE_VERSION}* \
+	r-recommended=${R_BASE_VERSION}* \
 	r-base-dev=${R_BASE_VERSION}* \
  && sudo rm -rf /var/lib/apt/lists/*
 
