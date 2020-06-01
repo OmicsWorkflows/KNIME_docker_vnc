@@ -1,4 +1,19 @@
 #########################
+4.1.2a
+
+April 2020
+########################
+
+- gtk2-engines-pixbuf installed into Ubuntu to remove some warning messages from the container run related to GTK
+- autocutsel Ubuntu package removed and "autocutsel -fork" was removed from the xstartup
+
+- r-recommended added to the R installation next to r-base and r-base-dev
+
+- KNIME upgraded to 4.1.2
+- python KNIME plugin upgraded
+
+
+#########################
 4.1.1a
 
 March 2020
