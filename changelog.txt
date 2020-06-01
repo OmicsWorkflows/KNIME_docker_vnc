@@ -1,4 +1,22 @@
 #########################
+4.1.3a
+
+June 2020
+########################
+
+- R packages corpcor and Hotelling added
+
+- python package dash upgraded to 1.12.0
+- python package dash-bio upgraded to 0.4.8
+- python package dash-core-components upgraded to 1.10.0
+- python package dash-html-components upgraded to 1.0.3
+- python package dash-table upgraded to 4.7.0
+
+- KNIME upgraded to 4.1.3
+- python KNIME plugin upgraded (4.1.3.v202005112253)
+
+
+#########################
 4.1.2a
 
 April 2020

@@ -123,10 +123,6 @@ ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervn
 RUN sudo tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
 RUN sudo cp -a /root/${tigervnc_file}/. /
 
-# so that copy/paste VNC client-server works
-#RUN sudo apt-get update && sudo apt-get install autocutsel -y \
-# && sudo rm -rf /var/lib/apt/lists/*
-
 RUN sudo rm -r /root/${tigervnc_file}
 
 # vnc startup - create so that there is no problem with file does not exist on vnc init
@@ -163,6 +159,9 @@ RUN sudo R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods"
 # installs additional R packages from default R cran
 RUN sudo R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
 
+# installs additional R packages from sources
+RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
+RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
 
 ####################################################### PYTHON ######################################################################
 
@@ -191,11 +190,11 @@ RUN pip install --user \
 
 ### installs additional python 3 packages
 # pip3 packages versions
-ARG pip3_dash_version=1.9.0
-ARG pip3_dash_bio_version=0.4.7
-ARG pip3_dash_core_components_version=1.8.0
-ARG pip3_dash_html_components_version=1.0.2
-ARG pip3_dash_table_version=4.6.0
+ARG pip3_dash_version=1.12.0
+ARG pip3_dash_bio_version=0.4.8
+ARG pip3_dash_core_components_version=1.10.0
+ARG pip3_dash_html_components_version=1.0.3
+ARG pip3_dash_table_version=4.7.0
 ARG pip3_matplotlib_version=3.1.3
 ARG pip3_numpy_version=1.18.1
 ARG pip3_pandas_version=1.0.1
@@ -234,7 +233,7 @@ ARG knime_community_experimental_repository=https://update.knime.com/community-c
 # names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
 # if you add other extension, it needs to be added into the KNIME installation part as well
 
-ARG knime_python_extension=org.knime.features.python2.feature.group/4.1.1.v202003021315
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.1.3.v202005112253
 ARG knime_r_extension=org.knime.features.r.feature.group/4.1.1.v202001312017
 ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.1.1.v202001312017
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.1.0.v201911251323
