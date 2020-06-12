@@ -3,7 +3,7 @@ Docker file and associated files for running KNIME inside the Docker container b
 
 The repository is meant for sharing docker files and accompanied files/scripts and to make easier usage of prebuild docker images hosted on docker hub ([https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/)).
 
-The current docker image version is built using KNIME 4.1.1, see [the llist of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
+The current docker image version is built using KNIME 4.1.3, see [the llist of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
 
 ## Prebuild Docker Images Usage
 
@@ -71,13 +71,13 @@ Docker image contains the below mentioned selected tools found needed and or hel
 #### Operation system and its components (alphabetical order)
 - [git](https://git-scm.com/) 2.17.1
   - The git consists of the following GNU General Public License version 2.0. Licence terms are available here: http://opensource.org/licenses/GPL-2.0
-- [KNIME](https://www.knime.com/) 4.1.1
+- [KNIME](https://www.knime.com/) 4.1.3
   - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
-- [Python](https://www.python.org/) 2.7.15+
+- [Python](https://www.python.org/) 2.7.17
   - The Python consists of the following Python 2.7 License. Licence terms are available here: https://docs.python.org/2.7/license.html
 - [Python](https://www.python.org/) 3.6.9
   - The Python consists of the following Python 3.6 License. Licence terms are available here: https://docs.python.org/3.6/license.html
-- [R](https://www.r-project.org/) 3.6.2
+- [R](https://www.r-project.org/) 3.6.3
   - The R consists of the following GNU General Public Licences. Licence terms are available here: https://www.r-project.org/Licenses/
 - [TigerVNC](https://tigervnc.org/) 1.10.1
   - The TigerVNC consists of the following GNU General Public Licence. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
@@ -88,7 +88,7 @@ Docker image contains the below mentioned selected tools found needed and or hel
 
 - KNIME Expressions (4.1.0.v201911251323)
 - KNIME Interactive R Statistics Integration (4.1.1.v202001312017)
-- KNIME Python Integration (4.1.1.v202001312017)
+- KNIME Python Integration (4.1.3.v202005112253)
 - KNIME Report Designer (4.0.0.v201911110939)
 - KNIME Testing Framework (4.1.1.v202001312017)
 - [OpenMS](http://www.openms.de/) 2.5.0 (2.5.0.202002241222)
@@ -97,6 +97,10 @@ Docker image contains the below mentioned selected tools found needed and or hel
     - The PIA consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 
 #### Python 3 or 2 packages (alphabetical order)
+- [dash](https://plotly.com/dash/) 1.12.0 (python 3)
+    - The Dash consists of the following MIT License. Licence terms are available here: https://github.com/plotly/dash/blob/master/LICENSE
+- [dash-bio](https://dash.plotly.com/dash-bio) 0.4.8 (python 3)
+    - The dash-bio consists of the following MIT License. Licence terms are available here: https://github.com/plotly/dash-bio/blob/master/LICENSE
 - [matplotlib](https://matplotlib.org/) 3.1.3 (python 3) and 2.2.4 (python 2)
     - The matplotlib consists of the following Python Software Foundation License (BSD compatible). Licence terms are available here: https://matplotlib.org/users/license.html
 - [numpy](http://www.numpy.org/) 1.18.1 (python 3) and 1.16.6 (python 2)
@@ -115,8 +119,12 @@ Docker image contains the below mentioned selected tools found needed and or hel
     - The Biobase consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
 - [compositions](https://cran.r-project.org/web/packages/compositions/index.html)
     - The compositions consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [corpcor](https://cran.r-project.org/web/packages/corpcor/index.html)
+    - The corpcor consists of the following General Public License (GPL), version >=3 license. Licence terms are available here: https://cran.r-project.org/web/licenses/GPL-3
 - [gprofiler2](https://cran.r-project.org/web/packages/gprofiler2/index.html)
-    - The imp4p consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The gprofiler2 consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [Hotelling](https://cran.r-project.org/web/packages/Hotelling/index.html)
+    - The Hotelling consists of the following General Public License (GPL), version 2, 3 license. Licence terms are available here: https://cran.r-project.org/web/licenses/GPL-2, https://www.r-project.org/Licenses/GPL-3
 - [imp4p](https://cran.r-project.org/web/packages/imp4p/index.html)
     - The imp4p consists of the following General Public License (GPL), version 3 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [impute](http://www.bioconductor.org/packages/release/bioc/html/impute.html)
@@ -132,7 +140,7 @@ Docker image contains the below mentioned selected tools found needed and or hel
 - [proDA](https://const-ae.github.io/proDA/)
     - The proDA consists of the following GPL-3 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [robCompositions](https://cran.r-project.org/web/packages/robCompositions/index.html)
-    - The compositions consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The robCompositions consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [Rserve](https://cran.r-project.org/web/packages/Rserve/index.html)
     - The Rserve consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
 - [UpSetR](https://cran.r-project.org/web/packages/UpSetR/index.html)
