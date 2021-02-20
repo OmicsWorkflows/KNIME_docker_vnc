@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ################### set environmental variables ########################
 
@@ -7,7 +7,7 @@ ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=4.1.3a
+ARG dockerfile_version=4.3.1a
 
 ## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
 ENV knime_folder=${knimeuser_home}/knime
@@ -116,7 +116,7 @@ RUN sudo chsh -s /bin/bash ${knimeuser}
 ############################################## VNC #####################################################################################
 
 # tigervnc file name
-ARG tigervnc_file=tigervnc-1.10.1.x86_64
+ARG tigervnc_file=tigervnc-1.11.0.x86_64
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
@@ -218,28 +218,28 @@ RUN pip3 install \
 ################################################################# KNIME ####################################################################
 
 # version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
-ARG knime_version=4.1.3
+ARG knime_version=4.3.1
 
 # KNIME file name to be downloaded and installed
 ARG knime_file=knime_${knime_version}.linux.gtk.x86_64.tar.gz
 
 # links to online repositories to be used when installing knime extensions
 
-ARG knime_partners_repository=https://update.knime.com/partner/4.1
-ARG knime_analytics_platform_repository=https://update.knime.com/analytics-platform/4.1
-ARG knime_community_trusted_repository=https://update.knime.com/community-contributions/trusted/4.1
-ARG knime_community_experimental_repository=https://update.knime.com/community-contributions/4.1
+ARG knime_partners_repository=https://update.knime.com/partner/4.3
+ARG knime_analytics_platform_repository=https://update.knime.com/analytics-platform/4.3
+ARG knime_community_trusted_repository=https://update.knime.com/community-contributions/trusted/4.3
+ARG knime_community_experimental_repository=https://update.knime.com/community-contributions/4.3
 
 # names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
 # if you add other extension, it needs to be added into the KNIME installation part as well
 
-ARG knime_python_extension=org.knime.features.python2.feature.group/4.1.3.v202005112253
-ARG knime_r_extension=org.knime.features.r.feature.group/4.1.1.v202001312017
-ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.1.1.v202001312017
-ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.1.0.v201911251323
-ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.0.0.v201911110939
-ARG knime_openms_extension=de.openms.feature.feature.group/2.5.0.202002241222
-ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.11.v201907181152
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.3.1.v202101261634
+ARG knime_r_extension=org.knime.features.r.feature.group/4.3.1.v202101261634
+ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.3.0.v202012011053
+ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.3.0.v202011191431
+ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.3.0.v202011191618
+ARG knime_openms_extension=de.openms.feature.feature.group/2.6.0.202009301213
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.15.v202101151503
 
 
 # install KNIME
