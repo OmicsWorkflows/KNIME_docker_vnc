@@ -6,6 +6,7 @@ February 2021
 
 - switched from Ubuntu 18.04 LTS to Ubuntu 20.04 LTS
 - TigerVNC upgraded to 1.11.0
+- libwebkitgtk-3.0-0 removed
 
 - KNIME upgraded to 4.3.1
 - KNIME python extension upgraded to 4.3.1.v202101261634

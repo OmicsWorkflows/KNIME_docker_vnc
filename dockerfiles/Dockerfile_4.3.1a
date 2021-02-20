@@ -43,7 +43,7 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
     git \
     gtk2-engines-pixbuf \
     htop \
-    libwebkitgtk-3.0-0 \
+#    libwebkitgtk-3.0-0 \ disabled to test whether it is still needed
     man \
     mc \
     ncbi-blast+ \
