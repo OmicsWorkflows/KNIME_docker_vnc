@@ -301,8 +301,8 @@ RUN sudo chown ${knimeuser}: /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
 # testing the tigervnc installation from Ubunti repository
-RUN apt-get update && \
-    apt-get -y install tigervnc-standalone-server -y \
+RUN sudo apt-get update && \
+    sudo apt-get -y install tigervnc-standalone-server -y \
  && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5901
