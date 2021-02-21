@@ -165,27 +165,27 @@ RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotellin
 
 ####################################################### PYTHON ######################################################################
 
-### installs system libraries for python 2 and 3
-RUN sudo apt-get update -y  && sudo apt-get install python-dev python-pip python-setuptools python-tk -y
+### installs system libraries for python 3
+#RUN sudo apt-get update -y  && sudo apt-get install python-dev python-pip python-setuptools python-tk -y
 RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip python3-setuptools python3-tk -y
 
 
 ### installs additional python 2 packages
 # pip2 packages versions
-ARG pip2_matplotlib_version=2.2.4
-ARG pip2_numpy_version=1.16.6
-ARG pip2_pandas_version=0.24.2
-ARG pip2_scipy_version=1.2.3
-ARG pip2_seaborn_version=0.9.0
-ARG pip2_statsmodels_version=0.10.2
+#ARG pip2_matplotlib_version=2.2.4
+#ARG pip2_numpy_version=1.16.6
+#ARG pip2_pandas_version=0.24.2
+#ARG pip2_scipy_version=1.2.3
+#ARG pip2_seaborn_version=0.9.0
+#ARG pip2_statsmodels_version=0.10.2
 
-RUN pip install --user \
-    numpy==${pip2_numpy_version} \
-    pandas==${pip2_pandas_version} \
-    seaborn==${pip2_seaborn_version} \
-    statsmodels==${pip2_statsmodels_version} \
-    matplotlib==${pip2_matplotlib_version} \
-    scipy==${pip2_scipy_version}
+#RUN pip install --user \
+#    numpy==${pip2_numpy_version} \
+#    pandas==${pip2_pandas_version} \
+#    seaborn==${pip2_seaborn_version} \
+#    statsmodels==${pip2_statsmodels_version} \
+#    matplotlib==${pip2_matplotlib_version} \
+#    scipy==${pip2_scipy_version}
 
 
 ### installs additional python 3 packages
