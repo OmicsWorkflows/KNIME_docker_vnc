@@ -116,14 +116,18 @@ RUN sudo chsh -s /bin/bash ${knimeuser}
 ############################################## VNC #####################################################################################
 
 # tigervnc file name
-ARG tigervnc_file=tigervnc-1.11.0.x86_64
+#ARG tigervnc_file=tigervnc-1.11.0.x86_64
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
-ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
-RUN sudo tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
-RUN sudo cp -a /root/${tigervnc_file}/. /
+#ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
+#RUN sudo tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
+#RUN sudo cp -a /root/${tigervnc_file}/. /
 
-RUN sudo rm -r /root/${tigervnc_file}
+#RUN sudo rm -r /root/${tigervnc_file}
+
+RUN sudo apt-get update && sudo apt-get install \
+    tigervnc-standalone-server \
+ && sudo rm -rf /var/lib/apt/lists/*
 
 # vnc startup - create so that there is no problem with file does not exist on vnc init
 RUN sudo mkdir ${knimeuser_home}/.vnc
@@ -301,8 +305,8 @@ RUN sudo chown ${knimeuser}: /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
 # testing the tigervnc installation from Ubunti repository
-RUN sudo apt-get update && \
-    sudo apt-get -y install tigervnc-standalone-server -y \
+RUN apt-get update && \
+    apt-get -y install tigervnc-standalone-server -y \
  && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5901
