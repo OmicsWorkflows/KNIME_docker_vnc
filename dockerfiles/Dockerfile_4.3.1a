@@ -116,7 +116,7 @@ RUN sudo chsh -s /bin/bash ${knimeuser}
 ############################################## VNC #####################################################################################
 
 # tigervnc file name
-ARG tigervnc_file=tigervnc-1.10.1.x86_64
+ARG tigervnc_file=tigervnc-1.11.0.x86_64
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
