@@ -181,8 +181,8 @@ RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip pyth
 RUN pip3 install pipenv
 
 ENV PATH=/home/${knimeuser}/.local/bin:$PATH
-RUN sudo mkdir ${knimeuser_home}/environments \
-    chown -R ${knimeuser} ${knimeuser_home}/environments
+RUN sudo mkdir ${knimeuser_home}/environments
+RUN chown -R ${knimeuser} ${knimeuser_home}/environments
 #COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/environments/python_4.1.3a ${knimeuser_home}/environments/python_4.1.3a
 COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4.1.3a.txt ${knimeuser_home}/environments/python_4.1.3a.txt
 
