@@ -181,8 +181,8 @@ RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip pyth
 ENV PATH=/home/${knimeuser}/.local/bin:$PATH
 RUN pip3 install --user pipenv
 
-RUN python3 -m site
-
+#RUN python3 -m site
+ENV PATH=/home/knimeuser/.local/bin
 RUN mkdir ${knimeuser_home}/environments
 RUN sudo chown -R ${knimeuser}: ${knimeuser_home}/environments
 #RUN chown -R ${knimeuser} ${knimeuser_home}/environments
