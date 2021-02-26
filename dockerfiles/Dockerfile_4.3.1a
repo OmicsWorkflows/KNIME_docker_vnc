@@ -186,13 +186,13 @@ RUN mkdir ${knimeuser_home}/environments
 RUN sudo chown -R ${knimeuser}: ${knimeuser_home}/environments
 RUN sudo chmod -R 770 ${knimeuser_home}/environments
 #RUN chown -R ${knimeuser} ${knimeuser_home}/environments
-#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/environments/python_4.1.3a ${knimeuser_home}/environments/python_4.1.3a
-COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4.1.3a.txt ${knimeuser_home}/environments/python_4.1.3a.txt
+#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/environments/python_4-1-3a ${knimeuser_home}/environments/python_4-1-3a
+COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4-1-3a.txt ${knimeuser_home}/environments/python_4-1-3a.txt
 
-#RUN mkdir ${knime_workspace_folder}/environments/python_4.1.3a
-WORKDIR ${knimeuser_home}/environments/python_4.1.3a
-#RUN cd ${knimeuser_home}/environments/python_4.1.3a
-#RUN pipenv install /usr/copied_files/environments/python_4.1.3a.txt
+#RUN mkdir ${knime_workspace_folder}/environments/python_4-1-3a
+WORKDIR ${knimeuser_home}/environments/python_4-1-3a
+#RUN cd ${knimeuser_home}/environments/python_4-1-3a
+#RUN pipenv install /usr/copied_files/environments/python_4-1-3a.txt
 RUN pipenv install requests
 
 ################################################################# KNIME ####################################################################
