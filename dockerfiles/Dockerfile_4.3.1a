@@ -182,7 +182,7 @@ ENV PATH=/home/${knimeuser}/.local/bin:$PATH
 RUN pip3 install --user pipenv
 
 #RUN python3 -m site
-RUN mkdir ${knimeuser_home}/environments/python_4-1-3a
+RUN mkdir -p ${knimeuser_home}/environments/python_4-1-3a
 #RUN sudo chown -R ${knimeuser}: ${knimeuser_home}/environments
 #RUN sudo chmod -R 770 ${knimeuser_home}/environments
 #RUN chown -R ${knimeuser} ${knimeuser_home}/environments
