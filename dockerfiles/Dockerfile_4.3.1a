@@ -183,8 +183,8 @@ RUN pip3 install --user pipenv
 
 #RUN python3 -m site
 RUN mkdir -p ${knimeuser_home}/environments/python_4-1-3a
-#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/environments/python_4-1-3a ${knimeuser_home}/environments/python_4-1-3a
-COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4-1-3a.txt ${knimeuser_home}/environments/python_4-1-3a/requirements.txt
+COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/environments/python_4-1-3a.txt ${knimeuser_home}/environments/python_4-1-3a.txt
+#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4-1-3a.txt ${knimeuser_home}/environments/python_4-1-3a/requirements.txt
 
 #RUN mkdir ${knime_workspace_folder}/environments/python_4-1-3a
 WORKDIR ${knimeuser_home}/environments/python_4-1-3a
@@ -193,8 +193,8 @@ WORKDIR ${knimeuser_home}/environments/python_4-1-3a
 #RUN sudo wget https://www.python.org/ftp/python/3.6.9/Python-3.6.9.tgz
 #RUN pipenv --python 3.6.9
 #RUN pipenv install /usr/copied_files/environments/python_4-1-3a.txt
-#RUN pipenv install requirements.txt
-RUN pipenv install requests
+RUN pipenv install -r ${knimeuser_home}/environments/python_4-1-3a.txt
+#RUN pipenv install requests
 
 ################################################################# KNIME ####################################################################
 
