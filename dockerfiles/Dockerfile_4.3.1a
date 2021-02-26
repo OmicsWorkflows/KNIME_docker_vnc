@@ -189,7 +189,7 @@ COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4-1-3a.txt ${knime
 #RUN mkdir ${knime_workspace_folder}/environments/python_4-1-3a
 WORKDIR ${knimeuser_home}/environments/python_4-1-3a
 #RUN cd ${knimeuser_home}/environments/python_4-1-3a
-RUN pipenv --python 3.6.9
+RUN pipenv --python 3.6
 RUN pipenv install /usr/copied_files/environments/python_4-1-3a.txt
 #RUN pipenv install requests
 
