@@ -195,6 +195,7 @@ RUN pyenv virtualenv 3.6.9 4-1-3a
 COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4-1-3a.txt ${knimeuser_home}/environments/python_4-1-3a.txt
 RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-1-3a && \
+                        pip install --upgrade pip \
                         pip install --requirement ${knimeuser_home}/environments/python_4-1-3a.txt'
 #RUN pip3 install
 #RUN python3 -m pip3 install --user pipenv
