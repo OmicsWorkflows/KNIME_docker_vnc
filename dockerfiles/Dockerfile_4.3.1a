@@ -170,7 +170,7 @@ RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotellin
 ####################################################### PYTHON ######################################################################
 
 ### installs system libraries for python 3
-RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip python3-setuptools python3-tk -y
+#RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip python3-setuptools python3-tk -y
 
 RUN sudo apt-get update -y  && sudo apt-get install make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
 ### installs additional python 3 packages
@@ -196,6 +196,9 @@ COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4-1-3a.txt ${knime
 RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-1-3a && \
                         pip install --upgrade pip '
+
+RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev -y
+
 RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-1-3a && \
                         pip install --requirement ${knimeuser_home}/environments/python_4-1-3a.txt'
