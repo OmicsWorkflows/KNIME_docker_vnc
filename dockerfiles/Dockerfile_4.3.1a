@@ -197,7 +197,7 @@ RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-1-3a && \
                         pip install --upgrade pip '
 
-RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev -y
+RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
 
 RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-1-3a && \
