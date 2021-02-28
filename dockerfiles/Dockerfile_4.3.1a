@@ -65,7 +65,7 @@ RUN mkdir ${knime_workspace_folder}
 
 # copy external files to docker image
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
-COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/home_folder/.config ${knimeuser_home}/.config
+#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/home_folder/.config ${knimeuser_home}/.config
 RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
@@ -96,7 +96,7 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
 
 # removes power management and screensaver packages
 RUN sudo apt-get purge -y \
-    xfce4-screensaver \
+#    xfce4-screensaver \
 #    xfce4-screensaver-data \
     xfce4-power-manager \
     xfce4-power-manager-data
