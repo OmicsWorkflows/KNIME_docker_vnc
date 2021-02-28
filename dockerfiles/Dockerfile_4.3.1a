@@ -98,8 +98,8 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
 RUN sudo apt-get purge -y \
 #    xfce4-screensaver \
 #    xfce4-screensaver-data \
-    xfce4-power-manager \
-    xfce4-power-manager-data
+#    xfce4-power-manager \
+#    xfce4-power-manager-data
 
 
 ####################### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason)
