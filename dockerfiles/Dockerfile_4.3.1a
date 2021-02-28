@@ -95,7 +95,7 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
  && sudo rm -rf /var/lib/apt/lists/*
 
 # removes power management and screensaver packages
-RUN sudo apt-get purge -y \
+#RUN sudo apt-get purge -y \
 #    xfce4-screensaver \
 #    xfce4-screensaver-data \
 #    xfce4-power-manager \
