@@ -119,7 +119,7 @@ RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
 # this needs to be optimized
 RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list~
 RUN sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-RUN sudo apt-get update && sudo apt-get build-dep r-base
+RUN sudo apt-get update && sudo apt-get build-dep r-base -y
 ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${knimeuser_home}/environments/
 RUN sudo tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
 WORKDIR ${knimeuser_home}/environments/R-3.6.3
