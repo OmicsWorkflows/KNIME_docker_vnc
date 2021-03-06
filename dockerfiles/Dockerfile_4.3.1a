@@ -120,13 +120,13 @@ RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
 RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list~
 RUN sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
 RUN sudo apt-get update && sudo apt-get build-dep r-base -y
-ADD --chown=root:root https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${knimeuser_home}/environments/
-RUN sudo tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
+ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${knimeuser_home}/environments/
+RUN tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
 WORKDIR ${knimeuser_home}/environments/R-3.6.3
 
-RUN sudo ./configure LIBnn=lib --prefix=/opt/R/3.6.3 --enable-R-shlib --with-blas --with-lapack
-RUN sudo make
-RUN sudo make install
+RUN ./configure --prefix=${knimeuser_home}/environments/R/3.6.3 --enable-R-shlib --with-blas --with-lapack
+RUN make
+RUN make install
 
 COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/R_4-1-3a.csv ${knimeuser_home}/environments/R_4-1-3a.csv
 
