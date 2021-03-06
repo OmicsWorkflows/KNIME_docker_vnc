@@ -124,8 +124,8 @@ ADD --chown=root:root https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${k
 RUN sudo tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
 WORKDIR ${knimeuser_home}/environments/R-3.6.3
 
-RUN sudo ./configure --prefix=/opt/R/3.6.3 --enable-R-shlib --with-blas --with-lapack \
-RUN sudo make \
+RUN sudo ./configure --prefix=/opt/R/3.6.3 --enable-R-shlib --with-blas --with-lapack
+RUN sudo make
 RUN sudo make install
 
 COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/R_4-1-3a.csv ${knimeuser_home}/environments/R_4-1-3a.csv
