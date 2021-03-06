@@ -139,7 +139,7 @@ RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
 ################################################## R ####################################################################################
 
 
-RUN sudo apt-get update && apt-get install -y build-dep r-base
+#RUN sudo apt-get update && apt-get install -y build-dep r-base
 ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${knimeuser_home}/environments/
 RUN sudo tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
 WORKDIR ${knimeuser_home}/environments/R-3.6.3
