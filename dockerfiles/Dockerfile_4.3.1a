@@ -32,7 +32,6 @@ RUN useradd -m -d /home/${knimeuser} ${knimeuser} && \
 USER ${knimeuser}
 
 ############################################# Basic packages + folders #################################################################################
-# libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
 # needs to be done in noninteractive way to install tzdata
 
 RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -43,7 +42,6 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
     git \
     gtk2-engines-pixbuf \
     htop \
-#    libwebkitgtk-3.0-0 \ disabled to test whether it is still needed
     man \
     mc \
     ncbi-blast+ \
@@ -75,15 +73,6 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
 ENV HOME ${knimeuser_home}
 WORKDIR ${knimeuser_home}
 
-################################################ set KNIMEUSER ############################################################################
-# use different user to use container
-
-#RUN chmod -R 770 ${knimeuser_home}
-
-#RUN groupadd -r ${knimeuser} && useradd --no-log-init -r -g ${knimeuser} -d ${knimeuser_home} ${knimeuser}
-#RUN chown -R ${knimeuser}: ${knimeuser_home}
-
-
 ########################################################### GUI #################################################################################
 
 #RUN apt-get update -y
@@ -93,13 +82,6 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
     xfce4-goodies \
     locales -y \
  && sudo rm -rf /var/lib/apt/lists/*
-
-# removes power management and screensaver packages
-#RUN sudo apt-get purge -y \
-#    xfce4-screensaver \
-#    xfce4-screensaver-data \
-#    xfce4-power-manager \
-#    xfce4-power-manager-data
 
 
 ####################### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason)
@@ -125,10 +107,6 @@ RUN sudo cp -a /root/${tigervnc_file}/. /
 
 RUN sudo rm -r /root/${tigervnc_file}
 
-#RUN sudo apt-get update && sudo apt-get install -y \
-#    tigervnc-standalone-server \
-# && sudo rm -rf /var/lib/apt/lists/*
-
 # vnc startup - create so that there is no problem with file does not exist on vnc init
 RUN sudo mkdir ${knimeuser_home}/.vnc
 RUN sudo chown ${knimeuser}: ${knimeuser_home}/.vnc
@@ -139,36 +117,36 @@ RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
 ################################################## R ####################################################################################
 
 
-RUN sudo apt-get update && apt-get install -y build-dep r-base
-ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${knimeuser_home}/environments/
-RUN sudo tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
-WORKDIR ${knimeuser_home}/environments/R-3.6.3
-
-RUN sudo ./configure --prefix=/opt/R/3.6.3 --enable-R-shlib --with-blas --with-lapack \
-    sudo make \
-    sudo make install
-
-COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/R_4-1-3a.csv ${knimeuser_home}/environments/R_4-1-3a.csv
-
-RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
+#RUN sudo apt-get update && apt-get install -y build-dep r-base
+#ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${knimeuser_home}/environments/
+#RUN sudo tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
+#WORKDIR ${knimeuser_home}/environments/R-3.6.3
+#
+#RUN sudo ./configure --prefix=/opt/R/3.6.3 --enable-R-shlib --with-blas --with-lapack \
+#    sudo make \
+#    sudo make install
+#
+#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/R_4-1-3a.csv ${knimeuser_home}/environments/R_4-1-3a.csv
+#
+#RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
 
 # install latest ubuntu R from the specified repository (depending on the version of R, versions of bioconductor + bioconductor packages install)
 
-## adds repository and its GPG key for the latest R version (3.6 at the time of writing)
-#RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-#RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" | sudo tee /etc/apt/sources.list.d/cran.list > /dev/null
-#
-#ENV R_BASE_VERSION 3.6.2
-#
-#RUN sudo apt-get update && sudo apt-get install -y \
-#	r-base=${R_BASE_VERSION}* \
-#	r-recommended=${R_BASE_VERSION}* \
-#	r-base-dev=${R_BASE_VERSION}* \
-# && sudo rm -rf /var/lib/apt/lists/*
-#
-## install Rserve
-#RUN sudo R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-#
+# adds repository and its GPG key for the latest R version (3.6 at the time of writing)
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" | sudo tee /etc/apt/sources.list.d/cran.list > /dev/null
+
+ENV R_BASE_VERSION 3.6.2
+
+RUN sudo apt-get update && sudo apt-get install -y \
+	r-base=${R_BASE_VERSION}* \
+	r-recommended=${R_BASE_VERSION}* \
+	r-base-dev=${R_BASE_VERSION}* \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+# install Rserve
+RUN sudo R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
+
 ## install R packages sources
 #RUN sudo R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
 #
