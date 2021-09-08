@@ -33,7 +33,7 @@ set default_workspace=knime-workspace
 set volume_mount_point=/home/knimeuser/knime-workspace
 
 if "%~1"=="" (
-    set /P image_name_input="Please provide docker image name (leave empty for cfprot/knime:latest): "
+    set /P image_name_input="Please provide docker image name (leave empty for "!default_image_name!"): "
     if "!image_name_input!" == "" (
         set image_name=%default_image_name%
     ) else (
