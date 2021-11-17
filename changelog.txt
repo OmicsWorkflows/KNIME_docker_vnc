@@ -1,11 +1,11 @@
 #########################
-4.3.1a
+4.4.2a
 
 February 2021
 ########################
 
 - switched from Ubuntu 18.04 LTS to Ubuntu 20.04 LTS
-- TigerVNC upgraded to 1.11.0
+- TigerVNC upgraded to 1.12.0
 - libwebkitgtk-3.0-0 removed
 - python (i.e. python 2.x version) removed
 
