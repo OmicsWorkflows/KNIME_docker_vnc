@@ -30,9 +30,12 @@ patsy==0.5.1
 plotly==4.8.1
 pycairo==1.16.2
 pycrypto==2.6.1
-pygobject==3.26.1
+# this version used instead of 3.26.1 installed in 4.1.3a but not available now
+pygobject==3.27.1
 pyparsing==2.4.7
-python-apt==1.6.5+ubuntu0.2
+# disabled due to its removal from pip, it is now outside pip as a regular ubuntu package
+# may need to be installed as a ubuntu package instead
+#python-apt==1.6.5+ubuntu0.2
 python-dateutil==2.8.1
 pytz==2020.1
 pyxdg==0.25
@@ -45,8 +48,10 @@ seaborn==0.10.0
 SecretStorage==2.3.1
 six==1.15.0
 statsmodels==0.11.1
-systemd-python==234
+# not available in pip, potentially need to be installed as a apt package https://github.com/systemd/python-systemd
+#systemd-python==234
 threadpoolctl==2.1.0
-unattended-upgrades==0.1
+# no longer available on pip, might be needed to be installed separately (sudo apt-get install unattended-upgrades)
+#unattended-upgrades==0.1
 urllib3==1.22
 Werkzeug==1.0.1
