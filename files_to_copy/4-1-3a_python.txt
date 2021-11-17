@@ -30,9 +30,12 @@ patsy==0.5.1
 plotly==4.8.1
 pycairo==1.16.2
 pycrypto==2.6.1
+# this version used instead of 3.26.1 installed in 4.1.3a but not available now
 pygobject==3.27.1
 pyparsing==2.4.7
-python-apt==1.6.5+ubuntu0.2
+# disabled due to its removal from pip, it is now outside pip as a regular ubuntu package
+# may need to be installed as a ubuntu package instead
+#python-apt==1.6.5+ubuntu0.2
 python-dateutil==2.8.1
 pytz==2020.1
 pyxdg==0.25
