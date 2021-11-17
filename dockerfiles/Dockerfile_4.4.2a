@@ -110,6 +110,7 @@ RUN echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> .bashrc
 
 # initiates pyenv and pyenv virtualenv
 RUN echo 'eval "$(pyenv init -)"' >> .bashrc
+RUN echo 'eval "$(pyenv init -)"' >> .bashrc
 
 ### environment - 4.1.3a
 # installs base python
