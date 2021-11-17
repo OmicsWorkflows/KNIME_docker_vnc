@@ -51,6 +51,7 @@ statsmodels==0.11.1
 # not available in pip, potentially need to be installed as a apt package https://github.com/systemd/python-systemd
 #systemd-python==234
 threadpoolctl==2.1.0
-unattended-upgrades==0.1
+# no longer available on pip, might be needed to be installed separately (sudo apt-get install unattended-upgrades)
+#unattended-upgrades==0.1
 urllib3==1.22
 Werkzeug==1.0.1
