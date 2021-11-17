@@ -103,10 +103,10 @@ ARG tigervnc_version=1.12.0
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 ADD --chown=knimeuser:knimeuser https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download /root/
 #ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
-RUN sudo tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
-RUN sudo cp -a /root/${tigervnc_file}/. /
+RUN sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/
+RUN sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. /
 
-RUN sudo rm -r /root/${tigervnc_file}
+RUN sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64
 
 # vnc startup - create so that there is no problem with file does not exist on vnc init
 RUN sudo mkdir ${knimeuser_home}/.vnc
