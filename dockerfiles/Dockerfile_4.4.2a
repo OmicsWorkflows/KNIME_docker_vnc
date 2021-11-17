@@ -207,7 +207,7 @@ ARG knime_community_experimental_repository=https://update.knime.com/community-c
 
 ARG knime_python_extension=org.knime.features.python2.feature.group/4.4.2.v202110191522
 ARG knime_r_extension=org.knime.features.r.feature.group/4.4.2.v202110181016
-ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.4.0.v202104260810
+ARG knime_testing_framework_extension=org.knime.features.testing.core.feature.group/4.4.0.v202104260810
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.4.0.v202106252311
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.4.0.v202104131230
 ARG knime_openms_extension=de.openms.feature.feature.group/2.7.0.202109131426
