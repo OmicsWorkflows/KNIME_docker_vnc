@@ -182,6 +182,7 @@ RUN curl https://pyenv.run | bash
 
 # restarts the shell
 #RUN sudo exec "$SHELL"
+RUN sudo echo 'export PATH="/root/.pyenv/bin:PATH"'>> /root/.bashrc &&\ echo 'eval "(pyenv init -)"'>> /root/.bashrc && echo 'eval "$(pyenv virtualenv-init -)"'>> /root/.bashrc
 
 ## install pyenv
 #RUN git clone git://github.com/yyuu/pyenv.git .pyenv
@@ -196,8 +197,8 @@ RUN curl https://pyenv.run | bash
 #RUN echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc
 
 # installs 4.1.3a python environment
-RUN pyenv install 3.6.9
-
+#RUN pyenv install 3.6.9
+RUN source /root/.bashrc && pyenv install 3.6.9
 # setup virtualenv
 RUN pyenv virtualenv 3.6.9 4-1-3a
 COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/python_4-1-3a.txt ${knimeuser_home}/environments/python_4-1-3a.txt
