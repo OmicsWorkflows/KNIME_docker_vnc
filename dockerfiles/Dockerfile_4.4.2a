@@ -101,7 +101,7 @@ RUN sudo chsh -s /bin/bash ${knimeuser}
 ARG tigervnc_version=1.12.0
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
-RUN sudo wget -P /root https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download
+RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download
 #RUN sudo curl -L https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download -> /root/tigervnc-${tigervnc_version}.x86_64.tar.gz
 #ADD --chown=knimeuser:knimeuser https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download /root/
 #ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
