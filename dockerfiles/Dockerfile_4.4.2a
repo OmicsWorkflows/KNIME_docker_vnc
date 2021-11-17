@@ -181,7 +181,7 @@ RUN sudo apt-get update && sudo apt-get install make build-essential libssl-dev 
 RUN curl https://pyenv.run | bash
 
 # restarts the shell
-RUN sudo exec "$SHELL"
+#RUN sudo exec "$SHELL"
 
 ## install pyenv
 #RUN git clone git://github.com/yyuu/pyenv.git .pyenv
