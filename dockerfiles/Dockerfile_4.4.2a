@@ -92,7 +92,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # set bash as knimeuser's login shell
-RUN sudo chsh -s /bin/bash ${knimeuser}
+#RUN sudo chsh -s /bin/bash ${knimeuser}
 
 ###################################################### PYTHON ##########################################################
 
