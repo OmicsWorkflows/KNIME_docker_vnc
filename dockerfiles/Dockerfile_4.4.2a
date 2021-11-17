@@ -177,13 +177,15 @@ RUN sudo apt-get update && sudo apt-get install make build-essential libssl-dev 
 # pip3 packages versions
 #ARG pip3_dash_version=1.12.0
 
+USER root
+
 # install pyenv using pyenv-installer
 RUN curl https://pyenv.run | bash
 
 # restarts the shell
 #RUN sudo exec "$SHELL"
 #RUN sudo echo 'export PATH="/root/.pyenv/bin:PATH"'>> /root/.bashrc && sudo echo 'eval "(pyenv init -)"'>> /root/.bashrc && sudo echo 'eval "$(pyenv virtualenv-init -)"'>> /root/.bashrc
-RUN ["sudo /bin/bash", "-c", "source /root/.bashrc && sudo pyenv install 3.6.9"]
+RUN ["/bin/bash", "-c", "source /root/.bashrc && pyenv install 3.6.9"]
 
 ## install pyenv
 #RUN git clone git://github.com/yyuu/pyenv.git .pyenv
