@@ -297,7 +297,7 @@ RUN sudo chmod -R 770 ${knimeuser_home}/Desktop
 RUN sudo chown ${knimeuser}: /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
-RUN sudo apt install tigervnc-standalone-server
+RUN sudo apt install tigervnc-standalone-server -y
 
 EXPOSE 5901
 #USER ${knimeuser}
