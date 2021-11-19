@@ -245,7 +245,7 @@ RUN sed -i 's/-Xmx.*/-Xmx4g/' ${knime_folder}/knime.ini
 ####################################################### VNC ############################################################
 
 # tigervnc version to be installed, 64bit installation file is expected
-ARG tigervnc_version=1.12.0
+ARG tigervnc_version=1.10.1
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download
@@ -297,7 +297,7 @@ RUN sudo chmod -R 770 ${knimeuser_home}/Desktop
 RUN sudo chown ${knimeuser}: /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
-RUN sudo apt install -y --no-install-recommends tigervnc-standalone-server
+#RUN sudo apt install -y --no-install-recommends tigervnc-standalone-server
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
