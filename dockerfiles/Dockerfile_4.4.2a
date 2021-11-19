@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 ############################################ set environment variables #################################################
 
@@ -300,5 +300,4 @@ RUN sudo chown ${knimeuser}: /etc/timezone
 RUN sudo apt install -y --no-install-recommends tigervnc-standalone-server
 
 EXPOSE 5901
-#USER ${knimeuser}
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
