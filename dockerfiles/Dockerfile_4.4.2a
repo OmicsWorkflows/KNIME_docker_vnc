@@ -92,7 +92,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # set bash as knimeuser's login shell
-#RUN sudo chsh -s /bin/bash ${knimeuser}
+RUN sudo chsh -s /bin/bash ${knimeuser}
 
 ###################################################### PYTHON ##########################################################
 
@@ -120,11 +120,11 @@ RUN pyenv install 3.6.9
 RUN pyenv virtualenv 3.6.9 4-1-3a
 # installs required packages based on the requirements file
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-1-3a_python.txt ${knimeuser_home}/environments/4-1-3a_python.txt
-RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
+#RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
 RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-1-3a && \
                         pip install --upgrade pip \
-                        pip install --requirement ${knimeuser_home}/environments/4-1-3a_python.txt'
+                        pip install --requirement ${copied_files_folder}/environments/4-1-3a_python.txt'
 
 ### environment - 4.4.2a
 # installs base python
@@ -132,12 +132,12 @@ RUN pyenv install 3.10.0
 # sets virtualenv
 RUN pyenv virtualenv 3.10.0 4-4-2a
 # installs required packages based on the requirements file
-COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-4-2a_python.txt ${knimeuser_home}/environments/4-4-2a_python.txt
+#COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-4-2a_python.txt ${knimeuser_home}/environments/4-4-2a_python.txt
 #RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
 RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-4-2a && \
                         pip install --upgrade pip \
-                        pip install --requirement ${knimeuser_home}/environments/4-4-2a_python.txt'
+                        pip install --requirement ${copied_files_folder}/environments/4-4-2a_python.txt'
 
 ################################################## R ####################################################################################
 
