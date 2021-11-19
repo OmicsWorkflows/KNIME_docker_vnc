@@ -242,42 +242,23 @@ RUN ${knime_folder}/knime -clean -purgeHistory -application org.eclipse.equinox.
 RUN sed -i 's/-Xmx.*/-Xmx4g/' ${knime_folder}/knime.ini
 
 
-######################################################## VNC ############################################################
-#
-## tigervnc version to be installed, 64bit installation file is expected
-#ARG tigervnc_version=1.12.0
-#
-## download and unpack tigervnc (support for encryption if using tigervnc viewer)
-#RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download
-#RUN sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/
-#RUN sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. /
-#
-#RUN sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64
-#
-## vnc startup - create so that there is no problem with file does not exist on vnc init
-#RUN sudo mkdir ${knimeuser_home}/.vnc
-#RUN sudo chown ${knimeuser}: ${knimeuser_home}/.vnc
-#RUN cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup
-#RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
-#
-############################################## VNC #####################################################################################
+####################################################### VNC ############################################################
 
-# tigervnc file name
-ARG tigervnc_file=tigervnc-1.10.1.x86_64
+# tigervnc version to be installed, 64bit installation file is expected
+ARG tigervnc_version=1.12.0
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
-ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
-RUN sudo tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
-RUN sudo cp -a /root/${tigervnc_file}/. /
+RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download
+RUN sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/
+RUN sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. /
 
-RUN sudo rm -r /root/${tigervnc_file}
+RUN sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64
 
 # vnc startup - create so that there is no problem with file does not exist on vnc init
 RUN sudo mkdir ${knimeuser_home}/.vnc
 RUN sudo chown ${knimeuser}: ${knimeuser_home}/.vnc
 RUN cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup
 RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
-
 
 ################################################### SHORTCUTS ##########################################################
 
@@ -316,7 +297,7 @@ RUN sudo chmod -R 770 ${knimeuser_home}/Desktop
 RUN sudo chown ${knimeuser}: /etc/timezone
 #RUN chown -h ${knimeuser} /etc/localtime
 
-#RUN sudo apt install -y --no-install-recommends tigervnc-standalone-server
+RUN sudo apt install -y --no-install-recommends tigervnc-standalone-server
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
