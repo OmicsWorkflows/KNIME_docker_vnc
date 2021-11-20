@@ -118,9 +118,13 @@ RUN echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc
 RUN pyenv install 3.6.9
 # sets virtualenv
 RUN pyenv virtualenv 3.6.9 4-1-3a
-# installs required packages based on the requirements file
-COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-1-3a_python.txt ${knimeuser_home}/environments/4-1-3a_python.txt
-RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
+#COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-1-3a_python.txt ${knimeuser_home}/environments/4-1-3a_python.txt
+# installs some extra Ubuntu packages required by some python modules
+#RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
+RUN sudo apt-get update -y  && sudo apt-get install -y \
+    # packages for pycairo
+    libcairo2-dev pkg-config python3-dev
+# installs packages based on the requirements file
 RUN /bin/bash -i -c '      source .bashrc && \
                         pyenv activate 4-1-3a && \
                         pip install --upgrade pip \
