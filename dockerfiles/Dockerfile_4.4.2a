@@ -149,7 +149,16 @@ RUN /bin/bash -i -c '      source .bashrc && \
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gdebi-core
 
+# setup R used in 4.1.3a
 ENV R_VERSION=3.6.3
+## adds extra packages needed by the base R
+RUN sudo apt-get update -y  && sudo apt-get install -y \
+    gfortran \
+    libblas-dev \
+    libicu-dev \
+    liblapack-dev \
+    zip
+
 RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
     sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
     sudo gdebi r-${R_VERSION}_1_amd64.deb
