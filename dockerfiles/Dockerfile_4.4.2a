@@ -143,8 +143,18 @@ RUN /bin/bash -i -c '      source .bashrc && \
                         pip install --upgrade pip \
                         pip install --requirement ${copied_files_folder}/environments/4-4-2a_python.txt'
 
-################################################## R ####################################################################################
+###################################################### R ###############################################################
 
+# base packages for make multiple R installation process
+RUN sudo apt-get update -y  && sudo apt-get install -y \
+    gdebi-core
+
+ENV R_VERSION=3.6.3
+RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
+    sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
+    sudo apt install -f
+
+RUN /opt/R/${R_VERSION}/bin/R --version
 ## this needs to be optimized
 #RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list~
 #RUN sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
