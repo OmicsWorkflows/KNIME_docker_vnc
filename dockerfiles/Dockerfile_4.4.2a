@@ -163,11 +163,32 @@ RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.de
     sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
     sudo gdebi r-${R_VERSION}_1_amd64.deb
 
-## installs packages
-RUN /opt/R/${R_VERSION}/bin/R -e ' \
-    installedPreviously <- read.csv('./files_to_copy/4-1-3a_R.csv') && \
-    install.packages(installedPreviously) \
-    '
+## installs renv
+RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages('renv')'
+## sets new renv for the previouos container version
+RUN /opt/R/${R_VERSION}/bin/R -e 'renv::init(project=${knimeuser_home}/.renv/4.1.3a/)'
+
+## install Rserve
+RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
+
+## install R packages sources
+RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
+
+## installs stable R packages from Bioconductor
+RUN /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
+
+## installs additional R packages from default R cran
+RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
+
+## installs additional R packages from sources
+RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
+RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+
+### installs packages
+#RUN /opt/R/${R_VERSION}/bin/R -e ' \
+#    installedPreviously <- read.csv('./files_to_copy/4-1-3a_R.csv') && \
+#    install.packages(installedPreviously) \
+#    '
 # verifies installed R version
 #RUN /opt/R/${R_VERSION}/bin/R --version
 
