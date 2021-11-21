@@ -164,7 +164,10 @@ RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.de
     sudo gdebi r-${R_VERSION}_1_amd64.deb
 
 ## installs packages
-RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages(read.csv('./files_to_copy/4-1-3a_R.csv'))'
+RUN /opt/R/${R_VERSION}/bin/R -e ' \
+    installedPreviously <- read.csv('./files_to_copy/4-1-3a_R.csv') \
+    install.packages(installedPreviously) \
+    '
 # verifies installed R version
 #RUN /opt/R/${R_VERSION}/bin/R --version
 
