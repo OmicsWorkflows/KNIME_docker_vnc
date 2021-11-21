@@ -163,7 +163,20 @@ RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.de
     sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
     sudo gdebi r-${R_VERSION}_1_amd64.deb
 
-RUN /opt/R/${R_VERSION}/bin/R --version
+## installs packages
+RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages(read.csv('${copied_files_folder}/environments/4-1-3a_R.csv'))'
+# verifies installed R version
+#RUN /opt/R/${R_VERSION}/bin/R --version
+
+# installs R packages as specified in the environments file ${copied_files_folder}/environments/4-1-3a_R.csv
+#RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
+
+## installs additional R packages from sources
+#RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
+#RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+
+#RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
+
 ## this needs to be optimized
 #RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list~
 #RUN sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
@@ -176,7 +189,7 @@ RUN /opt/R/${R_VERSION}/bin/R --version
 #RUN make
 #RUN make install
 #
-#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/R_4-1-3a.csv ${knimeuser_home}/environments/R_4-1-3a.csv
+#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/4-1-3a_R.csv ${knimeuser_home}/environments/4-1-3a_R.csv
 #
 #RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
 
