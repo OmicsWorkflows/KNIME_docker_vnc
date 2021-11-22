@@ -167,7 +167,7 @@ ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-${R_VE
 RUN tar -xzvf ${knimeuser_home}/R/R-${R_VERSION}.tar.gz
 WORKDIR ${knimeuser_home}/R/R-${R_VERSION}
 
-RUN ./configure --prefix=${knimeuser_home}/environments/R/3.6.3 --enable-R-shlib --with-blas --with-lapack
+RUN ./configure --prefix=${knimeuser_home}/R/R-${R_VERSION} --enable-R-shlib --with-blas --with-lapack
 RUN make
 RUN make install
 
