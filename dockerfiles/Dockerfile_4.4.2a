@@ -164,8 +164,8 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 #    sudo gdebi r-${R_VERSION}_1_amd64.deb
 
 ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz ${knimeuser_home}/R/
-RUN tar -xzvf ${knimeuser_home}/R/${R_VERSION}.tar.gz
-WORKDIR ${knimeuser_home}/R/${R_VERSION}
+RUN tar -xzvf ${knimeuser_home}/R/R-${R_VERSION}.tar.gz
+WORKDIR ${knimeuser_home}/R/R-${R_VERSION}
 
 RUN ./configure --prefix=${knimeuser_home}/environments/R/3.6.3 --enable-R-shlib --with-blas --with-lapack
 RUN make
