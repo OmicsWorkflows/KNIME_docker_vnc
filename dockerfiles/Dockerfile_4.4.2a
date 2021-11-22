@@ -159,23 +159,23 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     liblapack-dev \
     zip
 
-#RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
-#    sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
-#    sudo gdebi r-${R_VERSION}_1_amd64.deb
+RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
+    sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
+    sudo gdebi r-${R_VERSION}_1_amd64.deb
 
-ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz ${knimeuser_home}/R/
-RUN tar -xzvf ${knimeuser_home}/R/R-${R_VERSION}.tar.gz && \
-    cd R/R-${R_VERSION}/ && \
-    ./configure --prefix=${knimeuser_home}/R/R-${R_VERSION} --enable-R-shlib --with-blas --with-lapack && \
-    make && \
-    make install
+#ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz ${knimeuser_home}/R/
+#RUN tar -xzvf ${knimeuser_home}/R/R-${R_VERSION}.tar.gz && \
+#    cd R/R-${R_VERSION}/ && \
+#    ./configure --prefix=${knimeuser_home}/R/R-${R_VERSION} --enable-R-shlib --with-blas --with-lapack && \
+#    make && \
+#    make install
 
 ## installs renv from the github
-RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("remote")'
+RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remote")'
 #RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("renv")'
-RUN /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
+RUN sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
 ## sets new renv for the previouos container version
-RUN /opt/R/${R_VERSION}/bin/R -e 'renv::init(project=${knimeuser_home}/.renv/4.1.3a/)'
+RUN sudo /opt/R/${R_VERSION}/bin/R -e 'renv::init(project=${knimeuser_home}/.renv/4.1.3a/)'
 
 ### install Rserve
 #RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
