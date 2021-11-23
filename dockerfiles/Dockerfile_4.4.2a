@@ -180,13 +180,13 @@ RUN cd ${knimeuser_home}/.renv/4.1.3a/ && \
     /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
     /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Rserve",version="1.8-8",repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Biobase",version="2.46.0",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("impute",version="1.60.0",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("limma",version="3.42.2",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("pcaMethods",version="1.78.0",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("preprocessCore",version="1.48.0",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("proDA",version="1.0.0",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("vsn",version="3.54.0",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Biobase",version="2.46.0",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("impute",version="1.60.0",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("limma",version="3.42.2",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("pcaMethods",version="1.78.0",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("preprocessCore",version="1.48.0",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("proDA",version="1.0.0",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("vsn",version="3.54.0",repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("imp4p",version="0.9",repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("gprofiler2",version="0.1.9",repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("compositions",version="1.40-5",repos="http://cran.rstudio.com/")' && \
