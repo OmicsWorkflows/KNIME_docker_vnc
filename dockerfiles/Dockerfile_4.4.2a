@@ -149,6 +149,9 @@ RUN /bin/bash -i -c '      source .bashrc && \
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gdebi-core
 
+# adds user to the staff group
+RUN sudo adduser ${knimeuser} staff
+
 # setup R used in 4.1.3a
 ENV R_VERSION=3.6.3
 ## adds extra packages needed by the base R and some packages installed later on
@@ -165,17 +168,9 @@ RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.de
     sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
     sudo gdebi r-${R_VERSION}_1_amd64.deb
 
-#ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz ${knimeuser_home}/R/
-#RUN tar -xzvf ${knimeuser_home}/R/R-${R_VERSION}.tar.gz && \
-#    cd R/R-${R_VERSION}/ && \
-#    ./configure --prefix=${knimeuser_home}/R/R-${R_VERSION} --enable-R-shlib --with-blas --with-lapack && \
-#    make && \
-#    make install
-
 ## installs renv from the github
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")'
-#RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("renv")'
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
+RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
+    sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
 ## sets new renv for the previouos container version
 RUN mkdir -p ${knimeuser_home}/.renv/4.1.3a/ && \
     cd ${knimeuser_home}/.renv/4.1.3a/ && \
@@ -185,15 +180,7 @@ RUN cd ${knimeuser_home}/.renv/4.1.3a/ && \
     /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
     /opt/R/${R_VERSION}/bin/R -e 'install.packages("Rserve",version="1.8-6",repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/bin/R -e 'devtools::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")'
-#    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
-#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'renv::init(project="${knimeuser_home}/.renv/4.1.3a/")'
 
-### install Rserve
-#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-#
-### install R packages sources
-#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
-#
 ### installs stable R packages from Bioconductor
 #RUN sudo /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
 #
