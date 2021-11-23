@@ -151,12 +151,14 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 
 # setup R used in 4.1.3a
 ENV R_VERSION=3.6.3
-## adds extra packages needed by the base R
+## adds extra packages needed by the base R and some packages installed later on
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gfortran \
     libblas-dev \
     libicu-dev \
     liblapack-dev \
+    # needed by xml2 package
+    libxml2-dev \
     zip
 
 RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
@@ -178,9 +180,11 @@ RUN sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
 RUN mkdir -p ${knimeuser_home}/.renv/4.1.3a/ && \
     cd ${knimeuser_home}/.renv/4.1.3a/ && \
     /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")'
+RUN cd ${knimeuser_home}/.renv/4.1.3a/ && \
+    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
     /opt/R/${R_VERSION}/bin/R -e 'devtools::install_version("Rserve", version=1.8-6, repos="https://rforge.net/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'devtools::install_version("BiocManager", version=1.30.10,repos="http://cran.rstudio.com/")' && \
+    /opt/R/${R_VERSION}/bin/R -e 'devtools::install_version("BiocManager", version=1.30.10,repos="http://cran.rstudio.com/")'
 #    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
 #RUN sudo /opt/R/${R_VERSION}/bin/R -e 'renv::init(project="${knimeuser_home}/.renv/4.1.3a/")'
 
