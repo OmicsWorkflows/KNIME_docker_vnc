@@ -178,10 +178,10 @@ RUN sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
 RUN mkdir -p ${knimeuser_home}/.renv/4.1.3a/ && \
     cd ${knimeuser_home}/.renv/4.1.3a/ && \
     /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
-    /opt/R/${R_VERSION}/bin/R -e 'renv::install(c("Rserve(=1.8-6)"),repos="https://rforge.net/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("Rserve(=1.8-6)"),repos="https://rforge.net/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'renv::install(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    /opt/R/${R_VERSION}/bin/R -e 'devtools::install_version("Rserve", version=1.8-6, repos="https://rforge.net/")' && \
+    /opt/R/${R_VERSION}/bin/R -e 'devtools::install_version("BiocManager", version=1.30.10,repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
 #RUN sudo /opt/R/${R_VERSION}/bin/R -e 'renv::init(project="${knimeuser_home}/.renv/4.1.3a/")'
 
 ### install Rserve
