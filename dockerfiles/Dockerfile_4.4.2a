@@ -177,7 +177,8 @@ RUN sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
 ## sets new renv for the previouos container version
 RUN mkdir -p ${knimeuser_home}/.renv/4.1.3a/ && \
     cd ${knimeuser_home}/.renv/4.1.3a/ && \
-    sudo /opt/R/${R_VERSION}/bin/R -e 'renv::init()'
+    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
+    /opt/R/${R_VERSION}/bin/R -e 'renv::install(c("Rserve"),repos="https://rforge.net/")'
 #RUN sudo /opt/R/${R_VERSION}/bin/R -e 'renv::init(project="${knimeuser_home}/.renv/4.1.3a/")'
 
 ## install Rserve
