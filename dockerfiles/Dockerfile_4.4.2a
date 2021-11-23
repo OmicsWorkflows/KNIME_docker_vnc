@@ -178,24 +178,26 @@ RUN sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
 RUN mkdir -p ${knimeuser_home}/.renv/4.1.3a/ && \
     cd ${knimeuser_home}/.renv/4.1.3a/ && \
     /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
-    /opt/R/${R_VERSION}/bin/R -e 'renv::install(c("Rserve"),repos="https://rforge.net/")'
+    /opt/R/${R_VERSION}/bin/R -e 'renv::install(c("Rserve(=1.8-6)"),repos="https://rforge.net/")'
+    /opt/R/${R_VERSION}/bin/R -e 'renv::install(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
+    /opt/R/${R_VERSION}/bin/R -e 'renv::install(BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
 #RUN sudo /opt/R/${R_VERSION}/bin/R -e 'renv::init(project="${knimeuser_home}/.renv/4.1.3a/")'
 
-## install Rserve
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-
-## install R packages sources
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
-
-## installs stable R packages from Bioconductor
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
-
-## installs additional R packages from default R cran
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")'
-
-## installs additional R packages from sources
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+### install Rserve
+#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
+#
+### install R packages sources
+#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
+#
+### installs stable R packages from Bioconductor
+#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
+#
+### installs additional R packages from default R cran
+#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")'
+#
+### installs additional R packages from sources
+#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
+#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
 
 ## installs packages
 #RUN /opt/R/${R_VERSION}/bin/R -e ' \
