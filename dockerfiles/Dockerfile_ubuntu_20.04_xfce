@@ -1,4 +1,19 @@
-FROM ubuntu:20.04
+FROM ubuntu_xfce:20.04
+
+############################################ set environment variables #################################################
+
+## user that will be using the container
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+
+########################################### creates KNIME user and switches to it ######################################
+
+RUN useradd -m -d /home/${knimeuser} ${knimeuser} && \
+    chown -R ${knimeuser} ${knimeuser_home} && \
+    adduser ${knimeuser} sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER ${knimeuser}
 
 ######################################### Installs basic packages ######################################################
 
