@@ -33,7 +33,7 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
     mc \
     software-properties-common \
     unzip \
-    wget && \
+    wget
 
 ########################################################### GUI ########################################################
 
