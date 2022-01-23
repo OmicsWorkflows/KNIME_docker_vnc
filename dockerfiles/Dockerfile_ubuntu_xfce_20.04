@@ -6,6 +6,15 @@ FROM ubuntu:20.04
 ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
+########################################### creates KNIME user and switches to it ######################################
+
+RUN useradd -m -d /home/${knimeuser} ${knimeuser} && \
+    chown -R ${knimeuser} ${knimeuser_home} && \
+    adduser ${knimeuser} sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER ${knimeuser}
+
 ######################################### Installs basic packages ######################################################
 
 # needs to be done in noninteractive way to install tzdata
@@ -30,21 +39,12 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 #RUN apt-get update -y
 # installs desktop environment
-    sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
     sudo DEBIAN_FRONTEND=noninteractive apt-get install \
     xfce4 \
     xfce4-goodies \
     locales -y && \
     sudo rm -rf /var/lib/apt/lists/* && \
-
-########################################### creates KNIME user and switches to it ######################################
-
-RUN useradd -m -d /home/${knimeuser} ${knimeuser} && \
-    chown -R ${knimeuser} ${knimeuser_home} && \
-    adduser ${knimeuser} sudo && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-USER ${knimeuser}
 
 ##### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason) ########
 
