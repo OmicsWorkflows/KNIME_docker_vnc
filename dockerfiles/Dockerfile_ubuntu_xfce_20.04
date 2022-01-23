@@ -49,7 +49,7 @@ USER ${knimeuser}
 
 ##### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason) ########
 
-    sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+RUN sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     sudo locale-gen
 
 ENV LANG en_US.UTF-8
