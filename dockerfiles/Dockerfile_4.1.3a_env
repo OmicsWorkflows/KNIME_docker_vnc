@@ -95,9 +95,7 @@ RUN echo 'export PYENV_ROOT="$knimeuser_home/.pyenv"' >> .bashrc && \
     pyenv install 3.6.9 && \
 # sets virtualenv
     pyenv virtualenv 3.6.9 4-1-3a && \
-#COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-1-3a_python.txt ${knimeuser_home}/environments/4-1-3a_python.txt
 # installs some extra Ubuntu packages required by some python modules
-#RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
     sudo apt-get update -y  && sudo apt-get install -y \
     # packages for pycairo and pygobject
     libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev && \
@@ -108,44 +106,15 @@ RUN echo 'export PYENV_ROOT="$knimeuser_home/.pyenv"' >> .bashrc && \
                         pip install --upgrade pip \
                         pip install --requirement ${copied_files_folder}/environments/4-1-3a_python.txt'
 
-#### environment - 4.1.3a
-## installs base python
-#RUN pyenv install 3.6.9
-## sets virtualenv
-#RUN pyenv virtualenv 3.6.9 4-1-3a
-##COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-1-3a_python.txt ${knimeuser_home}/environments/4-1-3a_python.txt
-## installs some extra Ubuntu packages required by some python modules
-##RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
-#RUN sudo apt-get update -y  && sudo apt-get install -y \
-#    # packages for pycairo and pygobject
-#    libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev
-## installs packages based on the requirements file
-#RUN /bin/bash -i -c '      source .bashrc && \
-#                        pyenv activate 4-1-3a && \
-#                        pip install --upgrade pip \
-#                        pip install --requirement ${copied_files_folder}/environments/4-1-3a_python.txt'
-
-#### environment - 4.4.2a
-## installs base python
-#RUN pyenv install 3.10.0
-## sets virtualenv
-#RUN pyenv virtualenv 3.10.0 4-4-2a
-## installs required packages based on the requirements file
-##COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments/4-4-2a_python.txt ${knimeuser_home}/environments/4-4-2a_python.txt
-##RUN sudo apt-get update -y  && sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev -y
-#RUN /bin/bash -i -c '      source .bashrc && \
-#                        pyenv activate 4-4-2a && \
-#                        pip install --upgrade pip \
-#                        pip install --requirement ${copied_files_folder}/environments/4-4-2a_python.txt'
-
 ###################################################### R ###############################################################
 
 # base packages for make multiple R installation process
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gdebi-core
+    sudo rm -rf /var/lib/apt/lists/* && \
 
 # adds user to the staff group
-RUN sudo adduser ${knimeuser} staff
+    sudo adduser ${knimeuser} staff
 
 # setup R used in 4.1.3a
 ENV R_VERSION=3.6.3
@@ -157,24 +126,33 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     liblapack-dev \
     # needed by xml2 package
     libxml2-dev \
-    zip
+    zip && \
 
 RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
     sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
-    sudo gdebi r-${R_VERSION}_1_amd64.deb
+    sudo gdebi r-${R_VERSION}_1_amd64.deb && \
 
 ## installs renv from the github
-RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
-    sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
+    sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
+    sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")' && \
+    sudo rm -rf /var/lib/apt/lists/*
 ## sets new renv for the previouos container version
-RUN mkdir -p ${knimeuser_home}/.renv/4.1.3a/ && \
-    cd ${knimeuser_home}/.renv/4.1.3a/ && \
+RUN mkdir -p ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+    cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
     /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
     /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")'
-RUN cd ${knimeuser_home}/.renv/4.1.3a/ && \
-    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Rserve",version="1.8-8",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
+RUN cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+    ## installs stable R packages from Bioconductor
+    /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+    ## installs additional R packages from default R cran
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")' && \
+    ## installs additional R packages from sources
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+
+#    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Rserve",version="1.8-8",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
 #    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Biobase",version="2.46.0",repos="http://cran.rstudio.com/")' && \
 #    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("impute",version="1.60.0",repos="http://cran.rstudio.com/")' && \
 #    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("limma",version="3.42.2",repos="http://cran.rstudio.com/")' && \
@@ -182,15 +160,15 @@ RUN cd ${knimeuser_home}/.renv/4.1.3a/ && \
 #    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("preprocessCore",version="1.48.0",repos="http://cran.rstudio.com/")' && \
 #    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("proDA",version="1.0.0",repos="http://cran.rstudio.com/")' && \
 #    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("vsn",version="3.54.0",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("imp4p",version="0.9",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("gprofiler2",version="0.1.9",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("compositions",version="1.40-5",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("plotly",version="4.9.2.1",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("sROC",version="0.1-2",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("robCompositions",version="2.2.1",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("UpSetR",version="1.4.0",repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("imp4p",version="0.9",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("gprofiler2",version="0.1.9",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("compositions",version="1.40-5",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("plotly",version="4.9.2.1",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("sROC",version="0.1-2",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("robCompositions",version="2.2.1",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("UpSetR",version="1.4.0",repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
 
 ### installs stable R packages from Bioconductor
 #RUN sudo /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
