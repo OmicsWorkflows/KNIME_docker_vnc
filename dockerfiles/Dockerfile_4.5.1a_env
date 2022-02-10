@@ -58,9 +58,11 @@ WORKDIR ${knimeuser_home}
 ### environment
 # installs base python
 ARG python_version=3.10.2
+ARG python_env_version=4-5-1a
+
 RUN pyenv install ${python_version} && \
 # sets virtualenv
-    pyenv virtualenv ${python_version} ${dockerfile_version} && \
+    pyenv virtualenv ${python_version} ${python_env_version} && \
 # installs some extra Ubuntu packages required by some python modules
 #    sudo apt-get update -y  && sudo apt-get install -y \
 #    # packages for pycairo and pygobject
@@ -68,9 +70,9 @@ RUN pyenv install ${python_version} && \
 #    sudo rm -rf /var/lib/apt/lists/* && \
 # installs packages based on the requirements file
     /bin/bash -i -c '      source .bashrc && \
-                        pyenv activate ${dockerfile_version} && \
-                        pip install --upgrade pip \
-                        pip install --requirement ${copied_files_folder}/environments/${dockerfile_version}_python.txt'
+                        pyenv activate ${python_env_version} && \
+                        pip install --upgrade pip && \
+                        pip install --requirement ${copied_files_folder}/environments/${python_env_version}_python.txt'
 
 ###################################################### R ###############################################################
 
