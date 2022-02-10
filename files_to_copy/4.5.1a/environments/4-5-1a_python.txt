@@ -1,0 +1,11 @@
+dash==2.1.0
+dash-bio==1.0.1
+dash-core-components==2.0.0
+dash-html-components==2.0.0
+dash-table==5.0.0
+numpy==1.22.2
+pandas==1.4.0
+seaborn==0.11.2
+statsmodels==0.13.2
+matplotlib==3.5.1
+scipy==1.8.0

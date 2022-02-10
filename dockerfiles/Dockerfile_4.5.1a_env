@@ -1,0 +1,125 @@
+FROM cfprot/knime:4.1.3a_env
+
+############################################ set environment variables #################################################
+
+## user that will be using the container
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+
+# change the version of the docker file here to correspond to the docker file name
+ARG dockerfile_version=4.5.1a
+
+ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
+ARG copied_files_folder=/usr/copied_files
+
+################################# creates some folders and copies the supplemental files ###############################
+
+# copy python/R environment files to docker image
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments ${copied_files_folder}/environments
+
+# set default locations
+ENV HOME ${knimeuser_home}
+WORKDIR ${knimeuser_home}
+
+###################################################### PYTHON ##########################################################
+#
+## installs system libraries for pyenv to work
+#RUN sudo apt-get update && sudo apt-get install \
+#    curl \
+#    build-essential \
+#    libbz2-dev \
+#    libffi-dev \
+#    liblzma-dev \
+#    libncurses5-dev \
+#    libncursesw5-dev \
+#    libreadline-dev \
+#    libsqlite3-dev \
+#    libssl-dev \
+#    llvm \
+#    make \
+#    python-openssl \
+#    xz-utils \
+#    tk-dev \
+#    wget \
+#    zlib1g-dev -y && \
+## install pyenv using pyenv-installer
+#    curl https://pyenv.run | bash && \
+#    sudo rm -rf /var/lib/apt/lists/*
+#
+## sets some variables and PATH
+#ENV PYENV_ROOT $knimeuser_home/.pyenv
+##ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+#ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+#RUN echo 'export PYENV_ROOT="$knimeuser_home/.pyenv"' >> .bashrc && \
+#    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> .bashrc && \
+# initiates pyenv and pyenv virtualenv
+#    echo 'eval "$(pyenv init -)"' >> .bashrc && \
+#    echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc && \
+### environment
+# installs base python
+ARG python_version=3.10.2
+RUN pyenv install ${python_version} && \
+# sets virtualenv
+    pyenv virtualenv ${python_version} ${dockerfile_version} && \
+# installs some extra Ubuntu packages required by some python modules
+#    sudo apt-get update -y  && sudo apt-get install -y \
+#    # packages for pycairo and pygobject
+#    libcairo2-dev libjpeg-dev libgif-dev libgirepository1.0-dev && \
+#    sudo rm -rf /var/lib/apt/lists/* && \
+# installs packages based on the requirements file
+    /bin/bash -i -c '      source .bashrc && \
+                        pyenv activate ${dockerfile_version} && \
+                        pip install --upgrade pip \
+                        pip install --requirement ${copied_files_folder}/environments/${dockerfile_version}_python.txt'
+
+###################################################### R ###############################################################
+
+#RUN sudo apt-get update -y  && sudo apt-get install -y \
+#    # base packages for make multiple R installation process
+#    gdebi-core \
+#    ## installs additional system packages needed for curl/plotly
+#    libcurl4-openssl-dev \
+#    libssl-dev && \
+#    sudo rm -rf /var/lib/apt/lists/* && \
+#    # adds user to the staff group
+#    sudo adduser ${knimeuser} staff
+
+# setup R used in the current environment
+ENV R_VERSION=4.1.2
+## adds extra packages needed by the base R and some packages installed later on
+#RUN sudo apt-get update -y  && sudo apt-get install -y \
+#    gfortran \
+#    libblas-dev \
+#    libicu-dev \
+#    liblapack-dev \
+#    # needed by xml2 package
+#    libxml2-dev \
+#    zip && \
+RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
+    sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
+    sudo gdebi r-${R_VERSION}_1_amd64.deb && \
+#    # installs renv from the github
+#    sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
+#    sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
+#    sudo rm -rf /var/lib/apt/lists/*
+
+## sets new renv for the previouos container version
+RUN mkdir -p ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+    cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes", "devtools"), repos="http://cran.rstudio.com/")'
+
+RUN cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+    ## installs stable R packages from Bioconductor
+    #/opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
+    /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+    ## installs additional R packages from default R cran
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")' && \
+    ## installs additional R packages from sources
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+
+######################################################### Entry ########################################################
+
+CMD ["/bin/bash"]

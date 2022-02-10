@@ -106,11 +106,9 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 RUN mkdir -p ${knimeuser_home}/.renv/${dockerfile_version}/ && \
     cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
     /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager", "remotes", "devtools"), repos="http://cran.rstudio.com/")'
-
-RUN cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
     ## installs stable R packages from Bioconductor
-    #/opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
     ## installs additional R packages from default R cran
