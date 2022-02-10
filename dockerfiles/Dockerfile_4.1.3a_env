@@ -110,7 +110,7 @@ RUN echo 'export PYENV_ROOT="$knimeuser_home/.pyenv"' >> .bashrc && \
 
 # base packages for make multiple R installation process
 RUN sudo apt-get update -y  && sudo apt-get install -y \
-    gdebi-core
+    gdebi-core && \
     sudo rm -rf /var/lib/apt/lists/* && \
 
 # adds user to the staff group
