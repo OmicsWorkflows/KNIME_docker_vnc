@@ -108,9 +108,12 @@ RUN echo 'export PYENV_ROOT="$knimeuser_home/.pyenv"' >> .bashrc && \
 
 ###################################################### R ###############################################################
 
-# base packages for make multiple R installation process
 RUN sudo apt-get update -y  && sudo apt-get install -y \
+    # base packages for make multiple R installation process
     gdebi-core && \
+    ## installs additional system packages needed for plotly
+    libcurl4-openssl-dev \
+    libssl-dev \
     sudo rm -rf /var/lib/apt/lists/* && \
 
 # adds user to the staff group
@@ -149,99 +152,6 @@ RUN cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
     ## installs additional R packages from sources
     /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
     /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
-
-#    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Rserve",version="1.8-8",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("Biobase",version="2.46.0",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("impute",version="1.60.0",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("limma",version="3.42.2",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("pcaMethods",version="1.78.0",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("preprocessCore",version="1.48.0",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("proDA",version="1.0.0",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("vsn",version="3.54.0",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("imp4p",version="0.9",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("gprofiler2",version="0.1.9",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("compositions",version="1.40-5",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("plotly",version="4.9.2.1",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("sROC",version="0.1-2",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("robCompositions",version="2.2.1",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'remotes::install_version("UpSetR",version="1.4.0",repos="http://cran.rstudio.com/")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
-#    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
-
-### installs stable R packages from Bioconductor
-#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
-#
-### installs additional R packages from default R cran
-#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")'
-#
-### installs additional R packages from sources
-#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
-#RUN sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
-
-## installs packages
-#RUN /opt/R/${R_VERSION}/bin/R -e ' \
-#    installedPreviously <- read.csv("./files_to_copy/4-1-3a_R.csv") && \
-#    install.packages(installedPreviously) \
-#    '
-# verifies installed R version
-#RUN /opt/R/${R_VERSION}/bin/R --version
-
-# installs R packages as specified in the environments file ${copied_files_folder}/environments/4-1-3a_R.csv
-#RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-
-## installs additional R packages from sources
-#RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
-#RUN /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
-
-#RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-
-## this needs to be optimized
-#RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list~
-#RUN sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-#RUN sudo apt-get update && sudo apt-get build-dep r-base -y
-#ADD --chown=knimeuser:knimeuser https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ${knimeuser_home}/environments/
-#RUN tar -xzvf ${knimeuser_home}/environments/R-3.6.3.tar.gz
-#WORKDIR ${knimeuser_home}/environments/R-3.6.3
-#
-#RUN ./configure --prefix=${knimeuser_home}/environments/R/3.6.3 --enable-R-shlib --with-blas --with-lapack
-#RUN make
-#RUN make install
-#
-#COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/4-1-3a_R.csv ${knimeuser_home}/environments/4-1-3a_R.csv
-#
-#RUN sudo /opt/R/3.6.3/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-
-# install latest ubuntu R from the specified repository (depending on the version of R, versions of bioconductor + bioconductor packages install)
-
-## adds repository and its GPG key for the latest R version (3.6 at the time of writing)
-#RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-#RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" | sudo tee /etc/apt/sources.list.d/cran.list > /dev/null
-#
-#ENV R_BASE_VERSION 3.6.2
-#
-#RUN sudo apt-get update && sudo apt-get install -y \
-#	r-base=${R_BASE_VERSION}* \
-#	r-recommended=${R_BASE_VERSION}* \
-#	r-base-dev=${R_BASE_VERSION}* \
-# && sudo rm -rf /var/lib/apt/lists/*
-#
-## install Rserve
-#RUN sudo R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
-#
-## install R packages sources
-#RUN sudo R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
-#
-## installs stable R packages from Bioconductor
-#RUN sudo R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
-#
-## installs additional R packages from default R cran
-#RUN sudo R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
-#
-## installs additional R packages from sources
-#RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
-#RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
 
 ################################################# FINAL ACTIONS ########################################################
 
