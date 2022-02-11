@@ -132,7 +132,7 @@ RUN mkdir ${knimeuser_home}/Desktop && \
 RUN touch ${knimeuser_home}/version-${dockerfile_version} && \
     ## make folders available to knimeuser
     sudo chown -R ${knimeuser}: ${copied_files_folder} && \
-    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+#    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
     #RUN chown -R ${knimeuser}: ${knime_folder}
     #RUN chown -R ${knimeuser}: ${knimeuser_home}/Desktop
     #RUN chown -R ${knimeuser}: ${knime_workspace_folder}
