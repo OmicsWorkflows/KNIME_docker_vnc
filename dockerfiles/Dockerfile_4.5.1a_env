@@ -69,8 +69,8 @@ RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     cd ${knimeuser_home}/ &&\
     rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
     rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
     ## installs stable R packages from Bioconductor
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
