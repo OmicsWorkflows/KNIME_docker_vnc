@@ -66,8 +66,9 @@ RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     --with-lapack && \
     make &&\
     sudo make install &&\
-    cd ${knimeuser_home}/
-    rm ${knimeuser_home}/R-${R_VERSION}_1_amd64.deb && \
+    cd ${knimeuser_home}/ &&\
+    rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
+    rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
     /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
     /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")'
 
