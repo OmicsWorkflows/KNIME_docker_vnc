@@ -55,39 +55,55 @@ RUN pyenv install ${python_version} && \
 
 # setup R used in the current environment
 ENV R_VERSION=4.1.2
-## adds extra packages needed by the base R and some packages installed later on
-#RUN sudo apt-get update -y  && sudo apt-get install -y \
-#    gfortran \
-#    libblas-dev \
-#    libicu-dev \
-#    liblapack-dev \
-#    # needed by xml2 package
-#    libxml2-dev \
-#    zip && \
-RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
-    sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
-    sudo gdebi r-${R_VERSION}_1_amd64.deb && \
-    rm ${knimeuser_home}/r-${R_VERSION}_1_amd64.deb && \
-    # installs renv from the github
-    sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
-    sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
-#    sudo rm -rf /var/lib/apt/lists/*
+RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
+    tar -xzvf R-${R_VERSION}.tar.gz && \
+    cd R-${R_VERSION} && \
+    ./configure \
+    --prefix=/opt/R/${R_VERSION}/${dockerfile_version} \
+    --enable-memory-profiling \
+    --enable-R-shlib \
+    --with-blas \
+    --with-lapack && \
+    make &&\
+    sudo make install &&\
+    cd ${knimeuser_home}/
+    rm ${knimeuser_home}/R-${R_VERSION}_1_amd64.deb && \
+    /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
+    /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")'
 
-## sets new renv for the previouos container version
-RUN mkdir -p ${knimeuser_home}/.renv/${dockerfile_version}/ && \
-    cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
-    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")'
-
-RUN cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+RUN cd ${knimeuser_home}/ && \
     ## installs stable R packages from Bioconductor
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+    /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
+    /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
     ## installs additional R packages from default R cran
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")' && \
+    /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")' && \
     ## installs additional R packages from sources
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
-    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
+    /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
+    /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
+#RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
+#    sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
+#    sudo gdebi r-${R_VERSION}_1_amd64.deb && \
+#    rm ${knimeuser_home}/r-${R_VERSION}_1_amd64.deb && \
+#    # installs renv from the github
+#    sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
+#    sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
+##    sudo rm -rf /var/lib/apt/lists/*
+#
+### sets new renv for the previouos container version
+#RUN mkdir -p ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+#    cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+#    /opt/R/${R_VERSION}/bin/R -e 'renv::init()' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")'
+#
+#RUN cd ${knimeuser_home}/.renv/${dockerfile_version}/ && \
+#    ## installs stable R packages from Bioconductor
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+#    ## installs additional R packages from default R cran
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")' && \
+#    ## installs additional R packages from sources
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
+#    /opt/R/${R_VERSION}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
 
 ######################################################### Entry ########################################################
 
