@@ -130,18 +130,13 @@ RUN mkdir ${knimeuser_home}/Desktop && \
 
 ## create version file in knimeuser home, just for info
 RUN touch ${knimeuser_home}/version-${dockerfile_version} && \
-    ## make folders available to knimeuser
+    # make folders available to knimeuser
     sudo chown -R ${knimeuser}: ${copied_files_folder} && \
-#    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
-    #RUN chown -R ${knimeuser}: ${knime_folder}
-    #RUN chown -R ${knimeuser}: ${knimeuser_home}/Desktop
-    #RUN chown -R ${knimeuser}: ${knime_workspace_folder}
-    ## make shortcuts executable
+    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+    # make shortcuts executable
     sudo chmod -R 770 ${knimeuser_home}/Desktop && \
     # enabling timezone setting by entrypoint.sh by knimeuser
     sudo chown ${knimeuser}: /etc/timezone
-    #RUN chown -h ${knimeuser} /etc/localtime
-#RUN sudo apt install -y --no-install-recommends tigervnc-standalone-server
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]

@@ -22,39 +22,6 @@ ENV HOME ${knimeuser_home}
 WORKDIR ${knimeuser_home}
 
 ###################################################### PYTHON ##########################################################
-#
-## installs system libraries for pyenv to work
-#RUN sudo apt-get update && sudo apt-get install \
-#    curl \
-#    build-essential \
-#    libbz2-dev \
-#    libffi-dev \
-#    liblzma-dev \
-#    libncurses5-dev \
-#    libncursesw5-dev \
-#    libreadline-dev \
-#    libsqlite3-dev \
-#    libssl-dev \
-#    llvm \
-#    make \
-#    python-openssl \
-#    xz-utils \
-#    tk-dev \
-#    wget \
-#    zlib1g-dev -y && \
-## install pyenv using pyenv-installer
-#    curl https://pyenv.run | bash && \
-#    sudo rm -rf /var/lib/apt/lists/*
-#
-## sets some variables and PATH
-#ENV PYENV_ROOT $knimeuser_home/.pyenv
-##ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-#ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
-#RUN echo 'export PYENV_ROOT="$knimeuser_home/.pyenv"' >> .bashrc && \
-#    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> .bashrc && \
-# initiates pyenv and pyenv virtualenv
-#    echo 'eval "$(pyenv init -)"' >> .bashrc && \
-#    echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc && \
 ### environment
 # installs base python
 ARG python_version=3.10.2
@@ -100,6 +67,7 @@ ENV R_VERSION=4.1.2
 RUN curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb && \
     sudo dpkg -i r-${R_VERSION}_1_amd64.deb && \
     sudo gdebi r-${R_VERSION}_1_amd64.deb && \
+    rm ${knimeuser_home}/r-${R_VERSION}_1_amd64.deb && \
     # installs renv from the github
     sudo /opt/R/${R_VERSION}/bin/R -e 'install.packages("remotes", repos="http://cran.rstudio.com/")' && \
     sudo /opt/R/${R_VERSION}/bin/R -e 'remotes::install_github("rstudio/renv")'
