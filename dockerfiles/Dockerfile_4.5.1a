@@ -24,7 +24,7 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
 ################################# creates some folders and copies the supplemental files ###############################
 
 # create folders
-RUN sudo chsh -s /bin/bash ${knimeuser} && \
+RUN sudo chown ${knimeuser}: ${knimeuser_home} && \
     mkdir ${knime_workspace_folder}
 
 # copy external files to docker image
