@@ -116,14 +116,14 @@ RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://source
 
 RUN mkdir ${knimeuser_home}/Desktop && \
 # shortcut to knime
-    cp ${copied_files_folder}/knime.desktop /usr/share/applications && \
-    cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/ && \
+    sudo cp ${copied_files_folder}/knime.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/ && \
     # shortcut to Metanodes template reset
-    cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications && \
-    cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
+    sudo cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
     # shortcut to Workflows template reset
-    cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications && \
-    cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
+    sudo cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
 
 
 ################################################# FINAL ACTIONS ########################################################
@@ -132,7 +132,7 @@ RUN mkdir ${knimeuser_home}/Desktop && \
 RUN touch ${knimeuser_home}/version-${dockerfile_version} && \
     # make folders available to knimeuser
     sudo chown -R ${knimeuser}: ${copied_files_folder} && \
-#    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
     # make shortcuts executable
     sudo chmod -R 770 ${knimeuser_home}/Desktop && \
     # enabling timezone setting by entrypoint.sh by knimeuser
