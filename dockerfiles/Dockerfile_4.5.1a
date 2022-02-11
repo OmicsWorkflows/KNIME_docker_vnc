@@ -6,6 +6,8 @@ FROM cfprot/knime:4.5.1a_env
 ARG dockerfile_version=4.5.1a
 
 ## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
 ENV knime_folder=${knimeuser_home}/knime
 ARG knime_workspace_folder=${knimeuser_home}/knime-workspace
 
@@ -24,8 +26,8 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=n
 ################################# creates some folders and copies the supplemental files ###############################
 
 # create folders
-RUN sudo chown ${knimeuser}: ${knimeuser_home} && \
-    mkdir ${knime_workspace_folder}
+#RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+RUN mkdir ${knime_workspace_folder}
 
 # copy external files to docker image
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder} --exclude environments/
