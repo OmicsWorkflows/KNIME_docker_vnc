@@ -1,4 +1,4 @@
-FROM cfprot/knime:ubuntu_xfce_20.04
+FROM cfprot/ubuntu_xfce:20.04
 
 ############################################ set environment variables #################################################
 

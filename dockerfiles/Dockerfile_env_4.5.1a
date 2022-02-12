@@ -1,4 +1,4 @@
-FROM cfprot/knime:4.1.3a_env
+FROM cfprot/environments:4.1.3a
 
 ############################################ set environment variables #################################################
 
