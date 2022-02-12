@@ -5,11 +5,14 @@
 
 dockerfile_location="./dockerfiles"
 
-if (($# < 1 ));then
-echo "Which version of dockerfile should we use?"
+if (($# < 2 ));then
+echo "Which dockerfile should be used?"
+read dockerfile
+echo "Which version of dockerfile should be used?"
 read version
 else
-version=$1
+dockerfile=$1
+version=$2
 fi
 
-docker build -t knime:$version -f ${dockerfile_location}/Dockerfile_${version} .
+docker build -t $dockerfile:$version -f ${dockerfile_location}/Dockerfile_${dockerfile}_${version} .
