@@ -1,4 +1,4 @@
-FROM cfprot/environments:4.1.3a
+FROM cfprot/environment:4.1.3a
 
 ############################################ set environment variables #################################################
 
