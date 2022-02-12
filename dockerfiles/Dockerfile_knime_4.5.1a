@@ -127,8 +127,6 @@ RUN mkdir ${knimeuser_home}/Desktop && \
 #
     # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version} && \
-    # set bash as knimeuser's login shell
-    sudo chsh -s /bin/bash ${knimeuser} && \
     # enabling timezone setting by entrypoint.sh by knimeuser
     sudo chown ${knimeuser}: /etc/timezone
 

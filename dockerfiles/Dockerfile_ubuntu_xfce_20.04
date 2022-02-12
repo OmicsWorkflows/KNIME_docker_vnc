@@ -26,9 +26,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     sudo \
     unzip \
     wget && \
-
+#
 ########################################################### GUI ########################################################
-
+#
 #RUN apt-get update -y
 # installs desktop environment
     DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -36,11 +36,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     xfce4 \
     xfce4-goodies \
     locales -y && \
-    rm -rf /var/lib/apt/lists/*
-
+    rm -rf /var/lib/apt/lists/* && \
+#
 ########################################### creates KNIME user and switches to it ######################################
-
-RUN useradd -m -d /home/${knimeuser} ${knimeuser} && \
+#
+    useradd -m -d /home/${knimeuser} ${knimeuser} && \
     chown -R ${knimeuser} ${knimeuser_home} && \
     adduser ${knimeuser} sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
@@ -48,9 +48,10 @@ RUN useradd -m -d /home/${knimeuser} ${knimeuser} && \
 USER ${knimeuser}
 
 ##### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason) ########
-
 RUN sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
-    sudo locale-gen
+    sudo locale-gen && \
+    # set bash as knimeuser's login shell
+    sudo chsh -s /bin/bash ${knimeuser}
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
