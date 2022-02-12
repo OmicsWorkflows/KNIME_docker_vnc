@@ -123,18 +123,20 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     sudo cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
     # shortcut to Workflows template reset
     sudo cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications && \
-    sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
-
-
-################################################# FINAL ACTIONS ########################################################
-
-## create version file in knimeuser home, just for info
-RUN touch ${knimeuser_home}/version-${dockerfile_version} && \
-    # make folders available to knimeuser
-    sudo chown -R ${knimeuser}: ${copied_files_folder} && \
-    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+    sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
     # make shortcuts executable
+    sudo chown -R ${knimeuser}: ${knimeuser_home}/Desktop/ && \
     sudo chmod -R 770 ${knimeuser_home}/Desktop && \
+#
+################################################# FINAL ACTIONS ########################################################
+#
+## create version file in knimeuser home, just for info
+    touch ${knimeuser_home}/version-${dockerfile_version} && \
+    # make folders available to knimeuser
+#    sudo chown -R ${knimeuser}: ${copied_files_folder} && \
+#    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+    # make shortcuts executable
+#    sudo chmod -R 770 ${knimeuser_home}/Desktop && \
     # enabling timezone setting by entrypoint.sh by knimeuser
     sudo chown ${knimeuser}: /etc/timezone
 
