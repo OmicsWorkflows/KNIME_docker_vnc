@@ -1,4 +1,4 @@
-FROM cfprot/evironment:4.5.1a
+FROM cfprot/environment:4.5.1a
 
 ############################################ set environment variables #################################################
 
@@ -40,11 +40,6 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
 # set default locations
 ENV HOME ${knimeuser_home}
 WORKDIR ${knimeuser_home}
-
-###### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason) ########
-#
-## set bash as knimeuser's login shell
-#RUN sudo chsh -s /bin/bash ${knimeuser}
 
 ################################################################# KNIME ####################################################################
 
@@ -130,13 +125,10 @@ RUN mkdir ${knimeuser_home}/Desktop && \
 #
 ################################################# FINAL ACTIONS ########################################################
 #
-## create version file in knimeuser home, just for info
+    # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version} && \
-    # make folders available to knimeuser
-#    sudo chown -R ${knimeuser}: ${copied_files_folder} && \
-#    sudo chown -R ${knimeuser}: ${knimeuser_home} && \
-    # make shortcuts executable
-#    sudo chmod -R 770 ${knimeuser_home}/Desktop && \
+    # set bash as knimeuser's login shell
+    sudo chsh -s /bin/bash ${knimeuser} && \
     # enabling timezone setting by entrypoint.sh by knimeuser
     sudo chown ${knimeuser}: /etc/timezone
 
