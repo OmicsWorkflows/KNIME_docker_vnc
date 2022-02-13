@@ -31,7 +31,7 @@ ARG python_env_version=4-5-1a
 RUN pyenv install ${python_version} && \
     # sets virtualenv
     pyenv virtualenv ${python_version} ${python_env_version} && \
-    /bin/bash -i -c '      source .bashrc && \
+    /bin/bash -i -c '      source ~/.bashrc && \
                         pyenv activate ${python_env_version} && \
                         pip install --upgrade pip && \
                         pip install --requirement ${copied_files_folder}/environments/${python_env_version}_python.txt'
