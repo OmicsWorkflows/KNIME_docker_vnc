@@ -5,11 +5,11 @@ FROM cfprot/environment:4.5.1a
 # change the version of the docker file here to correspond to the docker file name
 ARG dockerfile_version=4.5.1a
 
-## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
+## default folders (knime_folder and knime_workspace_folder ENVs are used in shortcut to knime, others can be ARG)
 ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 ENV knime_folder=${knimeuser_home}/knime
-ARG knime_workspace_folder=${knimeuser_home}/knime-workspace
+ENV knime_workspace_folder=${knimeuser_home}/knime-workspace
 
 ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
 ARG copied_files_folder=/usr/copied_files
