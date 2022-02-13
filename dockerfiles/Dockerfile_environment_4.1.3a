@@ -58,7 +58,7 @@ RUN echo 'export PYENV_ROOT="${knimeuser_home}/.pyenv"' >> .bashrc && \
     echo 'eval "$(pyenv init -)"' >> .bashrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc && \
     # just doublechecking the status of ~/.bashrc
-    cut ~/.bashrc && \
+    cat ~/.bashrc && \
     ### environment - 4.1.3a
     # installs base python
     pyenv install ${python_version} && \
