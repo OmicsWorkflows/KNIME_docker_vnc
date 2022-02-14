@@ -35,13 +35,14 @@ COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.conf
 RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
-    chmod 755 ${copied_files_folder}/workflows_reset.sh
+    chmod 755 ${copied_files_folder}/workflows_reset.sh && \
+    chmod 755 ${copied_files_folder}/vnc_pass_set.sh
 
 # set default locations
 ENV HOME ${knimeuser_home}
 WORKDIR ${knimeuser_home}
 
-################################################################# KNIME ####################################################################
+#################################################### KNIME #############################################################
 
 # version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
 ARG knime_version=4.5.1
@@ -110,7 +111,7 @@ RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://source
 ################################################### SHORTCUTS ##########################################################
 
 RUN mkdir ${knimeuser_home}/Desktop && \
-# shortcut to knime
+    # shortcut to knime
     sudo cp ${copied_files_folder}/knime.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/ && \
     # shortcut to Metanodes template reset
@@ -119,7 +120,10 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     # shortcut to Workflows template reset
     sudo cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
-    # make shortcuts executable
+    # shortcut for VNC pass set
+    sudo cp ${copied_files_folder}/vnc_pass_set.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/vnc_pass_set.desktop ${knimeuser_home}/Desktop/ && \
+    # make shortcuts owned by knimeuser and executable
     sudo chown -R ${knimeuser}: ${knimeuser_home}/Desktop/ && \
     sudo chmod -R 770 ${knimeuser_home}/Desktop && \
 #
