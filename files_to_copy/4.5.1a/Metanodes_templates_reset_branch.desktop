@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Metanodes templates reset
+Comment=Resets the git repository of the KNIME Metanodes templates to the selected branch
+Exec=/usr/copied_files/metanodes_reset_branch.sh
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/usr/share/icons/elementary-xfce/actions/48/go-jump.png
