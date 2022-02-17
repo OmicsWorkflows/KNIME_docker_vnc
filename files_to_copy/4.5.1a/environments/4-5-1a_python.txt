@@ -5,6 +5,7 @@ dash-html-components==2.0.0
 dash-table==5.0.0
 numpy==1.22.2
 pandas==1.4.0
+peptides==0.2.1
 seaborn==0.11.2
 statsmodels==0.13.2
 matplotlib==3.5.1
