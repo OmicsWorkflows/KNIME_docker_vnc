@@ -35,7 +35,9 @@ COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.conf
 RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_reset_branch.sh && \
     chmod 755 ${copied_files_folder}/workflows_reset.sh && \
+    chmod 755 ${copied_files_folder}/workflows_reset_branch.sh && \
     chmod 755 ${copied_files_folder}/vnc_pass_set.sh
 
 # set default locations
