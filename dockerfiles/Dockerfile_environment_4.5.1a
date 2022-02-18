@@ -42,7 +42,7 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     # cmake package needed by nloptr library
     cmake && \
     ## installs additional system packages needed for curl/plotly
-    sudo rm -rf /var/lib/apt/lists/* && \
+    sudo rm -rf /var/lib/apt/lists/*
 
 # setup R used in the current environment
 ENV R_VERSION=4.1.2
