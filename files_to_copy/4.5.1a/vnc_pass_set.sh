@@ -15,7 +15,7 @@ while true; do
 	break
 	;;
      1)
-        zenity --info --text="Password entry stopped." --title="Entry stopped"  --width=200
+        zenity --info --text="Password entry canceled, exitting." --title="Canceled"  --width=200
         exit 1
         ;;
     -1)
