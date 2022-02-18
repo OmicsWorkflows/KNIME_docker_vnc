@@ -123,6 +123,12 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     # shortcut for VNC pass set
     sudo cp ${copied_files_folder}/vnc_pass_set.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/vnc_pass_set.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Metanodes template reset with branch selection
+    sudo cp ${copied_files_folder}/Metanodes_templates_reset_branch.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Metanodes_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Workflows template reset with branch selection
+    sudo cp ${copied_files_folder}/Workflows_templates_reset_branch.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Workflows_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
     # make shortcuts owned by knimeuser and executable
     sudo chown -R ${knimeuser}: ${knimeuser_home}/Desktop/ && \
     sudo chmod -R 770 ${knimeuser_home}/Desktop && \
