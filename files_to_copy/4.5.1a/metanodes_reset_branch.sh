@@ -43,14 +43,6 @@ while true; do
           branch=$ENTRY
         fi
         if [ -n "`git show-ref --verify refs/remotes/"$branch"`" ]; then
-          #echo 'branch exists!'
-          # resets the repository; change "master" branch to the appropriate one if needed
-          #git fetch origin
-          #git reset --hard $branch
-          # removes also not tracked folders and files
-          #git clean -f -d
-          # writes down small file that will hold the last used branch name
-          #echo $branch > $last_branch_file
           break
         else
           echo 'branch does not exists!'
