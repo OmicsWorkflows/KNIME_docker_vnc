@@ -38,6 +38,12 @@ RUN pyenv install ${python_version} && \
 
 ###################################################### R ###############################################################
 
+RUN sudo apt-get update -y  && sudo apt-get install -y \
+    # cmake package needed by nloptr library
+    cmake && \
+    ## installs additional system packages needed for curl/plotly
+    sudo rm -rf /var/lib/apt/lists/* && \
+
 # setup R used in the current environment
 ENV R_VERSION=4.1.2
 RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
