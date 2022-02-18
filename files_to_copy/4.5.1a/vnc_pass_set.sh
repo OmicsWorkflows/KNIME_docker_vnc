@@ -16,10 +16,10 @@ while true; do
 	;;
      1)
         zenity --info --text="Password entry stopped." --title="Entry stopped"  --width=200
-        break
+        exit 1
         ;;
     -1)
         zenity --error --text="An unexpected error has occurred." --title="Error!"  --width=200
-        break
+        exit 1
   esac
 done
