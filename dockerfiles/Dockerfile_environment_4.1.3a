@@ -112,17 +112,27 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     sudo make install &&\
     cd ${knimeuser_home}/ &&\
     rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
-    rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+    rm ${knimeuser_home}/R-${R_VERSION}.tar.gz
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"))'
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("Rserve"), repos="https://rforge.net/")'
     ## installs stable R packages from Bioconductor
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10")'
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
     ## installs additional R packages from default R cran
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")' && \
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
     ## installs additional R packages from sources
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+#    ## installs stable R packages from Bioconductor
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+#    ## installs additional R packages from default R cran
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="https://rforge.net/")' && \
+#    ## installs additional R packages from sources
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
 
 ######################################################### Entry ########################################################
 
