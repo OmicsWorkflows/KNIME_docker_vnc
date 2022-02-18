@@ -3,7 +3,7 @@
 # repository directory
 directory=/home/knimeuser/knime-workspace/gitfolders/KNIME_metanodes
 # file to hold the last used branch
-last_branch_metanode_file=~/.last_branch_metanode
+last_branch_file=~/.last_branch_metanodes
 
 # checks whether the repository folder exists and shows notification if not
 if [ ! -d "$directory" ]; then
@@ -23,8 +23,8 @@ MULTILINE=`git branch -r | grep -v ‘remotes’ \
   -1`
 
 # checks the presence of file holding the last used branch and if it is not present, sets master branch as the last used
-if test -f $last_branch_metanode_file; then
-  read LAST_BRANCH < $last_branch_metanode_file
+if test -f $last_branch_file; then
+  read LAST_BRANCH < $last_branch_file
 else
   LAST_BRANCH="master"
 fi
@@ -50,7 +50,7 @@ while true; do
           # removes also not tracked folders and files
           #git clean -f -d
           # writes down small file that will hold the last used branch name
-          #echo $branch > $last_branch_metanode_file
+          #echo $branch > $last_branch_file
           break
         else
           echo 'branch does not exists!'
