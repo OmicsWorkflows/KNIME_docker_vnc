@@ -8,6 +8,10 @@ notify-send -i software-update-available "Workflows templates repository" \
 # repository directory
 directory=/home/knimeuser/knime-workspace/gitfolders/KNIME_workflows
 
+# branch to reset the repository to
+# replace the 'master' with the name of the respective branch you want to reset to based on the info on Github
+branch=origin/master
+
 # checks whether the repository folder exists and shows notification if not
 if [ ! -d "$directory" ]; then
   # shows the notification about the missing repository folder
@@ -19,13 +23,19 @@ if [ ! -d "$directory" ]; then
 fi
 
 # navigates to the KNIME_Workflows repository
-cd $directory
+cd "$directory"
 
-# resets the repository; change "master" branch to the appropriate one if needed
-git fetch origin
-git reset --hard origin/master
-# removes also not tracked folders and files
-git clean -f -d
+if [ -n "`git show-ref --verify refs/remotes/"$branch"`" ]; then
+  # resets the repository; change "master" branch to the appropriate one if needed
+  git fetch origin
+  git reset --hard "$branch"
+  # removes also not tracked folders and files
+  git clean -f -d
+else
+  echo 'branch does not exists!'
+  zenity --error --text="Branch does not exists!\n\nIt might have been deleted recently.\nPlease verify and adjust the script file accordingly.\n\nChecked branch name:\n"$branch"" --title="Branch does not exists!"  --width=300
+  exit 1
+fi
 
 # shows the notification about the finished task
 notify-send -u critical -i process-completed "Workflows templates repository" \
