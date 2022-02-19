@@ -7,7 +7,7 @@ while true; do
      0)
 	if ((len < 6))
 	then
-	  zenity --error --width=400 --text="Password have to be at least 6 characters long!\\n\\nPlease try again." --title="Warning!"
+	  zenity --error --width=400 --text="Password has to be at least 6 characters long!\\n\\nPlease try again." --title="Warning!"
 	  continue
 	fi
 	printf "`echo $ENTRY`\n`echo $ENTRY`\n\n" | vncpasswd
