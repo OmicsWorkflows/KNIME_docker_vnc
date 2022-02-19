@@ -26,7 +26,7 @@ fi
 cd "$directory"
 
 if [ -n "`git show-ref --verify refs/remotes/"$branch"`" ]; then
-  # resets the repository; change "master" branch to the appropriate one if needed
+  # resets the repository
   git fetch origin
   git reset --hard "$branch"
   # removes also not tracked folders and files
