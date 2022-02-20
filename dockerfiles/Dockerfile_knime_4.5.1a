@@ -36,8 +36,10 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset_branch.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_check.sh && \
     chmod 755 ${copied_files_folder}/workflows_reset.sh && \
     chmod 755 ${copied_files_folder}/workflows_reset_branch.sh && \
+    chmod 755 ${copied_files_folder}/workflows_check.sh && \
     chmod 755 ${copied_files_folder}/vnc_pass_set.sh
 
 # set default locations
@@ -131,6 +133,12 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     # shortcut to Workflows template reset with branch selection
     sudo cp ${copied_files_folder}/Workflows_templates_reset_branch.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/Workflows_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Metanodes template check start
+    sudo cp ${copied_files_folder}/Metanodes_check.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Metanodes_check.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Workflows template check start
+    sudo cp ${copied_files_folder}/Workflows_check.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Workflows_check.desktop ${knimeuser_home}/Desktop/ && \
     # make shortcuts owned by knimeuser and executable
     sudo chown -R ${knimeuser}: ${knimeuser_home}/Desktop/ && \
     sudo chmod -R 770 ${knimeuser_home}/Desktop && \

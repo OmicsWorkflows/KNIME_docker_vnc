@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=Metanodes templates reset
+Name=Reset Metanodes templates - branch selection
 Comment=Resets the git repository of the KNIME Metanodes templates to the selected branch
 Exec=/usr/copied_files/metanodes_reset_branch.sh
 Terminal=false

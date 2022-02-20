@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Start Workflows templates check
+Comment=Checks for updates of the KNIME Workflows templates repository
+Exec=/usr/copied_files/workflows_check.sh
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/usr/share/icons/elementary-xfce/actions/48/rotate.png

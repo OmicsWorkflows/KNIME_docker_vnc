@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Start Metanodes templates check
+Comment=Checks for updates of the KNIME Metanodes templates repository
+Exec=/usr/copied_files/metanodes_check.sh
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/usr/share/icons/elementary-xfce/actions/48/rotate.png
