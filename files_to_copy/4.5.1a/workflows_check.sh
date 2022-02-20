@@ -26,6 +26,7 @@ waittime="$waittime_def"
 # creates variable to hold info whether to rerun the script again
 rerun=yes
 
+# the main while loop to run fetch after some specified time
 while [ "$rerun" = yes ]
 do
 
@@ -46,16 +47,31 @@ FETCH=$(git fetch origin "$branch" 2>&1)
 if [ "$?" -ne 0 ]; then
   echo "Attempt to fetch $branch branch returned error";
   echo "$FETCH"
-  zenity --error --text="Attempt to fetch remote branch returned error\n\nThe remote branch might be missing.\nPlease contact technical support with the following details:\n\nreturned error:\n$FETCH\n\nchecked branch name:\n$branch" --title="Fetching remote branch returned error!"  --width=300
+  zenity --error --text="Attempt to fetch remote branch returned error\n\nThe remote branch might be missing.\n\Please contact technical support with the following details:\n\nreturned error:\n$FETCH\n\nchecked branch name:\n$branch" --title="Fetching remote branch returned error!"  --width=300
   exit 1;
 else
+  # just gets rid of any spaces, tabs etc. for better comparisong with the expected value when there is no update
   FETCH=${FETCH//[[:space:]]/}
-  echo "$FETCH"
+  #echo "$FETCH"
+  # check the fetch result with the expected value if no update is present
   if [[ "$FETCH" == "$FETCH_def" ]]; then
+    # just output some info into the console, but there is no info visible to leave it silent if not run from the commandline
     echo "no change in the $branch branch"
+    echo "waiting for $waittime and will check for the changes again"
+    # waits for the specified time prior it proceeds with the next iteration of the branch check
+    sleep $waittime
+  else
+    # in case the fetch result is different to the expected one, i.e. the branch has some remote changes
+    echo "remote branch $branch has changed"
+    # the 2nd while loop to assure there will be correct check interval set
     interval=notset
     while [ "$interval" = notset ]
     do
+    # brings up window with the information about the updated branch with some potential scenarios
+    ## these scenarios are covered
+    ### 1) just confirms the change, nothing more is done and the next iteration will be initiated after the defined interval
+    ### 2) changes the check interval and waits for the adjusted time prior the next iteration; the adjusted time will be remembered
+    ### 3) user askes to cancel this automatic check routine
     ans=$(zenity --info --title "Updates for the $repo found!" \
                  --text "Updates for the $repo, branch $branch, were found.\n\nPlease update the $repo manually using the shortcut on the desktop.\n\nIf you do not wish to update, ignore this message. The $repo will be checked for updates in the next $waittime. If you wish to change the time in which the updates will be checked, press $button_change button.\n\nIf you wish to stop to check $repo for updates, press the $button_stop button or press Esc." \
                  --ok-label "ok" \
@@ -63,11 +79,17 @@ else
                  --extra-button "$button_stop" \
                  --width=300)
     rc=$?
-    echo "${rc}-${ans}"
+    #echo "${rc}-${ans}"
+    # based on the type and text of the response the next actions are considered
     if [[ "${rc}-${ans}" == "1-$button_change" ]]; then
+      # dialog to change the default/previously set interval length
       ans2=$(zenity --entry --text="Please enter the new value to replace $waittime:\n(acceptable format is e.g. 10h or 2d\nfor 10 hours or 2 days, respectively):" --title="Udates interval change")
       rc2=$?
-      echo "${rc2}-${ans2}"
+      #echo "${rc2}-${ans2}"
+      # these situations are handled
+      ## 1) form is canceled. resets the initial question by going to the beginning of the 2nd while loop
+      ## 2) empty string is entered, resets the initial question by going to the beginning of the 2nd while loop
+      ## 3) something has been provided that is going to be checked that it is valid format for the sleep command
       if [[ "${rc2}" == "1" ]]; then
         zenity --warning --text="New interval entry was canceled, will ask again what should be done." --title="Interval change canceled" --width=300
         interval=notset
@@ -78,6 +100,7 @@ else
         continue
       else
         # sets new waittime variable as per the entered value; strips spaces and other characters to make it more robust
+        # the provided value is tested further
         waittime=${ans2//[[:space:]]/}
         interval=set
       fi
@@ -85,23 +108,17 @@ else
       zenity --info --text="You have asked not to watch $repo for the updates. Exiting.\n\nInitiate the updates watch script manually if you would like to resume it later." --title="$repo updates watch stopped!" --width=300
       exit 1
     fi
-    echo "waiting for $waittime and will run the script again"
-    { #try
+    { # tries to set it to sleep for the adjusted interval and returns warning dialog, sets the interval to the default value and restarts the 2nd while loop
+      echo "waiting for $waittime and will run the script again"
       sleep $waittime
     } || { #catch
-      zenity --warning --text="The provided interval time $waittime is not in valid format.\n\nThe interval set back to the default value $waittime_def.\n\nWill ask again what should be done." --title="Not valid interval value!" --width=300 $$
+      zenity --warning --text="The provided interval time $waittime is not in valid format.\n\nThe interval set back to the default value $waittime_def.\n\nWill ask again what should be done." --title="Not valid interval value!" --width=300
       waittime="$waittime_def"
       interval=notset
     }
     done
-  else
-    echo "not the same"
-    echo "waiting for $waittime and will run the script again"
-    sleep $waittime
   fi
 fi
-
 done
-
 echo "Exiting Program"
 exit 0
