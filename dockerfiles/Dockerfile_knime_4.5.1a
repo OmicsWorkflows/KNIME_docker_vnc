@@ -148,6 +148,8 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     # creates links to have the most recent R version accessible on expected place
     sudo ln -s /opt/R/${R_VERSION}/${dockerfile_version}/bin/R /usr/local/bin/R && \
     sudo ln -s /opt/R/${R_VERSION}/${dockerfile_version}/bin/Rscript /usr/local/bin/Rscript && \
+    # sets the latest python environment the global python version
+    pyenv global "${dockerfile_version//./-}"
     # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version} && \
     # enabling timezone setting by entrypoint.sh by knimeuser
