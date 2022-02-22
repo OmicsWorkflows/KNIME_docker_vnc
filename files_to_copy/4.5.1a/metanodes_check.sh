@@ -21,7 +21,25 @@ button_change="change"
 waittime_def=6d
 waittime="$waittime_def"
 
+# output file with some info for the user and some default values
+outputfile=~/${repo}_check_status
+text_watching="${repo} repository is being checked for changes regularly"
+text_notwatching="${repo} repository is not checked for changes"
+
 ###############################################################################
+
+# checks the outputfile presence and status and shows info that the check script is already running
+if test -f ${outputfile}; then
+  read check_status < ${outputfile}
+  if [[ "$check_status" == "$text_watching" ]]; then
+    zenity --warning --text="$repo is already being checked for changes, will exit now."  --width=300
+    exit 0
+  else
+    zenity --info --text="$repo has started to be checked for changes.\n\nThe 1st check will happen now and the next one will be in ${waittime}.\n\nYou can verify that the check is running by the following file inspection:\n${outputfile}"  --width=550
+  fi
+else
+  zenity --info --text="$repo has started to be checked for changes.\n\nThe 1st check will happen now and the next one will be in ${waittime}.\n\nYou can verify that the check is running by the following file inspection:\n${outputfile}"  --width=550
+fi
 
 # creates variable to hold info whether to rerun the script again
 rerun=yes
@@ -40,6 +58,10 @@ fi
 # navigates to the KNIME_Workflows repository
 cd "$directory"
 
+# writes the output file to be able to monitor the check status
+#echo "writes the output file"
+echo "$text_watching" > "$outputfile"
+
 # fetches the status of the remote branch
 FETCH=$(git fetch origin "$branch" 2>&1)
 
@@ -48,6 +70,8 @@ if [ "$?" -ne 0 ]; then
   echo "Attempt to fetch $branch branch returned error";
   echo "$FETCH"
   zenity --error --text="Attempt to fetch remote branch returned error\n\nThe remote branch might be missing.\n\Please contact technical support with the following details:\n\nreturned error:\n$FETCH\n\nchecked branch name:\n$branch" --title="Fetching remote branch returned error!"  --width=300
+  # writes the output file to be able to monitor the check status
+  echo "$text_notwatching" > "$outputfile"
   exit 1;
 else
   # just gets rid of any spaces, tabs etc. for better comparisong with the expected value when there is no update
@@ -59,6 +83,7 @@ else
     echo "no change in the $branch branch"
     echo "waiting for $waittime and will check for the changes again"
     # waits for the specified time prior it proceeds with the next iteration of the branch check
+    echo "$text_watching" > "$outputfile"
     sleep $waittime
   else
     # in case the fetch result is different to the expected one, i.e. the branch has some remote changes
@@ -106,12 +131,14 @@ else
       fi
     elif [[ "${rc}-${ans}" == "1-$button_stop" ]] || [[ "${rc}-${ans}" == "1-" ]]; then
       zenity --info --text="You have asked not to watch $repo for the updates. Exiting.\n\nInitiate the updates watch script manually if you would like to resume it later." --title="$repo updates watch stopped!" --width=300
+      echo "$text_notwatching" > "$outputfile"
       exit 1
     fi
     { # tries to set it to sleep for the adjusted interval and returns warning dialog, sets the interval to the default value and restarts the 2nd while loop
       echo "waiting for $waittime and will run the script again"
+      echo "$text_watching" > "$outputfile"
       sleep $waittime
-    } || { #catch
+    } || { # catch error and shows warning message
       zenity --warning --text="The provided interval time $waittime is not in valid format.\n\nThe interval set back to the default value $waittime_def.\n\nWill ask again what should be done." --title="Not valid interval value!" --width=300
       waittime="$waittime_def"
       interval=notset
@@ -121,4 +148,5 @@ else
 fi
 done
 echo "Exiting Program"
+echo "$text_notwatching" > "$outputfile"
 exit 0
