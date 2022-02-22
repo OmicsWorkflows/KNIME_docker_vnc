@@ -35,10 +35,10 @@ if test -f ${outputfile}; then
     zenity --warning --text="$repo is already being checked for changes, will exit now."  --width=300
     exit 0
   else
-    zenity --info --text="$repo has started to be checked for changes.\n\nThe 1st check will happen now and the next one will be in ${waittime}.\n\nYou can verify that the check is running by the following file inspection:\n${outputfile}"  --width=550
+    zenity --info --text="${repo} branch ${branch} has started to be checked for changes.\n\nThe 1st check will happen now and the next one will be in ${waittime}.\n\nYou can verify that the check is running by the following file inspection:\n${outputfile}"  --width=550
   fi
 else
-  zenity --info --text="$repo has started to be checked for changes.\n\nThe 1st check will happen now and the next one will be in ${waittime}.\n\nYou can verify that the check is running by the following file inspection:\n${outputfile}"  --width=550
+  zenity --info --text="${repo} branch ${branch} has started to be checked for changes.\n\nThe 1st check will happen now and the next one will be in ${waittime}.\n\nYou can verify that the check is running by the following file inspection:\n${outputfile}"  --width=550
 fi
 
 # creates variable to hold info whether to rerun the script again
