@@ -11,8 +11,7 @@ if [ ! -v "$CONTAINER_TIMEZONE" ]; then
 # ln -sf /usr/share/zoneinfo/${CONTAINER_TIMEZONE} /etc/localtime
  echo "container timezone set to ${CONTAINER_TIMEZONE}"
  # needs to be set so tidyverse works as expected, systemd related error observed otherwise
- #env TZ ${CONTAINER_TIMEZONE}
- echo "TZ='${CONTAINER_TIMEZONE}'; export TZ" >> ~/.bashrc
+ export TZ=${CONTAINER_TIMEZONE}
 fi
 
 # remove display lock - if locked, vnc cannot initiate
