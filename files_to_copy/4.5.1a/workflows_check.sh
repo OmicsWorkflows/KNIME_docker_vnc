@@ -108,7 +108,7 @@ else
     # based on the type and text of the response the next actions are considered
     if [[ "${rc}-${ans}" == "1-$button_change" ]]; then
       # dialog to change the default/previously set interval length
-      ans2=$(zenity --entry --text="Please enter the new value to replace $waittime:\n(acceptable format is e.g. 10h or 2d\nfor 10 hours or 2 days, respectively):" --title="Udates interval change")
+      ans2=$(zenity --entry --text="Please enter the new value to replace $waittime:\n(acceptable format is e.g. 10h or 2d\nfor 10 hours or 2 days, respectively):" --title="Updates interval change")
       rc2=$?
       #echo "${rc2}-${ans2}"
       # these situations are handled
