@@ -153,13 +153,17 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     # sets the latest python environment the global python version
     pyenv global ${python_env_latest} && \
     # create version file in knimeuser home, just for info
-    touch ${knimeuser_home}/version-${dockerfile_version} && \
+    touch ${knimeuser_home}/version-${dockerfile_version}
     # enabling timezone setting by entrypoint.sh by knimeuser
-    sudo chown ${knimeuser}: /etc/timezone
-    # sets the default timezone to Europe/Prague
-#RUN sudo timedatectl set-timezone Europe/Prague
+#    sudo chown ${knimeuser}: /etc/timezone
+    # sets the default timezone to Europe/Prague, needs to switch to the root account to do that
 USER root
-RUN ln -fs /usr/share/zoneinfo/Europe/Prague /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata
+RUN rm -f /etc/timezone /etc/localtime && \
+    touch /etc/timezone && \
+    touch /etc/localtime && \
+    chown ${knimeuser} /etc/timezone && \
+    chown ${knimeuser} /etc/localtime
+#RUN ln -fs /usr/share/zoneinfo/Europe/Prague /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata
 USER ${knimeuser}
 
 EXPOSE 5901
