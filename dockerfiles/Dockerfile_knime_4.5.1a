@@ -158,7 +158,7 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     sudo touch /etc/timezone && \
     sudo touch /etc/localtime && \
     sudo chown ${knimeuser} /etc/timezone && \
-    sudo chown ${knimeuser} /etc/localtime
+    sudo chown ${knimeuser} /etc/localtime && \
     # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version}
 
