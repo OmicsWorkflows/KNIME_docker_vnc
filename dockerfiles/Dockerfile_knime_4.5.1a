@@ -156,6 +156,7 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     touch ${knimeuser_home}/version-${dockerfile_version} && \
     # enabling timezone setting by entrypoint.sh by knimeuser
     sudo chown ${knimeuser}: /etc/timezone
+RUN sudo chown ${knimeuser}: /etc/localtime
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
