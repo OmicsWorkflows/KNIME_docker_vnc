@@ -70,7 +70,8 @@ ARG knime_r_extension=org.knime.features.r.feature.group/4.5.0.v202111291432
 ARG knime_testing_framework_extension=org.knime.features.testing.core.feature.group/4.5.0.v202111152041
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.5.1.v202201171148
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.5.0.v202107011903
-ARG knime_openms_extension=de.openms.feature.feature.group/2.8.0.202202211737
+#ARG knime_openms_extension=de.openms.feature.feature.group/2.8.0.202202211737
+ARG knime_openms_extension=de.openms.feature.feature.group/2.7.0.202109131426
 ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.4.5.v202201211506
 
 # install KNIME
@@ -152,10 +153,14 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     sudo ln -s /opt/R/${R_VERSION}/${R_env_latest}/bin/Rscript /usr/local/bin/Rscript && \
     # sets the latest python environment the global python version
     pyenv global ${python_env_latest} && \
-    # create version file in knimeuser home, just for info
-    touch ${knimeuser_home}/version-${dockerfile_version} && \
     # enabling timezone setting by entrypoint.sh by knimeuser
-    sudo chown ${knimeuser}: /etc/timezone
+    sudo rm -f /etc/timezone /etc/localtime && \
+    sudo touch /etc/timezone && \
+    sudo touch /etc/localtime && \
+    sudo chown ${knimeuser} /etc/timezone && \
+    sudo chown ${knimeuser} /etc/localtime && \
+    # create version file in knimeuser home, just for info
+    touch ${knimeuser_home}/version-${dockerfile_version}
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
