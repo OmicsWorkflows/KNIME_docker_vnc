@@ -158,7 +158,9 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     sudo chown ${knimeuser}: /etc/timezone
     # sets the default timezone to Europe/Prague
 #RUN sudo timedatectl set-timezone Europe/Prague
-RUN sudo ln -fs /usr/share/zoneinfo/Europe/Prague /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata
+USER root
+RUN ln -fs /usr/share/zoneinfo/Europe/Prague /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata
+USER ${knimeuser}
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
