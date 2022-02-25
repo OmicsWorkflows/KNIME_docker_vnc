@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
-Name=Start Metanodes templates check
-Comment=Checks for updates of the KNIME Metanodes templates repository
+Name=Check Metanodes templates
+Comment=Checks for the KNIME Metanodes templates repository updates
 Exec=/usr/copied_files/metanodes_check.sh
 Terminal=false
 X-MultipleArgs=false
