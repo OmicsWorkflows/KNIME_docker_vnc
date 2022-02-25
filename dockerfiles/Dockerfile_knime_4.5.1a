@@ -158,8 +158,6 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     sudo chown ${knimeuser}: ${knimeuser_home}/.vnc && \
     cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup && \
     sudo chmod +x ${knimeuser_home}/.vnc/xstartup && \
-    # creates link to the file with the icons location on the desktop
-    ln -s /home/knimeuser/.config/xfce4/desktop/icons.screen0-1680x1050.rc /home/knimeuser/.config/xfce4/desktop/icons.screen.latest.rc && \
     # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version}
 
