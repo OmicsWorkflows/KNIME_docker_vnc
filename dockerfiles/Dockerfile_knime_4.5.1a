@@ -18,33 +18,14 @@ ARG copied_files_folder=/usr/copied_files
 
 ############################################# Basic packages ###########################################################
 
-# needs to be done in noninteractive way to install tzdata
-
-RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ncbi-blast+ \
     pandoc \
  && sudo rm -rf /var/lib/apt/lists/*
 
-################################# creates some folders and copies the supplemental files ###############################
+########################################## set default locations #######################################################
 
-# create folders
-#RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
-RUN mkdir ${knime_workspace_folder}
-
-# copy external files to docker image
-COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
-COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.config ${knimeuser_home}/.config
-RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
-    chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
-    chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
-    chmod 755 ${copied_files_folder}/metanodes_reset_branch.sh && \
-    chmod 755 ${copied_files_folder}/metanodes_check.sh && \
-    chmod 755 ${copied_files_folder}/workflows_reset.sh && \
-    chmod 755 ${copied_files_folder}/workflows_reset_branch.sh && \
-    chmod 755 ${copied_files_folder}/workflows_check.sh && \
-    chmod 755 ${copied_files_folder}/vnc_pass_set.sh
-
-# set default locations
 ENV HOME ${knimeuser_home}
 WORKDIR ${knimeuser_home}
 
@@ -74,7 +55,7 @@ ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.fea
 ARG knime_openms_extension=de.openms.feature.feature.group/2.7.0.202109131426
 ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.4.5.v202201211506
 
-# install KNIME
+# installs KNIME
 ADD --chown=knimeuser:knimeuser http://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
 RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
     rm ${knimeuser_home}/${knime_file} && \
@@ -98,8 +79,7 @@ RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
     # change max heap for knime (default is 2048m, i.e. -Xmx2g, which might not always be sufficient)
     sed -i 's/-Xmx.*/-Xmx6g/' ${knime_folder}/knime.ini
 
-
-####################################################### VNC ############################################################
+################################################### installs VNC #######################################################
 
 # tigervnc version to be installed, 64bit installation file is expected
 ARG tigervnc_version=1.10.1
@@ -108,16 +88,30 @@ ARG tigervnc_version=1.10.1
 RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download  && \
     sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/ && \
     sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. / && \
-    sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64 && \
-    # vnc startup - create so that there is no problem with file does not exist on vnc init
-    sudo mkdir ${knimeuser_home}/.vnc && \
-    sudo chown ${knimeuser}: ${knimeuser_home}/.vnc && \
-    cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup && \
-    sudo chmod +x ${knimeuser_home}/.vnc/xstartup
+    sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64
 
+################################# creates some folders and copies the supplemental files ###############################
+
+# create folders
+#RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+RUN mkdir ${knime_workspace_folder}
+
+# copy external files to docker image
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.config ${knimeuser_home}/.config
+RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
+    chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_reset_branch.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_check.sh && \
+    chmod 755 ${copied_files_folder}/workflows_reset.sh && \
+    chmod 755 ${copied_files_folder}/workflows_reset_branch.sh && \
+    chmod 755 ${copied_files_folder}/workflows_check.sh && \
+    chmod 755 ${copied_files_folder}/vnc_pass_set.sh && \
+#
 ################################################### SHORTCUTS ##########################################################
-
-RUN mkdir ${knimeuser_home}/Desktop && \
+#
+    mkdir ${knimeuser_home}/Desktop && \
     # shortcut to knime
     sudo cp ${copied_files_folder}/knime.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/ && \
@@ -159,6 +153,11 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     sudo touch /etc/localtime && \
     sudo chown ${knimeuser} /etc/timezone && \
     sudo chown ${knimeuser} /etc/localtime && \
+    # vnc startup - create so that there is no problem with file does not exist on vnc init
+    sudo mkdir ${knimeuser_home}/.vnc && \
+    sudo chown ${knimeuser}: ${knimeuser_home}/.vnc && \
+    cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup && \
+    sudo chmod +x ${knimeuser_home}/.vnc/xstartup && \
     # creates link to the file with the icons location on the desktop
     ln -s /home/knimeuser/.config/xfce4/desktop/icons.screen0-1680x1050.rc /home/knimeuser/.config/xfce4/desktop/icons.screen.latest.rc && \
     # create version file in knimeuser home, just for info
