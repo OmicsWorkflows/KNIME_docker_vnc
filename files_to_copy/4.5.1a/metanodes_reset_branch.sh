@@ -69,7 +69,7 @@ echo "branch set to ${branch}"
 
 # shows the notification about the initiated task
 notify-send -i software-update-available "${repo} repository" \
-"<b>Repository reset started!</b> \
+"<b>Repository (${branch} branch) reset started!</b> \
 \rPlease wait till it is finished..."
 
 # resets the repository; change "master" branch to the appropriate one if needed
@@ -83,7 +83,7 @@ echo "$branch" > "$last_branch_file"
 
 # shows the notification about the finished task
 notify-send -u critical -i process-completed "${repo} repository" \
-"<b>Repository reset completed!</b> \
+"<b>Repository (${branch} branch) reset completed!</b> \
 \rYou can start to use them in KNIME! \
 \rWorkspace refresh in KNIME may be needed! \
 \rClick here to hide the notification"
