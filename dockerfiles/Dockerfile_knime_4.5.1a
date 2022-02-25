@@ -109,7 +109,7 @@ RUN sudo wget -O /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb htt
     #sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/ && \
     #sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. / && \
     #sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64 && \
-    sudo dpkg /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb && \
+    sudo dpkg -I /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb && \
     sudo rm -r /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb && \
     # vnc startup - create so that there is no problem with file does not exist on vnc init
     sudo mkdir ${knimeuser_home}/.vnc && \
