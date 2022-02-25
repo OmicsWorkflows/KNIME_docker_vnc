@@ -102,7 +102,7 @@ RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
 ####################################################### VNC ############################################################
 
 # tigervnc version to be installed, 64bit installation file is expected
-ARG tigervnc_version=1.10.1
+ARG tigervnc_version=1.12.0
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download  && \
