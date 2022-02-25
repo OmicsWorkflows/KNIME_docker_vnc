@@ -107,6 +107,7 @@ ARG tigervnc_version=1.12.0
 # installs needed dependencies
 RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    libxfont-dev \
     gdebi -y && \
     sudo rm -rf /var/lib/apt/lists/*
 
