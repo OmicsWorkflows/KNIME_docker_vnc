@@ -23,7 +23,7 @@ set timezone="Europe/Prague"
 set default_image_name=cfprot/knime:latest
 set default_port=5901
 set default_workspace=knime-workspace
-set default_vnc_password=knime
+set default_vnc_password=knime1
 
 :::::::::::::::::::::::::::::::::::::::
 ::: END OF THE SCRIPT SETTINGS PART :::

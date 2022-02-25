@@ -25,7 +25,7 @@ timezone="Europe/Prague"
 default_image_name="cfprot/knime:latest"
 default_port=5901
 default_workspace="knime-workspace"
-default_vnc_password=knime
+default_vnc_password=knime1
 
 
 #######################################
