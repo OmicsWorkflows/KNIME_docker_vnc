@@ -105,18 +105,18 @@ RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
 ARG tigervnc_version=1.12.0
 
 # installs needed dependencies
-RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    libxfont-dev \
-    gdebi -y && \
-    sudo rm -rf /var/lib/apt/lists/*
+#RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
+#    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+#    libxfont-dev \
+#    gdebi -y && \
+#    sudo rm -rf /var/lib/apt/lists/*
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 RUN sudo wget -O /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/ubuntu-20.04LTS/amd64/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb/download  && \
     #sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/ && \
     #sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. / && \
     #sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64 && \
-    sudo gdebi /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb -y && \
+    sudo apt /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb -y && \
     sudo apt -f install && \
     sudo rm -r /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb && \
     # vnc startup - create so that there is no problem with file does not exist on vnc init
