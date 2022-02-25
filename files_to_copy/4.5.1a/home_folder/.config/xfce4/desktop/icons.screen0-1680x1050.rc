@@ -3,15 +3,15 @@
 
 [/home/knimeuser/Desktop/Metanodes_templates_reset.desktop]
 row=4
-col=5
+col=2
 
 [/home/knimeuser/Desktop/Workflows_templates_reset_branch.desktop]
-row=5
-col=5
+row=0
+col=4
 
 [/home/knimeuser/Desktop/Workflows_templates_reset.desktop]
-row=3
-col=5
+row=4
+col=4
 
 [/home/knimeuser/Desktop/knime.desktop]
 row=4
@@ -19,19 +19,19 @@ col=0
 
 [/home/knimeuser/Desktop/Workflows_check.desktop]
 row=2
-col=5
+col=4
 
 [/home/knimeuser/Desktop/Metanodes_check.desktop]
-row=1
-col=5
+row=2
+col=2
 
 [/home/knimeuser/Desktop/vnc_pass_set.desktop]
 row=3
 col=0
 
 [/home/knimeuser/Desktop/Metanodes_templates_reset_branch.desktop]
-row=6
-col=5
+row=0
+col=2
 
 [Trash]
 row=0
@@ -44,4 +44,3 @@ col=0
 [/home/knimeuser]
 row=2
 col=0
-
