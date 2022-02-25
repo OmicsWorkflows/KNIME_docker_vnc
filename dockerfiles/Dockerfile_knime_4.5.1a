@@ -108,7 +108,7 @@ ARG tigervnc_version=1.12.0
 RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libxfont-dev -y && \
-    sudo rm -rf /var/lib/apt/lists/* && \
+    sudo rm -rf /var/lib/apt/lists/*
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
 RUN sudo wget -O /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/ubuntu-20.04LTS/amd64/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb/download  && \
