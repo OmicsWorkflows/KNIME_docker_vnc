@@ -21,7 +21,7 @@ button_update_change="Update and change"
 button_change="Change only"
 
 # time to wait between individual fetch attempts (default value in case the adjusted once would not be ok...)
-waittime_def=3s
+waittime_def=3d
 waittime=$waittime_def
 
 # output file with some info for the user and some default values
