@@ -163,4 +163,5 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     touch ${knimeuser_home}/version-${dockerfile_version}
 
 EXPOSE 5901
-ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
+#ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
+CMD ["/bin/bash"]
