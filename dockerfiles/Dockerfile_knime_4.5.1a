@@ -105,10 +105,12 @@ RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
 ARG tigervnc_version=1.12.0
 
 # download and unpack tigervnc (support for encryption if using tigervnc viewer)
-RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download  && \
-    sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/ && \
-    sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. / && \
-    sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64 && \
+RUN sudo wget -O /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/ubuntu-20.04LTS/amd64/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb/download  && \
+    #sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/ && \
+    #sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. / && \
+    #sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64 && \
+    sudo dpkg /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb && \
+    sudo rm -r /root/tigervncserver_${tigervnc_version}-1ubuntu1_amd64.deb && \
     # vnc startup - create so that there is no problem with file does not exist on vnc init
     sudo mkdir ${knimeuser_home}/.vnc && \
     sudo chown ${knimeuser}: ${knimeuser_home}/.vnc && \
