@@ -159,8 +159,10 @@ RUN mkdir ${knimeuser_home}/Desktop && \
     sudo touch /etc/localtime && \
     sudo chown ${knimeuser} /etc/timezone && \
     sudo chown ${knimeuser} /etc/localtime && \
+    # creates link to the file with the icons location on the desktop
+    ln -s /home/knimeuser/.config/xfce4/desktop/icons.screen0-1680x1050.rc /home/knimeuser/.config/xfce4/desktop/icons.screen.latest.rc && \
     # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version}
-RUN ln -s /home/knimeuser/.config/xfce4/desktop/icons.screen0-1680x1050.rc /home/knimeuser/.config/xfce4/desktop/icons.screen.latest.rc
+
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
