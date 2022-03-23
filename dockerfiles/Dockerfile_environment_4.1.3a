@@ -79,7 +79,8 @@ RUN echo 'export PYENV_ROOT="${PYENV_ROOT}"' >> .bashrc && \
 ###################################################### R ###############################################################
 
 RUN sudo apt-get update -y  && sudo apt-get install -y \
-    # base packages for make multiple R installation process
+    # base packages for some R libraries installation
+    cmake \
     gdebi-core \
     ## installs additional system packages needed for curl/plotly
     libcurl4-openssl-dev \
