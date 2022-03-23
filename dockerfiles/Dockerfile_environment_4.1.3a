@@ -84,9 +84,9 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     gdebi-core \
     ## installs additional system packages needed for curl/plotly
     libcurl4-openssl-dev \
-    libssl-dev && \
+    libssl-dev \
     ## installs additional system packages with extra fonts needed by R
-    xfonts-100dpi && \
+    xfonts-100dpi \
     xfonts-75dpi && \
     sudo rm -rf /var/lib/apt/lists/* && \
     # adds user to the staff group
