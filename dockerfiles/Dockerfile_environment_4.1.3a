@@ -123,15 +123,22 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
     ## installs additional R packages from default R cran
-RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c( \
-        "https://cran.r-project.org/src/contrib/Archive/randomForest/randomForest_4.6-14.tar.gz", \
-        "https://cran.r-project.org/src/contrib/Archive/imp4p/imp4p_0.9.tar.gz", \
-        "https://cran.r-project.org/src/contrib/Archive/gprofiler2/gprofiler2_0.1.9.tar.gz", \
-        "https://cran.r-project.org/src/contrib/Archive/compositions/compositions_1.40-5.tar.gz", \
-        "https://cran.r-project.org/src/contrib/Archive/plotly/plotly_4.9.2.1.tar.gz", \
-        "https://cran.r-project.org/src/contrib/Archive/robCompositions/robCompositions_2.2.1.tar.gz", \
-        "https://cran.r-project.org/src/contrib/UpSetR_1.4.0.tar.gz" \
-        ),repos=NULL, type="source")' && \
+RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/randomForest/randomForest_4.6-14.tar.gz", dependencies = TRUE)' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/imp4p/imp4p_0.9.tar.gz", dependencies = TRUE)' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/gprofiler2/gprofiler2_0.1.9.tar.gz", dependencies = TRUE)' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/compositions/compositions_1.40-5.tar.gz", dependencies = TRUE)' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/plotly/plotly_4.9.2.1.tar.gz", dependencies = TRUE)' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/robCompositions/robCompositions_2.2.1.tar.gz", dependencies = TRUE)' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/UpSetR_1.4.0.tar.gz", dependencies = TRUE)' && \
+#RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c( \
+#        "https://cran.r-project.org/src/contrib/Archive/randomForest/randomForest_4.6-14.tar.gz", \
+#        "https://cran.r-project.org/src/contrib/Archive/imp4p/imp4p_0.9.tar.gz", \
+#        "https://cran.r-project.org/src/contrib/Archive/gprofiler2/gprofiler2_0.1.9.tar.gz", \
+#        "https://cran.r-project.org/src/contrib/Archive/compositions/compositions_1.40-5.tar.gz", \
+#        "https://cran.r-project.org/src/contrib/Archive/plotly/plotly_4.9.2.1.tar.gz", \
+#        "https://cran.r-project.org/src/contrib/Archive/robCompositions/robCompositions_2.2.1.tar.gz", \
+#        "https://cran.r-project.org/src/contrib/UpSetR_1.4.0.tar.gz" \
+#        ),repos=NULL, type="source")' && \
     #sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"),repos="http://cran.rstudio.com/")' && \
     ## installs additional R packages from sources
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
