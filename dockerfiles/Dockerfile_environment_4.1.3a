@@ -135,6 +135,7 @@ RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_v
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("gprofiler2", version = "0.1.9", repos = "https://cran.r-project.org")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("compositions", version = "1.40-5", repos = "https://cran.r-project.org")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("plotly", version = "4.9.2.1", repos = "https://cran.r-project.org")' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/sROC/sROC_0.1-2.tar.gz", dependencies = TRUE)' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("robCompositions", version = "2.2.1", repos = "https://cran.r-project.org")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("UpSetR", version = "1.4.0", repos = "https://cran.r-project.org")' && \
 #RUN sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c( \
