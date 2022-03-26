@@ -66,7 +66,7 @@ RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'BiocManager::install(c("Biobase", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))' && \
     ## installs additional R packages from default R cran
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("imp4p", "gplots", "gprofiler2", "compositions", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse"), repos = "http://cran.r-project.org")' && \
+    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("imp4p", "gplots", "gprofiler2", "compositions", "Peptides", "plotly", "robCompositions", "readxl, "shiny", "tidyverse"), repos = "http://cran.r-project.org")' && \
     ## installs additional R packages from sources
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
