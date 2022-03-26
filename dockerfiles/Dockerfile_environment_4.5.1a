@@ -8,7 +8,6 @@ ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
 ARG dockerfile_version=4.5.1a
-
 ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
 ARG copied_files_folder=/usr/copied_files
 
