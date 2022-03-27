@@ -44,7 +44,7 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     sudo rm -rf /var/lib/apt/lists/*
 
 # setup R used in the current environment
-ENV R_VERSION=4.1.2
+ENV R_VERSION=4.1.3
 RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     tar -xzvf R-${R_VERSION}.tar.gz && \
     cd R-${R_VERSION} && \
@@ -65,7 +65,7 @@ RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'BiocManager::install(c("Biobase", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))' && \
     ## installs additional R packages from default R cran
-    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("readxl"), repos = "http://cran.rstudio.com/")' && \
+#    sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("readxl"), repos = "http://cran.rstudio.com/")' && \
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("imp4p", "gplots", "gprofiler2", "compositions", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse"), repos = "http://cran.r-project.org")' && \
     ## installs additional R packages from sources
     sudo /opt/R/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
