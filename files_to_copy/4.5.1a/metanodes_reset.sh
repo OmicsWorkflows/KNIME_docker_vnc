@@ -29,11 +29,47 @@ fi
 cd "$directory"
 
 if [ -n "`git show-ref --verify refs/remotes/"$branch"`" ]; then
-  # resets the repository
-  git fetch origin
-  git reset --hard "$branch"
+  # resets the repository; in case there is error message in any command, the error window will be displayed
+  git_return1=$(git fetch origin 2>&1)
+  if [ $? != 0 ] ; then
+    # shows the notification about the error in the git command
+    notify-send -u critical -i dialog-error "${repo} repository" \
+    "<b>Git command has not finished successfully!</b> \
+    \rError message got by the following git command: \
+    \r'git fetch origin': \
+    \r \
+    \r${git_return1} \
+    \r \
+    \r<b>Please contact support with the abovementioned error messages!</b>"
+    exit 1
+  fi
+  git_return2=$(git reset --hard "$branch" 2>&1)
+  if [ $? != 0 ] ; then
+    # shows the notification about the error in the git command
+    notify-send -u critical -i dialog-error "${repo} repository" \
+    "<b>Git command has not finished successfully!</b> \
+    \rError message got by the following git command: \
+    \r'git reset --hard "$branch"': \
+    \r \
+    \r${git_return2} \
+    \r \
+    \r<b>Please contact support with the abovementioned error messages!</b>"
+    exit 1
+  fi
   # removes also not tracked folders and files
-  git clean -f -d
+  git_return3=$(git clean -f -d 2>&1)
+  if [ $? != 0 ] ; then
+    # shows the notification about the error in the git command
+    notify-send -u critical -i dialog-error "${repo} repository" \
+    "<b>Git command has not finished successfully!</b> \
+    \rError message got by the following git command: \
+    \r'git clean -f -d': \
+    \r \
+    \r${git_return3} \
+    \r \
+    \r<b>Please contact support with the abovementioned error messages!</b>"
+    exit 1
+  fi
 else
   echo "${branch} branch does not exists!"
   zenity --error --text="Branch does not exists!\n\nIt might have been deleted recently.\nPlease verify and adjust the script file accordingly.\n\nChecked branch name:\n"$branch"" --title="Branch does not exists!"  --width=300

@@ -72,11 +72,48 @@ notify-send -i software-update-available "${repo} repository" \
 "<b>Repository (${branch} branch) reset started!</b> \
 \rPlease wait till it is finished..."
 
-# resets the repository; change "master" branch to the appropriate one if needed
-git fetch origin
-git reset --hard "$branch"
+# resets the repository; in case there is error message in any command, the error window will be displayed
+git_return1=$(git fetch origin 2>&1)
+if [ $? != 0 ] ; then
+  # shows the notification about the error in the git command
+  notify-send -u critical -i dialog-error "${repo} repository" \
+  "<b>Git command has not finished successfully!</b> \
+  \rError message got by the following git command: \
+  \r'git fetch origin': \
+  \r \
+  \r${git_return1} \
+  \r \
+  \r<b>Please contact support with the abovementioned error messages!</b>"
+  exit 1
+fi
+git_return2=$(git reset --hard "$branch" 2>&1)
+if [ $? != 0 ] ; then
+  # shows the notification about the error in the git command
+  notify-send -u critical -i dialog-error "${repo} repository" \
+  "<b>Git command has not finished successfully!</b> \
+  \rError message got by the following git command: \
+  \r'git reset --hard "$branch"': \
+  \r \
+  \r${git_return2} \
+  \r \
+  \r<b>Please contact support with the abovementioned error messages!</b>"
+  exit 1
+fi
 # removes also not tracked folders and files
-git clean -f -d
+git_return3=$(git clean -f -d 2>&1)
+if [ $? != 0 ] ; then
+  # shows the notification about the error in the git command
+  notify-send -u critical -i dialog-error "${repo} repository" \
+  "<b>Git command has not finished successfully!</b> \
+  \rError message got by the following git command: \
+  \r'git clean -f -d': \
+  \r \
+  \r${git_return3} \
+  \r \
+  \r<b>Please contact support with the abovementioned error messages!</b>"
+  exit 1
+fi
+
 # writes down small file that will hold the last used branch name
 
 echo "$branch" > "$last_branch_file"
