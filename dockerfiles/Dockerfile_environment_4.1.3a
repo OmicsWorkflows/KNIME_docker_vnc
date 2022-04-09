@@ -95,6 +95,8 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 # setup R used in 4.1.3a
 ENV R_VERSION=3.6.3
 ## adds extra packages needed by the base R and some packages installed later on
+## R build with these options "--without-x --with-cairo --with-libpng --with-libtiff --with-jpeglib"
+## was added due to the issues with the rendering, X11(type) was Xlib causing not antialiased text, lines etc.
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gfortran \
     libblas-dev \
@@ -105,8 +107,6 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     curl -O https://cran.rstudio.com/src/base/R-3/R-${R_VERSION}.tar.gz && \
     tar -xzvf R-${R_VERSION}.tar.gz && \
     cd R-${R_VERSION} && \
-    ## build with these options "--without-x --with-cairo --with-libpng --with-libtiff --with-jpeglib"
-    ## was added due to the issues with the rendering, X11(type) was Xlib causing not antialiased text, lines etc.
     ./configure \
     --prefix=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version} \
     --enable-memory-profiling \
