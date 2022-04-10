@@ -102,7 +102,7 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     libblas-dev \
     libicu-dev \
     liblapack-dev \
-    librairo2 \
+    libcairo2 \
     libpango-1.0-0 \
     # needed by xml2 package
     libxml2-dev \
