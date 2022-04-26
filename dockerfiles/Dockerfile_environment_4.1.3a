@@ -98,8 +98,10 @@ ENV R_VERSION=3.6.3
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gfortran \
     libblas-dev \
+    libcairo2 \
     libicu-dev \
     liblapack-dev \
+    libpango-1.0-0 \
     # needed by xml2 package
     libxml2-dev \
     zip && \
