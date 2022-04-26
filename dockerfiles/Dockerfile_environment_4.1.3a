@@ -107,8 +107,13 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     tar -xzvf R-${R_VERSION}.tar.gz && \
     cd R-${R_VERSION} && \
     ./configure \
-    --prefix=/opt/R/${R_VERSION}/${dockerfile_version} \
+    --prefix=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version} \
     --enable-memory-profiling \
+    --without-x  \
+    --with-cairo \
+    --with-libpng  \
+    --with-libtiff  \
+    --with-jpeglib  \
     --enable-R-shlib \
     --with-blas \
     --with-lapack && \

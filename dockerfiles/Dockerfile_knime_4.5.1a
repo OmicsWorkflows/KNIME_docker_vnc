@@ -5,7 +5,7 @@ FROM cfprot/environment:4.5.1a
 # change the version of the docker file here to correspond to the docker file name
 ARG dockerfile_version=4.5.1a
 ARG python_env_latest=4-5-1a
-ARG R_env_latest=${dockerfile_version}
+ARG R_env_latest=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 
 ## default folders (knime_folder and knime_workspace_folder ENVs are used in shortcut to knime, others can be ARG)
 ARG knimeuser=knimeuser
@@ -143,8 +143,8 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
 ################################################# FINAL ACTIONS ########################################################
 #
     # creates links to have the most recent R version accessible on expected place
-    sudo ln -s /opt/R/${R_VERSION}/${R_env_latest}/bin/R /usr/local/bin/R && \
-    sudo ln -s /opt/R/${R_VERSION}/${R_env_latest}/bin/Rscript /usr/local/bin/Rscript && \
+    sudo ln -s ${R_env_latest}/bin/R /usr/local/bin/R && \
+    sudo ln -s ${R_env_latest}/bin/Rscript /usr/local/bin/Rscript && \
     # sets the latest python environment the global python version
     pyenv global ${python_env_latest} && \
     # enabling timezone setting by entrypoint.sh by knimeuser
