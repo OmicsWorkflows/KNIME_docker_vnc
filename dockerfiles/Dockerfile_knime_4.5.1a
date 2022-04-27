@@ -162,5 +162,4 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     touch ${knimeuser_home}/version-${dockerfile_version}
 
 EXPOSE 5901
-#ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
-CMD ["/bin/bash"]
+ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
