@@ -112,8 +112,8 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     zip && \
     curl -O https://cran.rstudio.com/src/base/R-3/R-${R_VERSION}.tar.gz && \
     tar -xzvf R-${R_VERSION}.tar.gz && \
-    cd R-${R_VERSION} && \
-    xvfb-run ./configure \
+    cd R-${R_VERSION}
+RUN xvfb-run ./configure \
     --prefix=${R_INSTALL_DIR} \
     --enable-memory-profiling \
     #--without-x  \
@@ -123,14 +123,13 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     --with-jpeglib  \
     --enable-R-shlib \
     --with-blas \
-    --with-lapack && \
-    xvfb-run make &&\
-    xvfb-run sudo make install &&\
-    cd ${knimeuser_home}/ &&\
-    rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
-    rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
-    xvfb-run sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
-    xvfb-run sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+    --with-lapack
+RUN xvfb-run make
+RUN xvfb-run sudo make install
+RUN cd ${knimeuser_home}/ rm -R ${knimeuser_home}/R-${R_VERSION}/
+RUN rm ${knimeuser_home}/R-${R_VERSION}.tar.gz
+RUN xvfb-run sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")'
+RUN xvfb-run sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
 #    ## installs stable R packages from Bioconductor
 #    sudo ${R_INSTALL_DIR}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
 #    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
@@ -145,7 +144,7 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 #    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("UpSetR", version = "1.4.0", repos = "https://cran.r-project.org")' && \
 #    ## installs additional R packages from sources
 #    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
-    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+RUN sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
 
 ######################################################### Entry ########################################################
 
