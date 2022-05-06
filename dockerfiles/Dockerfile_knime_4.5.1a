@@ -1,10 +1,10 @@
-FROM cfprot/environment:4.5.1a
+FROM environment:4.1.3a
 
 ############################################ set environment variables #################################################
 
 # change the version of the docker file here to correspond to the docker file name
 ARG dockerfile_version=4.5.1a
-ARG python_env_latest=4-5-1a
+ARG python_env_latest=4-1-3a
 #ARG R_env_latest=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 
 ## default folders (knime_folder and knime_workspace_folder ENVs are used in shortcut to knime, others can be ARG)
