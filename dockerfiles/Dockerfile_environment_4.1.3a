@@ -113,10 +113,10 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 RUN ls
 RUN curl -O https://cran.rstudio.com/src/base/R-3/R-${R_VERSION}.tar.gz
 RUN tar -xzvf R-${R_VERSION}.tar.gz && \
-    cd R-${R_VERSION}
+    cd /${knimeuser_home}/R-${R_VERSION}
 RUN ls
-RUN cd R-${R_VERSION}
-RUN ls
+#RUN cd R-3.6.3
+#RUN ls
 RUN xvfb-run ./configure \
     --prefix=${R_INSTALL_DIR} \
     --enable-memory-profiling \
