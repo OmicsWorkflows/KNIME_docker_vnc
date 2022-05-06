@@ -103,6 +103,7 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     libicu-dev \
     liblapack-dev \
     libpango-1.0-0 \
+    libpango1.0-dev \
     # needed for virtual framebuffer X11 server
     xvfb \
     xauth \
