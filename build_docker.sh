@@ -6,7 +6,7 @@ dockerfile_location="./dockerfiles"
 
 echo "Which dockerfile should be used?"
 read dockerfile
-echo "Which version of dockerfile should be used?"
+echo "Which version of the dockerfile should be used?"
 read version
 
 docker build -t $dockerfile:$version -f ${dockerfile_location}/Dockerfile_${dockerfile}_${version} .
