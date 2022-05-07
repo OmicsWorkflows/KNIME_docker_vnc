@@ -45,15 +45,14 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 
 # setup R used in the current environment
 ENV R_VERSION=4.1.3
-# build with these options "--without-x --with-cairo --with-libpng --with-libtiff --with-jpeglib"
-# was added due to the issues with the rendering, X11(type) was Xlib causing not antialiased text, lines etc.
+ENV R_INSTALL_DIR=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     tar -xzvf R-${R_VERSION}.tar.gz && \
     cd R-${R_VERSION} && \
     ./configure \
-    --prefix=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version} \
+    --prefix=${R_INSTALL_DIR} \
     --enable-memory-profiling \
-    --without-x  \
+#    --without-x  \
     --with-cairo \
     --with-libpng  \
     --with-libtiff  \
@@ -66,16 +65,16 @@ RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     cd ${knimeuser_home}/ &&\
     rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
     rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
-    sudo ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
-    sudo ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
     ## installs stable R packages from Bioconductor
-    sudo ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
-    sudo ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e  'BiocManager::install(c("Biobase", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))' && \
     ## installs additional R packages from default R cran
-    sudo ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages(c("imp4p", "gplots", "gprofiler2", "compositions", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse"), repos = "http://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R 'install.packages(c("imp4p", "gplots", "gprofiler2", "compositions", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse"), repos = "http://cran.r-project.org")' && \
     ## installs additional R packages from sources
-    sudo ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
-    sudo ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e  'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
+    sudo ${R_INSTALL_DIR}/bin/R 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
+    sudo ${R_INSTALL_DIR}/bin/R 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
 
 ######################################################### Entry ########################################################
 
