@@ -32,6 +32,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 #RUN apt-get update -y
 # installs desktop environment
     DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install \
     xfce4 \
     xfce4-goodies \
