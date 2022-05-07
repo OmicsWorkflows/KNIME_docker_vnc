@@ -84,8 +84,8 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     gdebi-core \
     ## installs additional system packages needed for curl/plotly
     libcurl4-openssl-dev \
-    libssl-dev && \
-    ## installs additional system packages with extra fonts needed by R
+    libssl-dev \
+#    ## installs additional system packages with extra fonts needed by R
 #    xfonts-100dpi \
 #    xfonts-75dpi && \
     sudo rm -rf /var/lib/apt/lists/* && \
@@ -94,60 +94,58 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
 
 # setup R used in 4.1.3a
 ENV R_VERSION=3.6.3
+ENV R_INSTALL_DIR=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 ## adds extra packages needed by the base R and some packages installed later on
-## R build with these options "--without-x --with-cairo --with-libpng --with-libtiff --with-jpeglib"
-## was added due to the issues with the rendering, X11(type) was Xlib causing not antialiased text, lines etc.
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gfortran \
     libblas-dev \
+    libcairo2 \
     libicu-dev \
     liblapack-dev \
-    libcairo2 \
     libpango-1.0-0 \
-    # needed for virtual framebuffer X11 server
-    xvfb \
-    xauth \
-    xfonts-base \
+    libpango1.0-dev \
+#    # needed for virtual framebuffer X11 server
+#    xvfb \
+#    xauth \
+#    xfonts-base \
     # needed by xml2 package
     libxml2-dev \
-    zip && \
-    sudo rm -rf /var/lib/apt/lists/* && \
-    curl -O https://cran.rstudio.com/src/base/R-3/R-${R_VERSION}.tar.gz && \
-    tar -xzvf R-${R_VERSION}.tar.gz && \
+    zip
+RUN curl -O https://cran.rstudio.com/src/base/R-3/R-${R_VERSION}.tar.gz
+RUN tar -xzvf R-${R_VERSION}.tar.gz && \
     cd R-${R_VERSION} && \
-    xvfb-run ./configure \
-    --prefix=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version} \
+    ./configure \
+    --prefix=${R_INSTALL_DIR} \
     --enable-memory-profiling \
-    --without-x \
+    #--without-x  \
     --with-cairo \
-    --with-libpng \
-    --with-libtiff \
-    --with-jpeglib \
+    --with-libpng  \
+    --with-libtiff  \
+    --with-jpeglib  \
     --enable-R-shlib \
     --with-blas \
     --with-lapack && \
-    xvfb-run make && \
-    xvfb-run sudo make install && \
-    cd ${knimeuser_home}/ && \
-    rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
+    make && \
+    sudo make install && \
+    cd ${knimeuser_home}/ rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
     rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
     ## installs stable R packages from Bioconductor
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
     ## installs additional R packages from default R cran
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("randomForest", version = "4.6-14", repos = "https://cran.r-project.org")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("imp4p", version = "0.9", repos = "https://cran.r-project.org")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("gprofiler2", version = "0.1.9", repos = "https://cran.r-project.org")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("compositions", version = "1.40-5", repos = "https://cran.r-project.org")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("plotly", version = "4.9.2.1", repos = "https://cran.r-project.org")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/sROC/sROC_0.1-2.tar.gz", dependencies = TRUE)' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("robCompositions", version = "2.2.1", repos = "https://cran.r-project.org")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'devtools::install_version("UpSetR", version = "1.4.0", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("randomForest", version = "4.6-14", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("imp4p", version = "0.9", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("gprofiler2", version = "0.1.9", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("compositions", version = "1.40-5", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("plotly", version = "4.9.2.1", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/sROC/sROC_0.1-2.tar.gz", dependencies = TRUE)' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("robCompositions", version = "2.2.1", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("UpSetR", version = "1.4.0", repos = "https://cran.r-project.org")' && \
     ## installs additional R packages from sources
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
-    sudo xvfb-run ${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
 
 ######################################################### Entry ########################################################
 
