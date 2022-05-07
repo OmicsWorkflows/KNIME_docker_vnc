@@ -85,9 +85,6 @@ RUN sudo apt-get update -y  && sudo apt-get install -y \
     ## installs additional system packages needed for curl/plotly
     libcurl4-openssl-dev \
     libssl-dev && \
-#    ## installs additional system packages with extra fonts needed by R
-#    xfonts-100dpi \
-#    xfonts-75dpi && \
     sudo rm -rf /var/lib/apt/lists/* && \
     # adds user to the staff group
     sudo adduser ${knimeuser} staff
@@ -99,15 +96,12 @@ ENV R_INSTALL_DIR=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 RUN sudo apt-get update -y  && sudo apt-get install -y \
     gfortran \
     libblas-dev \
-    libcairo2 \
     libicu-dev \
     liblapack-dev \
+    # needed for the correct cairo and pango libraries detection during the R build
+    libcairo2 \
     libpango-1.0-0 \
     libpango1.0-dev \
-#    # needed for virtual framebuffer X11 server
-#    xvfb \
-#    xauth \
-#    xfonts-base \
     # needed by xml2 package
     libxml2-dev \
     zip
@@ -117,7 +111,6 @@ RUN tar -xzvf R-${R_VERSION}.tar.gz && \
     ./configure \
     --prefix=${R_INSTALL_DIR} \
     --enable-memory-profiling \
-    #--without-x  \
     --with-cairo \
     --with-libpng  \
     --with-libtiff  \
