@@ -58,16 +58,16 @@ RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     cd ${knimeuser_home}/ &&\
     rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
     rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
-    sudo ${R_INSTALL_DIR}/bin/R --no-save -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
-    sudo ${R_INSTALL_DIR}/bin/R --no-save -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
     ## installs stable R packages from Bioconductor
-    sudo ${R_INSTALL_DIR}/bin/R --no-save -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
-    sudo ${R_INSTALL_DIR}/bin/R --no-save -e 'BiocManager::install(c("Biobase", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "vsn"))' && \
     ## installs additional R packages from default R cran
-    sudo ${R_INSTALL_DIR}/bin/R --no-save 'install.packages(c("compositions", "factoextra", "ggpubr", "gplots", "gprofiler2", "imp4p", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse"), repos = "http://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("compositions", "factoextra", "ggpubr", "gplots", "gprofiler2", "imp4p", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse"), repos = "http://cran.r-project.org")' && \
     ## installs additional R packages from sources
-    sudo ${R_INSTALL_DIR}/bin/R --no-save 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
-    sudo ${R_INSTALL_DIR}/bin/R --no-save 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
 
 ######################################################### Entry ########################################################
 
