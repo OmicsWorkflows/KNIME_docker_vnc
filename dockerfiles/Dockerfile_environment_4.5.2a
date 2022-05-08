@@ -7,7 +7,8 @@ ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=4.5.1a
+ARG dockerfile_version=4.5.2a
+ARG python_env_version=4-5-2a
 ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
 ARG copied_files_folder=/usr/copied_files
 
@@ -25,7 +26,6 @@ WORKDIR ${knimeuser_home}
 # installs base python
 # python version and name of the pyenv version to be installed
 ARG python_version=3.10.4
-ARG python_env_version=4-5-1a
 
 RUN pyenv install ${python_version} && \
     # sets virtualenv
