@@ -24,7 +24,7 @@ WORKDIR ${knimeuser_home}
 ### environment
 # installs base python
 # python version and name of the pyenv version to be installed
-ARG python_version=3.10.2
+ARG python_version=3.10.4
 ARG python_env_version=4-5-1a
 
 RUN pyenv install ${python_version} && \
