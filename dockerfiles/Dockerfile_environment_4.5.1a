@@ -38,7 +38,7 @@ RUN pyenv install ${python_version} && \
 ###################################################### R ###############################################################
 
 # setup R used in the current environment
-ENV R_VERSION=4.1.3
+ENV R_VERSION=4.2.0
 ENV R_INSTALL_DIR=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
     tar -xzvf R-${R_VERSION}.tar.gz && \
