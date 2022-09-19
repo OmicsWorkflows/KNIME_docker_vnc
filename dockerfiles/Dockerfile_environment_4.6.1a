@@ -1,0 +1,74 @@
+FROM cfprot/environment:4.6.1a
+
+############################################ set environment variables #################################################
+
+## user that will be using the container
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+
+# change the version of the docker file here to correspond to the docker file name
+ARG dockerfile_version=4.6.1a
+ARG python_env_version=4-5-2a
+ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
+ARG copied_files_folder=/usr/copied_files
+
+################################# creates some folders and copies the supplemental files ###############################
+
+# copy python/R environment files to docker image
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments ${copied_files_folder}/environments
+
+# set default locations
+ENV HOME ${knimeuser_home}
+WORKDIR ${knimeuser_home}
+
+###################################################### PYTHON ##########################################################
+### environment
+# installs base python
+# python version and name of the pyenv version to be installed
+ARG python_version=3.10.4
+
+RUN pyenv install ${python_version} && \
+    # sets virtualenv
+    pyenv virtualenv ${python_version} ${python_env_version} && \
+    /bin/bash -i -c '      source ~/.bashrc && \
+                        pyenv activate ${python_env_version} && \
+                        pip install --upgrade pip && \
+                        pip install --requirement ${copied_files_folder}/environments/${python_env_version}_python.txt'
+
+###################################################### R ###############################################################
+
+# setup R used in the current environment
+ENV R_VERSION=4.2.1
+ENV R_INSTALL_DIR=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
+RUN curl -O https://cran.rstudio.com/src/base/R-4/R-${R_VERSION}.tar.gz && \
+    tar -xzvf R-${R_VERSION}.tar.gz && \
+    cd R-${R_VERSION} && \
+    ./configure \
+    --prefix=${R_INSTALL_DIR} \
+    --enable-memory-profiling \
+    --with-cairo \
+    --with-libpng  \
+    --with-libtiff  \
+    --with-jpeglib  \
+    --enable-R-shlib \
+    --with-blas \
+    --with-lapack && \
+    make &&\
+    sudo make install &&\
+    cd ${knimeuser_home}/ &&\
+    rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
+    rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+    ## installs stable R packages from Bioconductor
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "pvca", "sva", "vsn"))' && \
+    ## installs additional R packages from default R cran
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("compositions", "factoextra", "ggpubr", "gplots", "gprofiler2", "imp4p", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse", "umap"), repos = "http://cran.r-project.org")' && \
+    ## installs additional R packages from sources
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
+
+######################################################### Entry ########################################################
+
+CMD ["/bin/bash"]
