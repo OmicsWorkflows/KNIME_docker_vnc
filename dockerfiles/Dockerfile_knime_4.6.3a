@@ -3,7 +3,7 @@ FROM cfprot/environment:4.5.2a
 ############################################ set environment variables #################################################
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=4.6.1a
+ARG dockerfile_version=4.6.3a
 ARG python_env_latest=4-5-2a
 ARG R_env_latest=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 
@@ -32,7 +32,7 @@ WORKDIR ${knimeuser_home}
 #################################################### KNIME #############################################################
 
 # version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
-ARG knime_version=4.6.1
+ARG knime_version=4.6.3
 
 # KNIME file name to be downloaded and installed
 ARG knime_file=knime_${knime_version}.linux.gtk.x86_64.tar.gz
@@ -46,10 +46,9 @@ ARG knime_community_experimental_repository=https://update.knime.com/community-c
 
 # names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
 # if you add other extension, it needs to be added into the KNIME installation part as well
-ARG knime_python_extension=org.knime.features.python2.feature.group/4.5.2.v202203041212
-ARG knime_r_extension=org.knime.features.r.feature.group/4.5.2.v202203171119
-ARG knime_testing_framework_extension=org.knime.features.testing.core.feature.group/4.5.0.v202111152041 (JS nebo UI?)
-
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.6.0.v202206100850
+ARG knime_r_extension=org.knime.features.r.feature.group/4.6.0.v202205161326
+ARG knime_testing_framework_extension=org.knime.features.testing.core.feature.group/4.5.0.v202111152041
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.6.0.v202205241952
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.6.0.v202202280935
 ARG knime_openms_extension=de.openms.feature.feature.group/2.7.0.202109131426
