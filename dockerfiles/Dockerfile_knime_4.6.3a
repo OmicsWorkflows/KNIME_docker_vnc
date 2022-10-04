@@ -48,7 +48,7 @@ ARG knime_community_experimental_repository=https://update.knime.com/community-c
 # if you add other extension, it needs to be added into the KNIME installation part as well
 ARG knime_python_extension=org.knime.features.python2.feature.group/4.6.0.v202206100850
 ARG knime_r_extension=org.knime.features.r.feature.group/4.6.0.v202205161326
-ARG knime_testing_framework_extension=org.knime.features.testing.core.feature.group/4.5.0.v202111152041
+ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.6.0.v202206030823
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.6.0.v202205241952
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.6.0.v202202280935
 ARG knime_openms_extension=de.openms.feature.feature.group/2.7.0.202109131426
