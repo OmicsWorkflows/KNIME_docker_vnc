@@ -158,9 +158,9 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup && \
     sudo chmod +x ${knimeuser_home}/.vnc/xstartup && \
     # adds all folders as safe directories - enables manipulation with github
-    sudo git config --global --add safe.directory * && \
+    git config --global --add safe.directory "*" && \
     # create version file in knimeuser home, just for info
-    sudo touch ${knimeuser_home}/version-${dockerfile_version}
+    touch ${knimeuser_home}/version-${dockerfile_version}
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
