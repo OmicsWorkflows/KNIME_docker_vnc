@@ -158,7 +158,7 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup && \
     sudo chmod +x ${knimeuser_home}/.vnc/xstartup && \
     # change owner of knime-workspace folder
-    sudo chown ${knimeuser}: ${knime_workspace_folder}
+    sudo chown ${knimeuser}: ${knime_workspace_folder} && \
     # adds all folders as safe directories - enables manipulation with github
     git config --global --add safe.directory "*" && \
     # create version file in knimeuser home, just for info
