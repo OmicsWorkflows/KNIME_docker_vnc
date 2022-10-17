@@ -92,7 +92,7 @@ RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://source
 ################################# creates some folders and copies the supplemental files ###############################
 
 # create folders
-RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+#RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
 RUN mkdir ${knime_workspace_folder}
 
 # copy external files to docker image
@@ -157,6 +157,8 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     sudo chown ${knimeuser}: ${knimeuser_home}/.vnc && \
     cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup && \
     sudo chmod +x ${knimeuser_home}/.vnc/xstartup && \
+    # change owner of knime-workspace folder
+    sudo chown ${knimeuser}: ${knime_workspace_folder}
     # adds all folders as safe directories - enables manipulation with github
     git config --global --add safe.directory "*" && \
     # create version file in knimeuser home, just for info
