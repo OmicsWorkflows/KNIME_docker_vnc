@@ -92,7 +92,7 @@ RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://source
 ################################# creates some folders and copies the supplemental files ###############################
 
 # create folders
-#RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
 RUN mkdir ${knime_workspace_folder}
 
 # copy external files to docker image
