@@ -3,20 +3,17 @@ Docker file and associated files for running KNIME inside the Docker container b
 
 The repository is meant for sharing docker files and accompanied files/scripts and to make easier usage of prebuild docker images hosted on docker hub ([https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/)).
 
-The current docker image version is built using KNIME 4.5.1a, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
+The current docker image version is built using KNIME 4.6.3a, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
 
 ## Prebuild Docker Images Usage
 
 This chapter explains how to run Docker image on your machine.
 
-Please note that the procedure below was successfully tested on Ubuntu 20.04 (64-bit), Windows 10 (64-bit, Professional and Educational version) and on Mac OS (Catalina 10.15.2) with Docker for desktop application installed. Docker toolbox (Windows 7 Professional and Windows 10 Home) has been tested as well but there was an issue with read only access to the mounted workspace which is limiting for the optimal container usage and we do not recommend to use it.
+Please note that the procedure below was successfully tested on Ubuntu 20.04 (64-bit) and Windows 10 (64-bit, Professional and Educational version) with Docker for desktop application installed. Earlier versions were tested also using Docker toolbox (Windows 7 Professional and Windows 10 Home) but there was an issue with read only access to the mounted workspace which is limiting for the optimal container usage and we do not recommend to use it.
 
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
-   - links to the stable docker installation files are for Windows and Mac as follows:
-      - Windows - https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe
-      - Mac - https://download.docker.com/mac/stable/Docker.dmg
    - please note that the docker application needs virtualization enabled on your system and it may need to be enabled in the bios of your system
-   - please note that docker application uses different type of virtualization than e.g. VirtualBox application so these two can not run on simultaneously
+   - please note that docker application uses different type of virtualization than e.g. VirtualBox application so these two can not run on simultaneously; even though [it may be possible](https://docs.docker.com/desktop/faqs/windowsfaqs/#can-i-use-virtualbox-alongside-docker-desktop) with the latest Docker versions
 2. [Download](https://github.com/OmicsWorkflows/KNIME_docker_vnc/archive/master.zip) and unzip or clone this repository using your version control system to get mainly the "scripts" folder containing scripts to assist you to run the docker container in the next steps.
    - there are platform specific (Linux, Windows, Mac) scripts to help you to run the docker container on your platform
       - start_container.sh - Linux
@@ -24,7 +21,7 @@ Please note that the procedure below was successfully tested on Ubuntu 20.04 (64
       - start_container.command - Mac
 3. Adjust "start_container" script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings), default VNC server password and timezone you want to use. Please, check the script file settings part itself for all the details.
    - it is a good practice to create brand new folder that will hold all your KNIME workspaces ("workspaces_folder" variable) and one additional subfolder in it to be used for the specific container (to be specified during the script running)
-   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This requires you to setup shared drive on Windows machines (see e.g. https://docs.docker.com/docker-for-windows/#shared-drives for more details)
+   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This requires you to setup shared drive on Windows machines
    - KNIME has to have write access to the KNIME workspace folder, please adjust the access rights to the KNIME workspace folder if needed
 4. Run the "start_container" script for your platform to create a docker container based on the prebuild image, there are two supported ways:
    1. run the script file itself without any argument (e.g. by double-clicking on it) and provide few arguments when asked;
@@ -59,32 +56,30 @@ Please note that the procedure below was successfully tested on Ubuntu 20.04 (64
 9. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
 10. To stop the running container you can
     - press `Ctrl+C` while the container start script window is active
-    - use the `docker stop 'container name'` command (see above)
+    - use the `docker stop 'container name'` command in the command line (see above)
     - restart the computer
 
 
 ## List of used programs and extensions and the respective licences
 
-Please note that only the latest docker file/image version is considered here.
+Please note that only the latest docker file/image version is mentioned here.
 
 The repository utilizes [docker](https://www.docker.com/) files and the docker images are hosted on [docker hub](https://hub.docker.com).
 
-Docker image contains the below mentioned selected tools found needed and or helping during the work with the KNIME environment. It runs on top of Ubuntu 18.04 LTS. The current version of the docker environment contains the following list of programs and other additional programs and packages required by the following ones. Please inspect your local installation and contact us if you can not locate your local application/package version and or license terms associated to the used program(s).
+Docker image contains the below-mentioned selected tools found needed and or helping during the work with the KNIME environment. It runs on top of Ubuntu 20.04 LTS. The current version of the docker environment contains the following list of programs and other additional programs and packages required by the following ones. Please inspect your local installation and contact us if you can not locate your local application/package version and or license terms associated to the used program(s).
 
 #### Operation system and its components (alphabetical order)
-- [git](https://git-scm.com/) 2.17.1
+- [git](https://git-scm.com/) 2.25.1
   - The git consists of the following GNU General Public License version 2.0. Licence terms are available here: http://opensource.org/licenses/GPL-2.0
-- [KNIME](https://www.knime.com/) 4.1.3
+- [KNIME](https://www.knime.com/) 4.6.3
   - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
-- [Python](https://www.python.org/) 2.7.17
-  - The Python consists of the following Python 2.7 License. Licence terms are available here: https://docs.python.org/2.7/license.html
-- [Python](https://www.python.org/) 3.6.9
-  - The Python consists of the following Python 3.6 License. Licence terms are available here: https://docs.python.org/3.6/license.html
-- [R](https://www.r-project.org/) 3.6.3
+- [Python](https://www.python.org/) 3.10.4 and 3.6.9
+  - The Python consists of the following Python 3.10 License. Licence terms are available here: https://docs.python.org/3.10/license.html
+- [R](https://www.r-project.org/) 4.2.0 and 3.6.3
   - The R consists of the following GNU General Public Licences. Licence terms are available here: https://www.r-project.org/Licenses/
-- [TigerVNC](https://tigervnc.org/) 1.10.1
+- [TigerVNC](https://tigervnc.org/) 1.10.0
   - The TigerVNC consists of the following GNU General Public Licence. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
-- [Ubuntu](https://www.ubuntu.com/) 18.04
+- [Ubuntu](https://www.ubuntu.com/) 20.04
   - The Ubuntu consists of the following Ubuntu License. Licence terms are available here: https://www.ubuntu.com/licensing
 
 #### KNIME extensions on top of the standard KNIME Analytics Platform installation (alphabetical order)
@@ -156,6 +151,9 @@ Docker image contains the below mentioned selected tools found needed and or hel
 The project is maintained by people from several laboratories (in alphabetical order):
 - Kristína Gömöryová
   - [Laboratory of cellular communication](http://www.sci.muni.cz/bryjalab/), Department of Experimental Biology, Faculty of Science, Masaryk University, Brno, Czech Republic 
+- Karolína Kryštofová
+    - [Proteomics Research group](https://www.ceitec.eu/proteomics-zbynek-zdrahal/rg49), Central European Institute of Technology, Masaryk University, Brno, Czech Republic
+    - member of [EuBIC](https://eupa.org/eupa-initiatives/eubic/) ![EuBIC logo](eubic_logo.png)
 - David Potěšil
   - [Proteomics Research group](https://www.ceitec.eu/proteomics-zbynek-zdrahal/rg49), Central European Institute of Technology, Masaryk University, Brno, Czech Republic
   - member of [EuBIC](https://eupa.org/eupa-initiatives/eubic/) ![EuBIC logo](eubic_logo.png)
