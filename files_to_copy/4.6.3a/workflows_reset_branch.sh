@@ -25,8 +25,7 @@ fi
 cd "$directory"
 
 # gets the list of all remote branches
-MULTILINE=`git branch -r | grep -v ‘remotes’ \
-  -1`
+MULTILINE=`git ls-remote --heads | awk -F'/' '{print $3}'`
 
 # checks the presence of file holding the last used branch and if it is not present, sets master branch as the last used
 if test -f ${last_branch_file}; then
@@ -40,15 +39,13 @@ while true; do
   ENTRY=`zenity --list --column="GitHub branches - ${repo} templates" "master" "${LAST_BRANCH}" "" ${MULTILINE} --height=300 --width=500 --title="GitHub branch selection"`
   case $? in
      0)
-        if [ $ENTRY == "master" ]; then
-          branch="origin/master"
-        elif [ -z "${ENTRY}" ]; then
+        if [ -z "${ENTRY}" ]; then
           zenity --warning --text="No branch name specified. Please, select again." --title="No branch name"  --width=200
           continue
         else
           branch=$ENTRY
         fi
-        if [ -n "`git show-ref --verify refs/remotes/"${branch}"`" ]; then
+        if [ -n "`git show-ref --verify refs/remotes/origin/"${branch}"`" ]; then
           break
         else
           echo 'branch does not exists!'
@@ -86,7 +83,7 @@ if [ $? != 0 ] ; then
   \r<b>Please contact support with the abovementioned error messages!</b>"
   exit 1
 fi
-git_return2=$(git reset --hard "$branch" 2>&1)
+git_return2=$(git reset --hard origin/"$branch" 2>&1)
 if [ $? != 0 ] ; then
   # shows the notification about the error in the git command
   notify-send -u critical -i dialog-error "${repo} repository" \
