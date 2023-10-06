@@ -52,7 +52,7 @@ ARG knime_testing_framework_extension=org.knime.features.testing.application.fea
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.7.3.v202305091619
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.7.2.v202303211209
 ARG knime_openms_extension=de.openms.feature.feature.group/2.7.0.202109131426
-ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.4.6.v202206101448
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.4.5.v202201211506
 
 # installs KNIME
 ADD --chown=knimeuser:knimeuser http://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
