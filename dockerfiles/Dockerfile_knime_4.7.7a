@@ -1,0 +1,166 @@
+FROM cfprot/environment:4.5.2a
+
+############################################ set environment variables #################################################
+
+# change the version of the docker file here to correspond to the docker file name
+ARG dockerfile_version=4.7.7a
+ARG python_env_latest=4-5-2a
+ARG R_env_latest=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
+
+## default folders (knime_folder and knime_workspace_folder ENVs are used in shortcut to knime, others can be ARG)
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+ENV knime_folder=${knimeuser_home}/knime
+ENV knime_workspace_folder=${knimeuser_home}/knime-workspace
+
+ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
+ARG copied_files_folder=/usr/copied_files
+
+############################################# Basic packages ###########################################################
+
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    ncbi-blast+ \
+    pandoc \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+########################################## set default locations #######################################################
+
+ENV HOME ${knimeuser_home}
+WORKDIR ${knimeuser_home}
+
+#################################################### KNIME #############################################################
+
+# version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
+ARG knime_version=4.7.7
+
+# KNIME file name to be downloaded and installed
+ARG knime_file=knime_${knime_version}.linux.gtk.x86_64.tar.gz
+
+# links to online repositories to be used when installing knime extensions
+
+ARG knime_partners_repository=https://update.knime.com/partner/4.7
+ARG knime_analytics_platform_repository=https://update.knime.com/analytics-platform/4.7
+ARG knime_community_trusted_repository=https://update.knime.com/community-contributions/trusted/4.7
+ARG knime_community_experimental_repository=https://update.knime.com/community-contributions/4.7
+
+# names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
+# if you add other extension, it needs to be added into the KNIME installation part as well
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.7.1.v202301311311
+ARG knime_r_extension=org.knime.features.r.feature.group/4.7.0.v202211090002
+ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.7.2.v202303211209
+ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.7.3.v202305091619
+ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.7.2.v202303211209
+ARG knime_openms_extension=de.openms.feature.feature.group/2.7.0.202109131426
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.4.6.v202206101448
+
+# installs KNIME
+ADD --chown=knimeuser:knimeuser http://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
+RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
+    rm ${knimeuser_home}/${knime_file} && \
+    #rename knime folder to be without the version
+    mv ${knimeuser_home}/knime_${knime_version} ${knime_folder} && \
+    #make knime executable
+    sudo chmod +x ${knime_folder}/knime && \
+    # install knime extensions (python,r, etc.; the versions are specified above)
+    ${knime_folder}/knime -clean -purgeHistory -application org.eclipse.equinox.p2.director -noSplash \
+    -repository ${knime_partners_repository} \
+    -repository ${knime_analytics_platform_repository} \
+    -repository ${knime_community_trusted_repository} \
+    -repository ${knime_community_experimental_repository} \
+    -i ${knime_python_extension} \
+    -i ${knime_r_extension} \
+    -i ${knime_testing_framework_extension} \
+    -i ${knime_expressions_extension} \
+    -i ${knime_reporting_designer_extension} \
+    -i ${knime_openms_extension} \
+    -i ${knime_pia_extension} && \
+    # change max heap for knime (default is 2048m, i.e. -Xmx2g, which might not always be sufficient)
+    sed -i 's/-Xmx.*/-Xmx6g/' ${knime_folder}/knime.ini
+
+################################################### installs VNC #######################################################
+
+# tigervnc version to be installed, 64bit installation file is expected
+ARG tigervnc_version=1.10.1
+
+# download and unpack tigervnc (support for encryption if using tigervnc viewer)
+RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://sourceforge.net/projects/tigervnc/files/stable/${tigervnc_version}/tigervnc-${tigervnc_version}.x86_64.tar.gz/download  && \
+    sudo tar -xvf /root/tigervnc-${tigervnc_version}.x86_64.tar.gz -C /root/ && \
+    sudo cp -a /root/tigervnc-${tigervnc_version}.x86_64/. / && \
+    sudo rm -r /root/tigervnc-${tigervnc_version}.x86_64
+
+################################# creates some folders and copies the supplemental files ###############################
+
+# create folders
+#RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
+RUN mkdir ${knime_workspace_folder}
+
+# copy external files to docker image
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.config ${knimeuser_home}/.config
+RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
+    chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_reset_branch.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_check.sh && \
+    chmod 755 ${copied_files_folder}/workflows_reset.sh && \
+    chmod 755 ${copied_files_folder}/workflows_reset_branch.sh && \
+    chmod 755 ${copied_files_folder}/workflows_check.sh && \
+    chmod 755 ${copied_files_folder}/vnc_pass_set.sh && \
+#
+################################################### SHORTCUTS ##########################################################
+#
+    mkdir ${knimeuser_home}/Desktop && \
+    # shortcut to knime
+    sudo cp ${copied_files_folder}/knime.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Metanodes template reset
+    sudo cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Workflows template reset
+    sudo cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut for VNC pass set
+    sudo cp ${copied_files_folder}/vnc_pass_set.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/vnc_pass_set.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Metanodes template reset with branch selection
+    sudo cp ${copied_files_folder}/Metanodes_templates_reset_branch.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Metanodes_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Workflows template reset with branch selection
+    sudo cp ${copied_files_folder}/Workflows_templates_reset_branch.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Workflows_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Metanodes template check start
+    sudo cp ${copied_files_folder}/Metanodes_check.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Metanodes_check.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut to Workflows template check start
+    sudo cp ${copied_files_folder}/Workflows_check.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/Workflows_check.desktop ${knimeuser_home}/Desktop/ && \
+    # make shortcuts owned by knimeuser and executable
+    sudo chown -R ${knimeuser}: ${knimeuser_home}/Desktop/ && \
+    sudo chmod -R 770 ${knimeuser_home}/Desktop && \
+#
+################################################# FINAL ACTIONS ########################################################
+#
+    # creates links to have the most recent R version accessible on expected place
+    sudo ln -s ${R_INSTALL_DIR}/lib/R/bin/R /usr/local/bin/R && \
+    sudo ln -s ${R_INSTALL_DIR}/lib/R/bin/Rscript /usr/local/bin/Rscript && \
+    # sets the latest python environment the global python version
+    pyenv global ${python_env_latest} && \
+    # enabling timezone setting by entrypoint.sh by knimeuser
+    sudo rm -f /etc/timezone /etc/localtime && \
+    sudo touch /etc/timezone && \
+    sudo touch /etc/localtime && \
+    sudo chown ${knimeuser} /etc/timezone && \
+    sudo chown ${knimeuser} /etc/localtime && \
+    # vnc startup - create so that there is no problem with file does not exist on vnc init
+    sudo mkdir ${knimeuser_home}/.vnc && \
+    sudo chown ${knimeuser}: ${knimeuser_home}/.vnc && \
+    cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup && \
+    sudo chmod +x ${knimeuser_home}/.vnc/xstartup && \
+    # adds all folders as safe directories - enables manipulation with github
+    git config --global --add safe.directory "*" && \
+    # create version file in knimeuser home, just for info
+    touch ${knimeuser_home}/version-${dockerfile_version}
+
+EXPOSE 5901
+ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
