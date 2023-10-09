@@ -71,7 +71,7 @@ Docker image contains the below-mentioned selected tools found needed and or hel
 #### Operation system and its components (alphabetical order)
 - [git](https://git-scm.com/) 2.25.1
   - The git consists of the following GNU General Public License version 2.0. Licence terms are available here: http://opensource.org/licenses/GPL-2.0
-- [KNIME](https://www.knime.com/) 4.6.3
+- [KNIME](https://www.knime.com/) 4.7.7
   - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
 - [Python](https://www.python.org/) 3.10.4 and 3.6.9
   - The Python consists of the following Python 3.10 License. Licence terms are available here: https://docs.python.org/3.10/license.html
@@ -84,17 +84,17 @@ Docker image contains the below-mentioned selected tools found needed and or hel
 
 #### KNIME extensions on top of the standard KNIME Analytics Platform installation (alphabetical order)
 
-- KNIME Expressions (4.1.0.v201911251323)
-- KNIME Interactive R Statistics Integration (4.1.1.v202001312017)
-- KNIME Python Integration (4.1.3.v202005112253)
-- KNIME Report Designer (4.0.0.v201911110939)
-- KNIME Testing Framework (4.1.1.v202001312017)
-- [OpenMS](http://www.openms.de/) 2.5.0 (2.5.0.202002241222)
+- KNIME Expressions (4.7.3.v202305091619)
+- KNIME Interactive R Statistics Integration (4.7.0.v202211090002)
+- KNIME Python Integration (4.7.1.v202301311311)
+- KNIME Report Designer (4.7.2.v202303211209)
+- KNIME Testing Framework (4.7.2.v202303211209)
+- [OpenMS](http://www.openms.de/) 2.7.0 (2.7.0.202109131426)
     - The OpenMS consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [PIA](https://github.com/mpc-bioinformatics/pia) 1.3.11 (1.3.11.v201907181152)
+- [PIA](https://github.com/mpc-bioinformatics/pia) 1.4.5 (1.4.5.v202201211506)
     - The PIA consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 
-#### Python 3 or 2 packages (alphabetical order)
+#### Python 3 or 2 packages (alphabetical order; not covering the packages installed automatically together with the mentioned ones)
 - [dash](https://plotly.com/dash/) 1.12.0 (python 3)
     - The Dash consists of the following MIT License. Licence terms are available here: https://github.com/plotly/dash/blob/master/LICENSE
 - [dash-bio](https://dash.plotly.com/dash-bio) 0.4.8 (python 3)
@@ -112,7 +112,7 @@ Docker image contains the below-mentioned selected tools found needed and or hel
 - [statsmodels](https://www.statsmodels.org/stable/index.html) 0.11.1 (python 3) and 0.10.2 (python 2)
     - The statsmodels consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 
-#### R libraries (alphabetical order)
+#### R libraries (alphabetical order; not covering the libraries installed automatically together with the mentioned ones)
 - [Biobase](https://bioconductor.org/packages/release/bioc/html/Biobase.html)
     - The Biobase consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
 - [compositions](https://cran.r-project.org/web/packages/compositions/index.html)
