@@ -96,8 +96,8 @@ RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://source
 RUN mkdir ${knime_workspace_folder}
 
 # copy external files to docker image
-COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.config ${knimeuser_home}/.config
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
 RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
@@ -153,6 +153,8 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     git config --global --add safe.directory "*" && \
     # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version}
+
+ENV dockerfile_version=${dockerfile_version}
 
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
