@@ -8,7 +8,7 @@ directory=/home/knimeuser/knime-workspace/gitfolders/$repo
 
 # branch to reset the repository to
 # replace the 'master' with the name of the respective branch you want to reset to based on the info on Github
-branch=4.7.7a
+branch=${dockerfile_version}
 
 # checks whether the repository folder exists and shows notification if not
 if [ ! -d "$directory" ]; then
