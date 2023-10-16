@@ -2,15 +2,15 @@
 4.10.3+=true
 
 [/home/knimeuser/Desktop/Metanodes_templates_reset.desktop]
-row=4
+row=0
 col=2
 
 [/home/knimeuser/Desktop/Workflows_templates_reset_branch.desktop]
-row=0
+row=4
 col=4
 
 [/home/knimeuser/Desktop/Workflows_templates_reset.desktop]
-row=4
+row=0
 col=4
 
 [/home/knimeuser/Desktop/knime.desktop]
@@ -30,7 +30,7 @@ row=3
 col=0
 
 [/home/knimeuser/Desktop/Metanodes_templates_reset_branch.desktop]
-row=0
+row=4
 col=2
 
 [Trash]
