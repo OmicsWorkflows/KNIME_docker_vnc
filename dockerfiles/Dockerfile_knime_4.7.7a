@@ -112,15 +112,15 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     # shortcut to knime
     sudo cp ${copied_files_folder}/knime.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/ && \
+    # shortcut for VNC pass set
+    sudo cp ${copied_files_folder}/vnc_pass_set.desktop /usr/share/applications && \
+    sudo cp /usr/share/applications/vnc_pass_set.desktop ${knimeuser_home}/Desktop/ && \
     # shortcut to Metanodes template reset
     sudo cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
     # shortcut to Workflows template reset
     sudo cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/ && \
-    # shortcut for VNC pass set
-    sudo cp ${copied_files_folder}/vnc_pass_set.desktop /usr/share/applications && \
-    sudo cp /usr/share/applications/vnc_pass_set.desktop ${knimeuser_home}/Desktop/ && \
     # shortcut to Metanodes template reset with branch selection
     sudo cp ${copied_files_folder}/Metanodes_templates_reset_branch.desktop /usr/share/applications && \
     sudo cp /usr/share/applications/Metanodes_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
