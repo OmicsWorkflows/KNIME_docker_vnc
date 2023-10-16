@@ -154,5 +154,7 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     # create version file in knimeuser home, just for info
     touch ${knimeuser_home}/version-${dockerfile_version}
 
+ENV dockerfile_version=${dockerfile_version}
+
 EXPOSE 5901
 ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]

@@ -8,12 +8,7 @@ directory=/home/knimeuser/knime-workspace/gitfolders/$repo
 
 # branch to reset the repository to
 # replace the 'master' with the name of the respective branch you want to reset to based on the info on Github
-branch=origin/master
-
-# shows the notification about the initiated task
-notify-send -i software-update-available "${repo} repository" \
-"<b>Repository (${branch} branch) reset started!</b> \
-\rPlease wait till it is finished..."
+branch=${dockerfile_version}
 
 # checks whether the repository folder exists and shows notification if not
 if [ ! -d "$directory" ]; then
@@ -25,10 +20,15 @@ if [ ! -d "$directory" ]; then
   exit 1
 fi
 
+# shows the notification about the initiated task
+notify-send -i software-update-available "${repo} repository" \
+"<b>Repository (${branch} branch) reset started!</b> \
+\rPlease wait till it is finished..."
+
 # navigates to the repository folder
 cd "$directory"
 
-if [ -n "`git show-ref --verify refs/remotes/"$branch"`" ]; then
+if [ -n "`git ls-remote --heads origin refs/heads/"$branch"`" ]; then
   # resets the repository; in case there is error message in any command, the error window will be displayed
   git_return1=$(git fetch origin 2>&1)
   if [ $? != 0 ] ; then
@@ -43,13 +43,13 @@ if [ -n "`git show-ref --verify refs/remotes/"$branch"`" ]; then
     \r<b>Please contact support with the abovementioned error messages!</b>"
     exit 1
   fi
-  git_return2=$(git reset --hard "$branch" 2>&1)
+  git_return2=$(git reset --hard origin/"$branch" 2>&1)
   if [ $? != 0 ] ; then
     # shows the notification about the error in the git command
     notify-send -u critical -i dialog-error "${repo} repository" \
     "<b>Git command has not finished successfully!</b> \
     \rError message got by the following git command: \
-    \r'git reset --hard "$branch"': \
+    \r'git reset --hard origin/"$branch"': \
     \r \
     \r${git_return2} \
     \r \
