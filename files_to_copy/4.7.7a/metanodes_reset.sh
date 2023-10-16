@@ -10,11 +10,6 @@ directory=/home/knimeuser/knime-workspace/gitfolders/$repo
 # replace the 'master' with the name of the respective branch you want to reset to based on the info on Github
 branch=4.7.7a
 
-# shows the notification about the initiated task
-notify-send -i software-update-available "${repo} repository" \
-"<b>Repository (${branch} branch) reset started!</b> \
-\rPlease wait till it is finished..."
-
 # checks whether the repository folder exists and shows notification if not
 if [ ! -d "$directory" ]; then
   # shows the notification about the missing repository folder
@@ -24,6 +19,11 @@ if [ ! -d "$directory" ]; then
   \r$directory"
   exit 1
 fi
+
+# shows the notification about the initiated task
+notify-send -i software-update-available "${repo} repository" \
+"<b>Repository (${branch} branch) reset started!</b> \
+\rPlease wait till it is finished..."
 
 # navigates to the repository folder
 cd "$directory"
