@@ -45,7 +45,7 @@ while true; do
         else
           branch=$ENTRY
         fi
-        if [ -n "`git show-ref --verify refs/remotes/"${branch}"`" ]; then
+        if [ -n "`git show-ref --verify refs/remotes/origin/"${branch}"`" ]; then
           break
         else
           echo 'branch does not exists!'
