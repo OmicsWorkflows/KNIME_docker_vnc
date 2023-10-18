@@ -3,7 +3,7 @@ Docker file and associated files for running KNIME inside the Docker container b
 
 The repository is meant for sharing docker files and accompanied files/scripts and to make easier usage of prebuild docker images hosted on docker hub ([https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/)).
 
-The current docker image version is built using KNIME 4.6.3a, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
+The current docker image version is built using KNIME 4.7.7, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
 
 ## Prebuild Docker Images Usage
 
