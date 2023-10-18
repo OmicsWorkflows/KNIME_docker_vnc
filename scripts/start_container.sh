@@ -25,6 +25,7 @@ timezone="Europe/Prague"
 default_image_name="cfprot/knime:latest"
 default_port=5901
 default_workspace="knime-workspace"
+default_vnc_password=knime
 
 
 #######################################
@@ -84,4 +85,4 @@ else
 fi
 unset CID
 
-docker run -it --shm-size=1g --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone $image_name
+docker run -it --shm-size=1g --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone -e VNCPASSWORD=$default_vnc_password $image_name
