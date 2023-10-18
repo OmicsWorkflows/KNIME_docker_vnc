@@ -3,7 +3,7 @@ Docker file and associated files for running KNIME inside the Docker container b
 
 The repository is meant for sharing docker files and accompanied files/scripts and to make easier usage of prebuild docker images hosted on docker hub ([https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/)).
 
-The current docker image version is built using KNIME 4.1.1, see [the llist of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
+The current docker image version is built using KNIME 4.1.3, see [the llist of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
 
 ## Prebuild Docker Images Usage
 
@@ -22,7 +22,7 @@ Please note that the procedure below was successfully tested on Ubuntu 18.04 (64
       - start_container.sh - Linux
       - start_container.bat - Windows
       - start_container.command - Mac
-3. Adjust "start_container" script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings) and timezone you want to use. Please, check the script file settings part itself for all the details.
+3. Adjust "start_container" script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings), timezone you want to use and last but not least, you can also adjust the VNC server password you will have to use to access the running container (set to "knime", without quotes, by default). Please, check the script file settings part itself for all the details.
    - it is a good practice to create brand new folder that will hold all your KNIME workspaces ("workspaces_folder" variable) and one additional subfolder in it to be used for the specific container (to be specified during the script running)
    - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This requires you to setup shared drive on Windows machines (see e.g. https://docs.docker.com/docker-for-windows/#shared-drives for more details)
    - KNIME has to have write access to the KNIME workspace folder, please adjust the access rights to the KNIME workspace folder if needed
@@ -43,21 +43,20 @@ Please note that the procedure below was successfully tested on Ubuntu 18.04 (64
    - please note that the script may need to be set as executable on your system prior its usage
    - please note that this step will automatically initiate download of the selected docker image version from the [docker hub](https://hub.docker.com/r/cfprot/knime/tags); the download process will take place only once, when you will want to use concrete docker image for the first time; the images have around 5GB so the download process will take some time
    - the downloaded image will take about 10GB on your hard drive
-5. Enter the password for the VNC server running inside the container once requested; the password will be needed to access the container. No need for view only password, so enter N/n when asked for this kind of password.
-   - after entering the VNC password there will be messages from the docker container start you can ignore
+   - after the download procedure will be done, the container should start, there will be messages from the docker container start you can ignore
    - you can close the window with the script output as well
-6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. "localhost::5901" in case of connecting into the locally running container. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
-7. You can verify that everything is set up correctly by starting KNIME and confirming the locations of its workspace. This will create some files on your hard drive inside the workspace folder specified before.
-8. You can transfer data to and from the running container using the specified workspace folder that is identical on your computer and inside the container
+5. Access the running container using VNC viewer at specified port number and using the specified password ("knime" by default), e.g. "localhost::5901" in case of connecting into the locally running container. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
+6. You can verify that everything is set up correctly by starting KNIME and confirming the locations of its workspace. This will create some files on your hard drive inside the workspace folder specified before.
+7. You can transfer data to and from the running container using the specified workspace folder that is identical on your computer and inside the container
    - e.g. "C:\knime-workspaces\test" on your computer (you specify this folder during the container start)
    - "/home/knimeuser/knime-workspace/" inside the running container (this is fixed destination folder specified during the docker image build)
-9. The container will run until you restart your system that is running the container. If you would like to get information on the actually running docker containers or stop the currently running container, you can use the following commands on the command line (for all, Windows, Linux and Mac systems)
+8. The container will run until you restart your system that is running the container. If you would like to get information on the actually running docker containers or stop the currently running container, you can use the following commands on the command line (for all, Windows, Linux and Mac systems)
    - `docker ps -a` lists the running docker containers
    - `docker stop knime5901` stops and kills the running container with name "knime5901"
         - WARNING: you may lose not saved work from inside of your container as this will remove the container completely and you will not be able to access it again! Save your work and close the KNIME application prior this command running optimally!
    - `docker system prune -a` removes downloaded and currently not used docker images from your system
         - WARNING: you will need to download the docker image again if needed later on
-10. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
+9. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
 
 
 ## List of used programs and extensions and the respective licences
@@ -71,7 +70,7 @@ Docker image contains the below mentioned selected tools found needed and or hel
 #### Operation system and its components (alphabetical order)
 - [git](https://git-scm.com/) 2.17.1
   - The git consists of the following GNU General Public License version 2.0. Licence terms are available here: http://opensource.org/licenses/GPL-2.0
-- [KNIME](https://www.knime.com/) 4.1.1
+- [KNIME](https://www.knime.com/) 4.1.3
   - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
 - [Python](https://www.python.org/) 2.7.15+
   - The Python consists of the following Python 2.7 License. Licence terms are available here: https://docs.python.org/2.7/license.html
@@ -88,7 +87,7 @@ Docker image contains the below mentioned selected tools found needed and or hel
 
 - KNIME Expressions (4.1.0.v201911251323)
 - KNIME Interactive R Statistics Integration (4.1.1.v202001312017)
-- KNIME Python Integration (4.1.1.v202001312017)
+- KNIME Python Integration (4.1.3.v202005112253)
 - KNIME Report Designer (4.0.0.v201911110939)
 - KNIME Testing Framework (4.1.1.v202001312017)
 - [OpenMS](http://www.openms.de/) 2.5.0 (2.5.0.202002241222)
