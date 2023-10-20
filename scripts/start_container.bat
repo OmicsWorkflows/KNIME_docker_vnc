@@ -78,6 +78,15 @@ if not exist !workspace_path! (
     exit
 )
 
+echo[
+echo All information needed were provided, the container will start now.
+echo[
+echo Access the running container using VNC viewer at port %port%, e.g. "localhost::%port%" in case of locally running container.
+echo[
+echo Use the password "knime" or the one you have set in the script file when requested by VNC viewer.
+echo[
+pause
+
 docker run -it --shm-size=1g --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% -e VNCPASSWORD=%default_vnc_password% --rm %image_name%
 
 if errorlevel 1 (
