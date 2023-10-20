@@ -50,15 +50,15 @@ Please note that the procedure below was successfully tested on Ubuntu 20.04 (64
 8. The container will run until you restart your system that is running the container or kill the container start process. If you would like to get information on the actually running docker containers or stop the currently running container, you can use the following commands on the command line (for all, Windows, Linux and Mac systems)
    - `docker ps -a` lists the running docker containers
    - `docker stop knime5901` stops and kills the running container with name "knime5901"
+
         - WARNING: you may lose not saved work from inside of your container as this will remove the container completely and you will not be able to access it again! Save your work and close the KNIME application prior this command running optimally!
-   - `docker system prune -a` removes downloaded and currently not used docker images from your system
+    - `docker system prune -a` removes downloaded and currently not used docker images from your system
         - WARNING: you will need to download the docker image again if needed later on
 9. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
 10. To stop the running container you can
     - press `Ctrl+C` while the container start script window is active
     - use the `docker stop 'container name'` command in the command line (see above)
     - restart the computer
-
 
 ## List of used programs and extensions and the respective licences
 
