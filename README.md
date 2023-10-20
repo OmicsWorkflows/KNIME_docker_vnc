@@ -3,61 +3,61 @@ Docker file and associated files for running KNIME inside the Docker container b
 
 The repository is meant for sharing docker files and accompanied files/scripts and to make easier usage of prebuild docker images hosted on docker hub ([https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/)).
 
-The current docker image version is built using KNIME 4.1.3, see [the llist of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
+The current docker image version is built using KNIME 4.1.3, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
 
 ## Prebuild Docker Images Usage
 
 This chapter explains how to run Docker image on your machine.
 
-Please note that the procedure below was successfully tested on Ubuntu 18.04 (64-bit), Windows 10 (64-bit, Professional and Educational version) and on Mac OS (Catalina 10.15.2) with Docker for desktop application installed. Docker toolbox (Windows 7 Professional and Windows 10 Home) has been tested as well but there was an issue with read only access to the mounted workspace which is limiting for the optimal container usage and we do not recommend to use it.
+Please note that the procedure below was successfully tested on Ubuntu 18.04 (64-bit) and Windows 10 (64-bit, Professional and Educational version) with Docker for desktop application installed. Earlier versions were tested also using Docker toolbox (Windows 7 Professional and Windows 10 Home) but there was an issue with read only access to the mounted workspace which is limiting for the optimal container usage and we do not recommend to use it.
 
 1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
-   - links to the stable docker installation files are for Windows and Mac as follows:
-      - Windows - https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe
-      - Mac - https://download.docker.com/mac/stable/Docker.dmg
-   - please note that the docker application needs virtualization enabled on your system and it may need to be enabled in the bios of your system
-   - please note that docker application uses different type of virtualization than e.g. VirtualBox application so these two can not run on simultaneously
-2. [Download](https://github.com/OmicsWorkflows/KNIME_docker_vnc/archive/master.zip) and unzip or clone this repository using your version control system to get e.g. "scripts" folder containing scripts to assist you to run the docker container in the next steps.
-   - there are platform specific (Linux, Windows, Mac) scripts to help you to run the docker container on your platform
-      - start_container.sh - Linux
-      - start_container.bat - Windows
-      - start_container.command - Mac
-3. Adjust "start_container" script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings) and timezone you want to use. Please, check the script file settings part itself for all the details.
-   - it is a good practice to create brand new folder that will hold all your KNIME workspaces ("workspaces_folder" variable) and one additional subfolder in it to be used for the specific container (to be specified during the script running)
-   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This requires you to setup shared drive on Windows machines (see e.g. https://docs.docker.com/docker-for-windows/#shared-drives for more details)
-   - KNIME has to have write access to the KNIME workspace folder, please adjust the access rights to the KNIME workspace folder if needed
+    - please note that the docker application needs virtualization enabled on your system and it may need to be enabled in the bios of your system
+    - please note that docker application uses different type of virtualization than e.g. VirtualBox application so these two can not run on simultaneously; even though [it may be possible](https://docs.docker.com/desktop/faqs/windowsfaqs/#can-i-use-virtualbox-alongside-docker-desktop) with the latest Docker versions
+2. [Download](https://github.com/OmicsWorkflows/KNIME_docker_vnc/archive/master.zip) and unzip or clone this repository using your version control system to get mainly the "scripts" folder containing scripts to assist you to run the docker container in the next steps.
+    - there are platform specific (Linux, Windows, Mac) scripts to help you to run the docker container on your platform
+        - start_container.sh - Linux
+        - start_container.bat - Windows
+        - start_container.command - Mac
+3. Adjust "start_container" script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings), default VNC server password and timezone you want to use. Please, check the script file settings part itself for all the details.
+    - it is a good practice to create brand new folder that will hold all your KNIME workspaces ("workspaces_folder" variable) and one additional subfolder in it to be used for the specific container (to be specified during the script running)
+    - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This requires you to setup shared drive on Windows machines
+    - KNIME has to have write access to the KNIME workspace folder, please adjust the access rights to the KNIME workspace folder if needed
 4. Run the "start_container" script for your platform to create a docker container based on the prebuild image, there are two supported ways:
-   1. run the script file itself without any argument (e.g. by double-clicking on it) and provide few arguments when asked;
-   
-      or
-   
-   2. run the script file on the command line with 3 parameters provided directly and separated by space: `IMAGE_NAME`, `PORT_TO_RUN_ON`, `WORKSPACE`
-      - examples for container start are:
-         - **Windows**: `start_container.bat cfprot/knime:latest 5901 test`
-         - **Linux**: `./start_container.sh cfprot/knime:latest 5901 test`      
-         - **Mac**: `./start_container.command cfprot/knime:latest 5901 test`      
-         - where:
-            - **`cfprot/knime:latest`** points to the latest docker image version of cfprot/knime docker image (change `latest` tag to e.g. `3.7.2a` to run specific version of the docker image)
-            - **`5901`** specifies the port on which the container will be accesible for VNC connection
-            - **`test`** is the folder within workspaces folder (see "folder_with_workspaces" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
-   - please note that the script may need to be set as executable on your system prior its usage
-   - please note that this step will automatically initiate download of the selected docker image version from the [docker hub](https://hub.docker.com/r/cfprot/knime/tags); the download process will take place only once, when you will want to use concrete docker image for the first time; the images have around 5GB so the download process will take some time
-   - the downloaded image will take about 10GB on your hard drive
-5. Enter the password for the VNC server running inside the container once requested; the password will be needed to access the container. No need for view only password, so enter N/n when asked for this kind of password.
-   - after entering the VNC password there will be messages from the docker container start you can ignore
-   - you can close the window with the script output as well
-6. Access the running container using VNC viewer at specified port number and using the specified password, e.g. "localhost::5901" in case of connecting into the locally running container. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release.
-7. You can verify that everything is set up correctly by starting KNIME and confirming the locations of its workspace. This will create some files on your hard drive inside the workspace folder specified before.
-8. You can transfer data to and from the running container using the specified workspace folder that is identical on your computer and inside the container
-   - e.g. "C:\knime-workspaces\test" on your computer (you specify this folder during the container start)
-   - "/home/knimeuser/knime-workspace/" inside the running container (this is fixed destination folder specified during the docker image build)
-9. The container will run until you restart your system that is running the container. If you would like to get information on the actually running docker containers or stop the currently running container, you can use the following commands on the command line (for all, Windows, Linux and Mac systems)
-   - `docker ps -a` lists the running docker containers
-   - `docker stop knime5901` stops and kills the running container with name "knime5901"
+    1. run the script file itself without any argument (e.g. by double-clicking on it) and provide few arguments when asked;
+
+       or
+
+    2. run the script file on the command line with 3 parameters provided directly and separated by space: `IMAGE_NAME`, `PORT_TO_RUN_ON`, `WORKSPACE`
+        - examples for container start are:
+            - **Windows**: `start_container.bat cfprot/knime:latest 5901 test`
+            - **Linux**: `./start_container.sh cfprot/knime:latest 5901 test`
+            - **Mac**: `./start_container.command cfprot/knime:latest 5901 test`
+            - where:
+                - **`cfprot/knime:latest`** points to the latest docker image version of cfprot/knime docker image (change `latest` tag to e.g. `3.7.2a` to run specific version of the docker image)
+                - **`5901`** specifies the port on which the container will be accesible for VNC connection
+                - **`test`** is the folder within workspaces folder (see "folder_with_workspaces" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
+    - please note that the script may need to be set as executable on your system prior its usage
+    - please note that this step will automatically initiate download of the selected docker image version from the [docker hub](https://hub.docker.com/r/cfprot/knime/tags); the download process will take place only once, when you will want to use concrete docker image for the first time; the images have around 5GB so the download process will take some time
+    - the downloaded image will take about 10GB on your hard drive based on your docker application settings
+    - there will be messages from the docker container start you can ignore after the download will be completed
+    - you can close the window with the script output as well now or you can just minimize it to use it to stop the started container
+5. Access the running container using VNC viewer at specified port number, e.g. "localhost::5901" in case of connecting into the locally running container. Use the password `knime` or the one you have set in the script file. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release to connect into the running container.
+6. You can verify that everything is set up correctly by starting KNIME and confirming the locations of its workspace. This will create some files on your hard drive inside the workspace folder specified before.
+7. You can transfer data to and from the running container using the specified workspace folder that is identical on your computer and inside the container
+    - e.g. "C:\knime-workspaces\test" on your computer (you specify this folder during the container start)
+    - "/home/knimeuser/knime-workspace/" inside the running container (this is fixed destination folder; it is specified in the container start script file as well, but should not be changed)
+8. The container will run until you restart your system that is running the container or kill the container start process. If you would like to get information on the actually running docker containers or stop the currently running container, you can use the following commands on the command line (for all, Windows, Linux and Mac systems)
+    - `docker ps -a` lists the running docker containers
+    - `docker stop knime5901` stops and kills the running container with name "knime5901"
         - WARNING: you may lose not saved work from inside of your container as this will remove the container completely and you will not be able to access it again! Save your work and close the KNIME application prior this command running optimally!
-   - `docker system prune -a` removes downloaded and currently not used docker images from your system
+    - `docker system prune -a` removes downloaded and currently not used docker images from your system
         - WARNING: you will need to download the docker image again if needed later on
-10. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
+9. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
+10. To stop the running container you can
+    - press `Ctrl+C` while the container start script window is active
+    - use the `docker stop 'container name'` command in the command line (see above)
+    - restart the computer
 
 
 ## List of used programs and extensions and the respective licences
