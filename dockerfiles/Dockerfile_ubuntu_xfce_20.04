@@ -1,0 +1,63 @@
+FROM ubuntu:20.04
+
+############################################ set environment variables #################################################
+
+## user that will be using the container
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+
+######################################### Installs basic packages ######################################################
+
+# needs to be done in noninteractive way to install tzdata
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    build-essential \
+    curl \
+    cron \
+    firefox \
+    gedit \
+    git \
+    gtk2-engines-pixbuf \
+    htop \
+    man \
+    mc \
+    software-properties-common \
+    sudo \
+    unzip \
+    wget && \
+#
+########################################################### GUI ########################################################
+#
+#RUN apt-get update -y
+# installs desktop environment
+    DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install \
+    xfce4 \
+    xfce4-goodies \
+    locales -y && \
+    rm -rf /var/lib/apt/lists/* && \
+#
+########################################### creates KNIME user and switches to it ######################################
+#
+    useradd -m -d /home/${knimeuser} ${knimeuser} && \
+    chown -R ${knimeuser} ${knimeuser_home} && \
+    adduser ${knimeuser} sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER ${knimeuser}
+
+##### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason) ########
+RUN sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    sudo locale-gen && \
+    # set bash as knimeuser's login shell
+    sudo chsh -s /bin/bash ${knimeuser}
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+######################################################### Entry ########################################################
+
+CMD ["/bin/bash"]

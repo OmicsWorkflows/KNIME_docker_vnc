@@ -1,0 +1,145 @@
+FROM cfprot/ubuntu_xfce:20.04
+
+############################################ set environment variables #################################################
+
+## user that will be using the container
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+
+# change the version of the docker file here to correspond to the docker file name
+ARG dockerfile_version=4.1.3a
+
+ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
+ARG copied_files_folder=/usr/copied_files
+
+################################# creates some folders and copies the supplemental files ###############################
+
+# copy python/R environment files to docker image
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/environments ${copied_files_folder}/environments
+
+# set default locations
+ENV HOME ${knimeuser_home}
+WORKDIR ${knimeuser_home}
+
+###################################################### PYTHON ##########################################################
+
+# installs system libraries for pyenv to work
+RUN sudo apt-get update && sudo apt-get install \
+    curl \
+    build-essential \
+    libbz2-dev \
+    libffi-dev \
+    liblzma-dev \
+    libncurses5-dev \
+    libncursesw5-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    llvm \
+    make \
+    python-openssl \
+    xz-utils \
+    tk-dev \
+    wget \
+    zlib1g-dev -y && \
+# install pyenv using pyenv-installer
+    curl https://pyenv.run | bash && \
+    sudo rm -rf /var/lib/apt/lists/*
+
+# python version and name of the pyenv version to be installed
+ARG python_version=3.6.9
+ARG python_env_version=4-1-3a
+# sets some variables and PATH
+ENV PYENV_ROOT ${knimeuser_home}/.pyenv
+ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+RUN echo 'export PYENV_ROOT="${PYENV_ROOT}"' >> .bashrc && \
+    echo 'export PATH=${PYENV_ROOT}/bin:$PATH' >> .bashrc && \
+    # initiates pyenv and pyenv virtualenv
+    echo 'eval "$(pyenv init -)"' >> .bashrc && \
+    echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc && \
+    ### environment - 4.1.3a
+    # installs base python
+    pyenv install ${python_version} && \
+    # sets virtualenv
+    pyenv virtualenv ${python_version} ${python_env_version} && \
+    # installs some extra Ubuntu packages required by some python modules
+    sudo apt-get update -y  && sudo apt-get install -y \
+    # packages for pycairo and pygobject
+    libcairo2-dev \
+    libjpeg-dev \
+    libgif-dev \
+    libgirepository1.0-dev && \
+    sudo rm -rf /var/lib/apt/lists/* && \
+    # installs packages based on the requirements file
+    /bin/bash -i -c '      source .bashrc && \
+                        pyenv activate ${python_env_version} && \
+                        pip install --upgrade pip \
+                        pip install --requirement ${copied_files_folder}/environments/${python_env_version}_python.txt'
+
+###################################################### R ###############################################################
+
+RUN sudo apt-get update -y  && sudo apt-get install -y \
+    # base packages for some R libraries installation
+    cmake \
+    gdebi-core \
+    ## installs additional system packages needed for curl/plotly
+    libcurl4-openssl-dev \
+    libssl-dev && \
+    sudo rm -rf /var/lib/apt/lists/* && \
+    # adds user to the staff group
+    sudo adduser ${knimeuser} staff
+
+# setup R used in 4.1.3a
+ENV R_VERSION=3.6.3
+ENV R_INSTALL_DIR=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
+## adds extra packages needed by the base R and some packages installed later on
+RUN sudo apt-get update -y  && sudo apt-get install -y \
+    gfortran \
+    libblas-dev \
+    libicu-dev \
+    liblapack-dev \
+    # needed for the correct cairo and pango libraries detection during the R build
+    libcairo2 \
+    libpango-1.0-0 \
+    libpango1.0-dev \
+    # needed by xml2 package
+    libxml2-dev \
+    zip
+RUN curl -O https://cran.rstudio.com/src/base/R-3/R-${R_VERSION}.tar.gz
+RUN tar -xzvf R-${R_VERSION}.tar.gz && \
+    cd R-${R_VERSION} && \
+    ./configure \
+    --prefix=${R_INSTALL_DIR} \
+    --enable-memory-profiling \
+    --with-cairo \
+    --with-libpng  \
+    --with-libtiff  \
+    --with-jpeglib  \
+    --enable-R-shlib \
+    --with-blas \
+    --with-lapack && \
+    make && \
+    sudo make install && \
+    cd ${knimeuser_home}/ rm -R ${knimeuser_home}/R-${R_VERSION}/ && \
+    rm ${knimeuser_home}/R-${R_VERSION}.tar.gz && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "devtools"), repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
+    ## installs stable R packages from Bioconductor
+    sudo ${R_INSTALL_DIR}/bin/R -e 'remotes::install_version("BiocManager",version="1.30.10",repos="http://cran.rstudio.com/")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))' && \
+    ## installs additional R packages from default R cran
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("randomForest", version = "4.6-14", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("imp4p", version = "0.9", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("gprofiler2", version = "0.1.9", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("compositions", version = "1.40-5", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("plotly", version = "4.9.2.1", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/sROC/sROC_0.1-2.tar.gz", dependencies = TRUE)' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("robCompositions", version = "2.2.1", repos = "https://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_version("UpSetR", version = "1.4.0", repos = "https://cran.r-project.org")' && \
+    ## installs additional R packages from sources
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/corpcor/corpcor_1.6.9.tar.gz", repos = NULL, type="source")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Hotelling/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+
+######################################################### Entry ########################################################
+
+CMD ["/bin/bash"]

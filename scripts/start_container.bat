@@ -23,6 +23,7 @@ set timezone="Europe/Prague"
 set default_image_name=cfprot/knime:latest
 set default_port=5901
 set default_workspace=knime-workspace
+set default_vnc_password=knime
 
 :::::::::::::::::::::::::::::::::::::::
 ::: END OF THE SCRIPT SETTINGS PART :::
@@ -77,7 +78,7 @@ if not exist !workspace_path! (
     exit
 )
 
-docker run -it --shm-size=1g --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% --rm %image_name%
+docker run -it --shm-size=1g --name knime%port% -p %port%:5901 -v %workspace_path%:%volume_mount_point% -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% -e VNCPASSWORD=$default_vnc_password --rm %image_name%
 
 if errorlevel 1 (
    echo Error level returned is %errorlevel%

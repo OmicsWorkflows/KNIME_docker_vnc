@@ -25,6 +25,7 @@ timezone="Europe/Prague"
 default_image_name="cfprot/knime:latest"
 default_port=5901
 default_workspace="knime-workspace"
+default_vnc_password=knime
 
 
 #######################################
@@ -71,5 +72,5 @@ echo "$folder_with_workspaces$workspace directory not found"
 exit 1
 fi
 
-docker run -it --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone --rm $image_name
+docker run -it --name knime$port -p $port:5901 -v $folder_with_workspaces$workspace:$volume_mount_point -e CONTAINER_TIMEZONE=$timezone -e TZ=$timezone -e VNCPASSWORD=$default_vnc_password --rm $image_name
 
