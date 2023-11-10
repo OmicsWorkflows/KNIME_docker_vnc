@@ -86,7 +86,8 @@ Docker image contains the below-mentioned selected tools found needed and or hel
 
 - KNIME Expressions (4.7.3.v202305091619)
 - KNIME Interactive R Statistics Integration (4.7.0.v202211090002)
-- KNIME Python Integration (4.7.1.v202301311311)
+- KNIME Python Legacy Integration (4.7.1.v202301311311)
+- KNIME Python Integration (4.7.3.v202305111430)
 - KNIME Report Designer (4.7.2.v202303211209)
 - KNIME Testing Framework (4.7.2.v202303211209)
 - [OpenMS](http://www.openms.de/) 2.7.0 (2.7.0.202109131426)
