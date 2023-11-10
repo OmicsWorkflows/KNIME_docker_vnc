@@ -78,7 +78,18 @@ RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
     -i ${knime_openms_extension} \
     -i ${knime_pia_extension} && \
     # change max heap for knime (default is 2048m, i.e. -Xmx2g, which might not always be sufficient)
-    sed -i 's/-Xmx.*/-Xmx6g/' ${knime_folder}/knime.ini
+    sed -i 's/-Xmx.*/-Xmx6g/' ${knime_folder}/knime.ini \
+
+################################### additonal PYTHON packages for new python KNIME plugin ##############################
+# python and env. version
+ARG python_version=3.10.4
+ARG python_env_version=${python_env_latest}
+
+# installs additional packages required by new KNIME python plugin
+RUN pyenv virtualenv ${python_version} ${python_env_version} && \
+    /bin/bash -i -c '      source ~/.bashrc && \
+                        pyenv activate ${python_env_version} && \
+                        pip install py4j pyarrow'
 
 ################################################### installs VNC #######################################################
 
