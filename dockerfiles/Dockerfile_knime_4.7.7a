@@ -46,8 +46,9 @@ ARG knime_community_experimental_repository=https://update.knime.com/community-c
 
 # names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
 # if you add other extension, it needs to be added into the KNIME installation part as well
-ARG knime_python_extension=org.knime.features.python2.feature.group/4.7.1.v202301311311
-ARG knime_r_extension=org.knime.features.r.feature.group/4.7.0.v202211090002
+ARG knime_python_legacy_extension=org.knime.features.python2.feature.group/4.7.1.v202301311311
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.7.3.v202305111430
+ARG knime_r_extension=org.knime.features.python3.scripting.feature.group/4.7.0.v202211090002
 ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.7.2.v202303211209
 ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.7.3.v202305091619
 ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.7.2.v202303211209
@@ -68,6 +69,7 @@ RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
     -repository ${knime_analytics_platform_repository} \
     -repository ${knime_community_trusted_repository} \
     -repository ${knime_community_experimental_repository} \
+    -i ${knime_python_legacy_extension} \
     -i ${knime_python_extension} \
     -i ${knime_r_extension} \
     -i ${knime_testing_framework_extension} \
