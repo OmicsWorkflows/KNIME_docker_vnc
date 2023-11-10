@@ -86,8 +86,9 @@ ARG python_version=3.10.4
 ARG python_env_version=${python_env_latest}
 
 # installs additional packages required by new KNIME python plugin
-RUN pyenv activate ${python_env_version} && \
-    pip install py4j pyarrow
+RUN /bin/bash -i -c '      source ~/.bashrc && \
+                        pyenv activate ${python_env_version} && \
+                        pip install py4j pyarrow'
 
 ################################################### installs VNC #######################################################
 
