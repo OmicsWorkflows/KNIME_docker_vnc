@@ -5,6 +5,8 @@ The repository is meant for sharing docker files and accompanied files/scripts a
 
 The current docker image version is built using KNIME 4.7.7, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
 
+For the frequently asked questions, please check [FAQ](#frequently-asked-questions) part of the documentation.
+
 ## Prebuild Docker Images Usage
 
 This chapter explains how to run Docker image on your machine.
@@ -146,6 +148,25 @@ Docker image contains the below-mentioned selected tools found needed and or hel
     - The UpSetR consists of the following MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/UpSetR/LICENSE
 - [vsn](https://bioconductor.org/packages/release/bioc/html/vsn.html)
     - The vsn consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
+
+# Frequently asked questions
+
+Here is the list of selected situations we have faced quite frequently and were found worth noting here. Feel free to reach us to suggest other points to be shared this way.
+
+<details>
+  <summary>Python snippets do not work, I am getting error like this "Could not start python. There are problems with your Python environment"</summary>
+
+This is often caused by incorrect python environment settings in the KNIME.
+
+Please go to the File -> Preferences and in the settings window go to KNIME - Python or Python (Legacy). Python environment configuration has to be set to "manual". Confirm the settings change and try running the python snippet again, no need to restart the KNIME for the change to be applied.
+
+</details>
+<details>
+  <summary>FAQ2</summary>
+
+Description of the 2nd FAQ...
+
+</details>
 
 # Contributors
 
