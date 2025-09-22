@@ -15,7 +15,7 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: folder containing subfolder you want to mount as your KNIME workspace folder (e.g. "D:\knime-workspaces\")
-set folder_with_workspaces=D:\knime-workspaces\
+set folder_with_workspaces=C:\Users\435328\Documents\KNIME_docker\containers\
 :: timezone in which the container will run
 set timezone="Europe/Prague"
 

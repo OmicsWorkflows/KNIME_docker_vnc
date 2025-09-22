@@ -1,0 +1,305 @@
+FROM ubuntu:18.04
+
+################### set environmental variables ########################
+
+## user that will be using the container
+ARG knimeuser=knimeuser
+ARG knimeuser_home=/home/${knimeuser}
+
+# change the version of the docker file here to correspond to the docker file name
+ARG dockerfile_version=5.5.1a
+
+## default folders (knime_folder ENV is used in shortcut to knime, others can be ARG)
+ENV knime_folder=${knimeuser_home}/knime
+ARG knime_workspace_folder=${knimeuser_home}/knime-workspace
+
+ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
+ARG copied_files_folder=/usr/copied_files
+
+
+############################################# creates KNIME user and switches to it ####################################################################
+
+RUN apt-get update && \
+    apt-get -y install sudo \
+ && rm -rf /var/lib/apt/lists/*
+
+
+RUN useradd -m -d /home/${knimeuser} ${knimeuser} && \
+    chown -R ${knimeuser} /home/${knimeuser} && \
+    adduser ${knimeuser} sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER ${knimeuser}
+
+############################################# Basic packages + folders #################################################################################
+# libwebkitgtk-3.0-0 is used in knime gui app to display node info in html format, not only text format.
+# needs to be done in noninteractive way to install tzdata
+
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    build-essential \
+    curl \
+    firefox \
+    gedit \
+    git \
+    gtk2-engines-pixbuf \
+    htop \
+    libwebkitgtk-3.0-0 \
+    man \
+    mc \
+    ncbi-blast+ \
+    pandoc \
+    software-properties-common \
+    unzip \
+    wget \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+# installs additional system packages needed for plotly
+RUN sudo apt-get update && sudo apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+# create folders
+#RUN mkdir ${knimeuser_home}
+RUN mkdir ${knime_workspace_folder}
+
+# copy external files to docker image
+COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
+COPY --chown=${knimeuser}:${knimeuser} ./files_to_copy/${dockerfile_version}/home_folder/.config ${knimeuser_home}/.config
+RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
+    chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
+    chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
+    chmod 755 ${copied_files_folder}/workflows_reset.sh
+
+# set default locations
+ENV HOME ${knimeuser_home}
+WORKDIR ${knimeuser_home}
+
+################################################ set KNIMEUSER ############################################################################
+# use different user to use container
+
+#RUN chmod -R 770 ${knimeuser_home}
+
+#RUN groupadd -r ${knimeuser} && useradd --no-log-init -r -g ${knimeuser} -d ${knimeuser_home} ${knimeuser}
+#RUN chown -R ${knimeuser}: ${knimeuser_home}
+
+
+########################################################### GUI #################################################################################
+
+#RUN apt-get update -y
+# installs desktop environment
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install \
+    xfce4 \
+    xfce4-goodies \
+    locales -y \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+# removes power management and screensaver packages
+RUN sudo apt-get purge -y \
+    xscreensaver \
+    xscreensaver-data \
+    xfce4-power-manager \
+    xfce4-power-manager-data
+
+
+####################### set locales so that gnome-terminal can be initiated (arrow shortucts don't work on xterm for some reason)
+RUN sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && sudo locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# set bash as knimeuser's login shell
+RUN sudo chsh -s /bin/bash ${knimeuser}
+
+
+
+############################################## VNC #####################################################################################
+
+# tigervnc file name
+ARG tigervnc_file=tigervnc-1.10.1.x86_64
+
+# download and unpack tigervnc (support for encryption if using tigervnc viewer)
+ADD --chown=knimeuser:knimeuser https://dl.bintray.com/tigervnc/stable/${tigervnc_file}.tar.gz /root/
+RUN sudo tar -xvf /root/${tigervnc_file}.tar.gz -C /root/
+RUN sudo cp -a /root/${tigervnc_file}/. /
+
+RUN sudo rm -r /root/${tigervnc_file}
+
+# vnc startup - create so that there is no problem with file does not exist on vnc init
+RUN sudo mkdir ${knimeuser_home}/.vnc
+RUN sudo chown ${knimeuser}: ${knimeuser_home}/.vnc
+RUN cp -f ${copied_files_folder}/xstartup ${knimeuser_home}/.vnc/xstartup
+RUN sudo chmod +x ${knimeuser_home}/.vnc/xstartup
+
+
+################################################## R ####################################################################################
+# install latest ubuntu R from the specified repository (depending on the version of R, versions of bioconductor + bioconductor packages install)
+
+# adds repository and its GPG key for the latest R version (3.6 at the time of writing)
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" | sudo tee /etc/apt/sources.list.d/cran.list > /dev/null
+
+ENV R_BASE_VERSION 4.5.1
+
+RUN sudo apt-get update && sudo apt-get install -y \
+	r-base=${R_BASE_VERSION}* \
+	r-recommended=${R_BASE_VERSION}* \
+	r-base-dev=${R_BASE_VERSION}* \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+# install Rserve
+RUN sudo R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")'
+
+# install R packages sources
+RUN sudo R -e 'install.packages(c("BiocManager", "remotes"),repos="http://cran.rstudio.com/")'
+
+# installs stable R packages from Bioconductor
+RUN sudo R -e 'BiocManager::install(c("Biobase", "impute", "limma", "pcaMethods", "preprocessCore", "proDA", "vsn"))'
+
+# installs additional R packages from default R cran
+RUN sudo R -e 'install.packages(c("imp4p", "gprofiler2", "compositions", "plotly", "robCompositions", "UpSetR"))'
+
+# installs additional R packages from sources
+RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.9.tar.gz", repos = NULL, type="source")'
+RUN sudo R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-5.tar.gz", repos = NULL, type="source")'
+
+####################################################### PYTHON ######################################################################
+
+### installs system libraries for python 2 and 3
+RUN sudo apt-get update -y  && sudo apt-get install python-dev python-pip python-setuptools python-tk -y
+RUN sudo apt-get update -y  && sudo apt-get install python3-dev python3-pip python3-setuptools python3-tk -y
+
+
+### installs additional python 2 packages
+# pip2 packages versions
+ARG pip2_matplotlib_version=2.2.4
+ARG pip2_numpy_version=1.16.6
+ARG pip2_pandas_version=0.24.2
+ARG pip2_scipy_version=1.2.3
+ARG pip2_seaborn_version=0.9.0
+ARG pip2_statsmodels_version=0.10.2
+
+RUN pip install --user \
+    numpy==${pip2_numpy_version} \
+    pandas==${pip2_pandas_version} \
+    seaborn==${pip2_seaborn_version} \
+    statsmodels==${pip2_statsmodels_version} \
+    matplotlib==${pip2_matplotlib_version} \
+    scipy==${pip2_scipy_version}
+
+
+### installs additional python 3 packages
+# pip3 packages versions
+ARG pip3_dash_version=1.12.0
+ARG pip3_dash_bio_version=0.4.8
+ARG pip3_dash_core_components_version=1.10.0
+ARG pip3_dash_html_components_version=1.0.3
+ARG pip3_dash_table_version=4.7.0
+ARG pip3_matplotlib_version=3.1.3
+ARG pip3_numpy_version=1.18.1
+ARG pip3_pandas_version=1.0.1
+ARG pip3_scipy_version=1.4.1
+ARG pip3_seaborn_version=0.10.0
+ARG pip3_statsmodels_version=0.11.1
+
+RUN pip3 install \
+    dash==${pip3_dash_version} \
+    dash-bio==${pip3_dash_bio_version} \
+    dash-core-components==${pip3_dash_core_components_version} \
+    dash-html-components==${pip3_dash_html_components_version} \
+    dash-table==${pip3_dash_table_version} \
+    numpy==${pip3_numpy_version} \
+    pandas==${pip3_pandas_version} \
+    seaborn==${pip3_seaborn_version} \
+    statsmodels==${pip3_statsmodels_version} \
+    matplotlib==${pip3_matplotlib_version} \
+    scipy==${pip3_scipy_version}
+
+################################################################# KNIME ####################################################################
+
+# version of the KNIME to be installed; if changed, consider changing also other version related ARGs like package repositories
+ARG knime_version=5.5.1
+
+# KNIME file name to be downloaded and installed
+ARG knime_file=knime_${knime_version}.linux.gtk.x86_64.tar.gz
+
+# links to online repositories to be used when installing knime extensions
+
+ARG knime_partners_repository=https://update.knime.com/partner/5.5
+ARG knime_analytics_platform_repository=https://update.knime.com/analytics-platform/5.5
+ARG knime_community_trusted_repository=https://update.knime.com/community-contributions/trusted/5.5
+ARG knime_community_experimental_repository=https://update.knime.com/community-contributions/5.5
+
+# names + versions of extensions that will be additionally installed to knime (they are installed manually below in this section)
+# if you add other extension, it needs to be added into the KNIME installation part as well
+
+ARG knime_python_extension=org.knime.features.python2.feature.group/4.1.3.v202005112253
+ARG knime_r_extension=org.knime.features.r.feature.group/4.1.1.v202001312017
+ARG knime_testing_framework_extension=org.knime.features.testing.application.feature.group/4.1.1.v202001312017
+ARG knime_expressions_extension=org.knime.features.expressions.feature.group/4.1.0.v201911251323
+ARG knime_reporting_designer_extension=org.knime.features.reporting.designer.feature.group/4.0.0.v201911110939
+ARG knime_openms_extension=de.openms.feature.feature.group/2.5.0.202002241222
+ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.3.11.v201907181152
+
+
+# install KNIME
+ADD --chown=knimeuser:knimeuser http://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
+RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/
+RUN rm ${knimeuser_home}/${knime_file}
+
+#rename knime folder to be without the version
+RUN mv ${knimeuser_home}/knime_${knime_version} ${knime_folder}
+#make knime executable
+RUN sudo chmod +x ${knime_folder}/knime
+
+# install knime extensions (python,r, etc.; the versions are specified above)
+RUN ${knime_folder}/knime -clean -purgeHistory -application org.eclipse.equinox.p2.director \
+-noSplash -repository ${knime_partners_repository} -repository ${knime_analytics_platform_repository} \
+-repository ${knime_community_trusted_repository} -repository ${knime_community_experimental_repository} \
+-i ${knime_python_extension} -i ${knime_r_extension} -i ${knime_testing_framework_extension} -i ${knime_expressions_extension} \
+-i ${knime_reporting_designer_extension} -i ${knime_openms_extension} -i ${knime_pia_extension}
+
+# change max heap for knime (default is 2048m, i.e. -Xmx2g, which might not always be sufficient)
+RUN sed -i 's/-Xmx.*/-Xmx4g/' ${knime_folder}/knime.ini
+
+
+##################################### SHORTCUTS ####################################################################################################
+
+RUN mkdir ${knimeuser_home}/Desktop
+
+# shortcut to knime
+RUN sudo cp ${copied_files_folder}/knime.desktop /usr/share/applications
+RUN sudo cp /usr/share/applications/knime.desktop ${knimeuser_home}/Desktop/
+
+# shortcut to Metanodes template reset
+RUN sudo cp ${copied_files_folder}/Metanodes_templates_reset.desktop /usr/share/applications
+RUN sudo cp /usr/share/applications/Metanodes_templates_reset.desktop ${knimeuser_home}/Desktop/
+
+# shortcut to Workflows template reset
+RUN sudo cp ${copied_files_folder}/Workflows_templates_reset.desktop /usr/share/applications
+RUN sudo cp /usr/share/applications/Workflows_templates_reset.desktop ${knimeuser_home}/Desktop/
+
+
+########################################################## FINAL ACTIONS ############################################################################
+
+## create version file in knimeuser home, just for info
+RUN touch ${knimeuser_home}/version-${dockerfile_version}
+
+## make folders available to knimeuser
+RUN sudo chown -R ${knimeuser}: ${copied_files_folder}
+
+RUN sudo chown -R ${knimeuser}: ${knimeuser_home}
+#RUN chown -R ${knimeuser}: ${knime_folder}
+#RUN chown -R ${knimeuser}: ${knimeuser_home}/Desktop
+#RUN chown -R ${knimeuser}: ${knime_workspace_folder}
+
+## make shortcuts executable
+RUN sudo chmod -R 770 ${knimeuser_home}/Desktop
+
+# enabling timezone setting by entrypoint.sh by knimeuser
+RUN sudo chown ${knimeuser}: /etc/timezone
+#RUN chown -h ${knimeuser} /etc/localtime
+
+EXPOSE 5901
+#USER ${knimeuser}
+ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
