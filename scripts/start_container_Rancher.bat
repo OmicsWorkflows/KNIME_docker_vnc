@@ -124,16 +124,17 @@ echo Using CLI: %CLI_CMD% ^(%CLI_EXE%^)
 :: ----------------------------
 set "MOUNT_PATH=!workspace_path!"
 
-if /i "%CLI_CMD%"=="nerdctl" (
-  for /f "usebackq delims=" %%L in (`wsl wslpath -a -u "!workspace_path!" 2^>nul`) do set "MOUNT_PATH=%%L"
-  if "!MOUNT_PATH!"=="" (
-    echo.
-    echo Failed to convert Windows path to WSL path using "wsl wslpath".
-    echo Ensure WSL is installed and Rancher Desktop uses the WSL backend.
-    echo.
-    pause & exit /b 1
-  )
-)
+:: not needed in the end, but commenting out for now only
+::if /i "%CLI_CMD%"=="nerdctl" (
+::  for /f "usebackq delims=" %%L in (`wsl wslpath -a -u "!workspace_path!" 2^>nul`) do set "MOUNT_PATH=%%L"
+::  if "!MOUNT_PATH!"=="" (
+::    echo.
+::    echo Failed to convert Windows path to WSL path using "wsl wslpath".
+::    echo Ensure WSL is installed and Rancher Desktop uses the WSL backend.
+::    echo.
+::    pause & exit /b 1
+::  )
+::)
 
 :: ----------------------------
 :: All set — run the container
