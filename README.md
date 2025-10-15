@@ -21,7 +21,7 @@ Please note that the procedure below was successfully tested on Ubuntu 20.04 (64
 2. [Download](https://github.com/OmicsWorkflows/KNIME_docker_vnc/archive/master.zip) and unzip or clone this repository using your version control system to get mainly the "scripts" folder containing scripts to assist you to run the docker container in the next steps.
    - there are platform specific (Linux, Windows, Mac) scripts to help you to run the docker container on your platform
       - start_container.sh - Linux
-      - start_container.bat - Windows
+      - start_container.bat and start_container_Rancher.bat - Windows
       - start_container.command - Mac
 3. Adjust "start_container" or "start_container_Rancher" (Windows only) script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings), default VNC server password and timezone you want to use. Please, check the script file settings part itself for all the details.
    - it is a good practice to create brand new folder that will hold all your KNIME workspaces ("workspaces_folder" variable) and one additional subfolder in it to be used for the specific container (to be specified during the script running)
