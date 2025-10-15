@@ -11,26 +11,31 @@ This chapter explains how to run Docker image on your machine.
 
 Please note that the procedure below was successfully tested on Ubuntu 20.04 (64-bit) and Windows 10 (64-bit, Professional and Educational version) with Docker for desktop application installed. Earlier versions were tested also using Docker toolbox (Windows 7 Professional and Windows 10 Home) but there was an issue with read only access to the mounted workspace which is limiting for the optimal container usage and we do not recommend to use it.
 
-1. At first you will need to install docker application for your platform - [here](https://docs.docker.com/install/) you can find information on Docker project pages.
+1. At first you will need to install application to run the docker images for your platform
+   - two applications are supported on Windows by provided customizable scripts
+     - Docker application: can be downloaded [here](https://docs.docker.com/install/)
+     - Rancher Desktop application: can be downloaded [here](https://rancherdesktop.io)
    - please note that the docker application needs virtualization enabled on your system and it may need to be enabled in the bios of your system
    - please note that docker application uses different type of virtualization than e.g. VirtualBox application so these two can not run on simultaneously; even though [it may be possible](https://docs.docker.com/desktop/faqs/windowsfaqs/#can-i-use-virtualbox-alongside-docker-desktop) with the latest Docker versions
+   - Rancher application can use both, containerd or dockerd container engine, the script provided selects the one that is running on the given system
 2. [Download](https://github.com/OmicsWorkflows/KNIME_docker_vnc/archive/master.zip) and unzip or clone this repository using your version control system to get mainly the "scripts" folder containing scripts to assist you to run the docker container in the next steps.
    - there are platform specific (Linux, Windows, Mac) scripts to help you to run the docker container on your platform
       - start_container.sh - Linux
       - start_container.bat - Windows
       - start_container.command - Mac
-3. Adjust "start_container" script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings), default VNC server password and timezone you want to use. Please, check the script file settings part itself for all the details.
+3. Adjust "start_container" or "start_container_Rancher" (Windows only) script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings), default VNC server password and timezone you want to use. Please, check the script file settings part itself for all the details.
    - it is a good practice to create brand new folder that will hold all your KNIME workspaces ("workspaces_folder" variable) and one additional subfolder in it to be used for the specific container (to be specified during the script running)
-   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This requires you to setup shared drive on Windows machines
+   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This may require you to setup shared drive on Windows machines
    - KNIME has to have write access to the KNIME workspace folder, please adjust the access rights to the KNIME workspace folder if needed
-4. Run the "start_container" script for your platform to create a docker container based on the prebuild image, there are two supported ways:
+4. Run the "start_container" or "start_container_Rancher" (Windows only) script for your platform to create a docker container based on the prebuild image, there are two supported ways:
    1. run the script file itself without any argument (e.g. by double-clicking on it) and provide few arguments when asked;
    
       or
    
    2. run the script file on the command line with 3 parameters provided directly and separated by space: `IMAGE_NAME`, `PORT_TO_RUN_ON`, `WORKSPACE`
       - examples for container start are:
-         - **Windows**: `start_container.bat cfprot/knime:latest 5901 test`
+         - **Windows (Docker)**: `start_container.bat cfprot/knime:latest 5901 test`
+         - **Windows (Rancher)**: `start_container_Rancher.bat cfprot/knime:latest 5901 test`
          - **Linux**: `./start_container.sh cfprot/knime:latest 5901 test`      
          - **Mac**: `./start_container.command cfprot/knime:latest 5901 test`      
          - where:
