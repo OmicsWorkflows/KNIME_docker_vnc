@@ -78,62 +78,61 @@ if not exist !workspace_path! (
 )
 
 :: ----------------------------
-:: Detect container CLI: prefer nerdctl if available; else docker
+:: Detect container CLI: prefer Docker if it can reach a daemon; else nerdctl
 :: ----------------------------
-set "CLI="
+set "CLI_EXE="
+set "CLI_CMD="
 set "NERDCTL_EXE="
 set "DOCKER_EXE="
 
 for /f "delims=" %%A in ('where nerdctl.exe 2^>nul') do if not defined NERDCTL_EXE set "NERDCTL_EXE=%%A"
-for /f "delims=" %%A in ('where docker.exe 2^>nul') do if not defined DOCKER_EXE   set "DOCKER_EXE=%%A"
+for /f "delims=" %%A in ('where docker.exe   2^>nul') do if not defined DOCKER_EXE   set "DOCKER_EXE=%%A"
 
-REM Try nerdctl first (and verify it actually works)
-if defined NERDCTL_EXE (
-  "%NERDCTL_EXE%" version >nul 2>&1
+:: Prefer docker if it can talk to a daemon
+if defined DOCKER_EXE (
+  "%DOCKER_EXE%" info >nul 2>&1
   if not errorlevel 1 (
-    set "CLI=%NERDCTL_EXE%"
+    set "CLI_EXE=%DOCKER_EXE%"
+    set "CLI_CMD=docker"
     goto :cli_selected
   )
 )
 
-REM Fallback to docker only if it can reach a daemon
-if defined DOCKER_EXE (
-  "%DOCKER_EXE%" info >nul 2>&1
+:: Fallback: use nerdctl only if containerd is reachable
+if defined NERDCTL_EXE (
+  "%NERDCTL_EXE%" info >nul 2>&1
   if not errorlevel 1 (
-    set "CLI=%DOCKER_EXE%"
+    set "CLI_EXE=%NERDCTL_EXE%"
+    set "CLI_CMD=nerdctl"
     goto :cli_selected
   )
 )
 
 echo.
 echo No working container CLI detected:
-echo   - nerdctl not usable (or not on PATH), and
-echo   - docker cannot reach a daemon.
-echo If you are on Rancher+containerd, ensure nerdctl works from this shell.
+echo   - docker cannot reach a daemon, and
+echo   - nerdctl cannot reach containerd.
+echo If you use Rancher Desktop with containerd, ensure containerd is selected and running.
 echo.
 pause & exit /b 1
 
 :cli_selected
-echo Using CLI: %CLI%
-
+echo Using CLI: %CLI_CMD% ^(%CLI_EXE%^)
 
 :: ----------------------------
 :: Prepare mount path depending on CLI/runtime
 :: ----------------------------
 set "MOUNT_PATH=!workspace_path!"
 
-if /i "!CLI!"=="nerdctl" (
-    :: Convert Windows path to WSL/Linux path for nerdctl/containerd
-    for /f "usebackq delims=" %%L in (`wsl wslpath -a -u "!workspace_path!" 2^>nul`) do set "MOUNT_PATH=%%L"
-    if "!MOUNT_PATH!"=="" (
-        echo.
-        echo Failed to convert Windows path to WSL path using "wsl wslpath".
-        echo Ensure WSL is installed and Rancher Desktop is using the WSL backend.
-        echo You can also manually set MOUNT_PATH to a valid Linux path.
-        echo.
-        pause
-        exit /b 1
-    )
+if /i "%CLI_CMD%"=="nerdctl" (
+  for /f "usebackq delims=" %%L in (`wsl wslpath -a -u "!workspace_path!" 2^>nul`) do set "MOUNT_PATH=%%L"
+  if "!MOUNT_PATH!"=="" (
+    echo.
+    echo Failed to convert Windows path to WSL path using "wsl wslpath".
+    echo Ensure WSL is installed and Rancher Desktop uses the WSL backend.
+    echo.
+    pause & exit /b 1
+  )
 )
 
 :: ----------------------------
@@ -148,25 +147,16 @@ echo Use the password "knime" or the one you have set in the script file when re
 echo[
 pause
 
-
 set "cname=knime%port%"
 
-:: Common flags
+:: Note: keep quotes around the -v path pair
 set "RUN_FLAGS=run -it --rm --shm-size=1g --name %cname% -p %port%:5901 -v "%MOUNT_PATH%:%volume_mount_point%" -e CONTAINER_TIMEZONE=%timezone% -e TZ=%timezone% -e VNCPASSWORD=%default_vnc_password%"
 
-if /i "%CLI%"=="docker" (
-    docker %RUN_FLAGS% %image_name%
-) else (
-    :: nerdctl defaults to containerd; flags are largely Docker-compatible
-    nerdctl %RUN_FLAGS% %image_name%
-)
-
+"%CLI_EXE%" %RUN_FLAGS% %image_name%
 if errorlevel 1 (
    echo Error level returned is %errorlevel%
-   pause
-   exit
+   pause & exit /b %errorlevel%
 )
-
 :: joins folder_with_workspaces and workspace varibles into a absolute path in more robust way
 :joinpath
 set Path1=%~1
