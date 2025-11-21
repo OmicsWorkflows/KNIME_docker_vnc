@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=VNC password set
+Comment=Sets new VNC server password
+Exec=/usr/copied_files/vnc_pass_set.sh
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/usr/share/icons/elementary-xfce/actions/48/lock.png

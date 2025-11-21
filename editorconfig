@@ -1,0 +1,42 @@
+# =========================================================================== #
+#                         Universal .editorconfig                             #
+#      https://gist.github.com/infiRD/b1fbd5d25ee5d98cec9f61439a9f3177        #
+# =========================================================================== #
+# Inspired by: spring-framework, cookiecutter-pypackage and others
+
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+
+# avoid modifying files that have dedicated formatter / linter config
+[*.{adoc,html,md,rmd,properties,py,rb,sh,sql,svg,txt,js,ts,jsm,jsp,r,cs}]
+charset = utf-8
+indent_style = unset
+indent_size = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+end_of_line = unset
+
+# bat/cmd files are required to have CRLF newlines
+[*.{[Bb][Aa][Tt],[Cc][Mm][Dd]}]
+end_of_line = crlf
+
+# makefiles require tab indentation
+[{{M,m,GNUm}akefile{,.*},*.mak,*.mk}]
+indent_style = tab
+
+# using tabs for consistency
+[{.gitconfig,.gitmodules}]
+indent_style = tab
+
+[LICENSE]
+insert_final_newline = false
+
+[*.{yaml,yml}]
+indent_size = 2
