@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=KNIME desktop trust fix
-Exec=/usr/copied_files/set_metadata.sh
-X-GNOME-Autostart-enabled=true
