@@ -2,6 +2,13 @@
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
 
-[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -x /etc/vnc/xstartup ] && /etc/vnc/xstartup
 xsetroot -solid grey
-exec startxfce4
+startxfce4 &
+
+export $(dbus-launch)
+
+for file in "$HOME/Desktop"/*.desktop; do
+    [ -f "$file" ] || continue
+    gio set -t string "$file" metadata::xfce-exe-checksum "$(sha256sum "$file" | awk '{print $1}')"
+done

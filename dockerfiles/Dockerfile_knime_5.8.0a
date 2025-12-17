@@ -1,4 +1,4 @@
-FROM environment:5.8.0a
+FROM cfprot/environment:5.8.0a
 
 ############################################ set environment variables #################################################
 
@@ -114,6 +114,7 @@ COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.conf
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
 RUN chmod 777 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
+    chmod 755 ${copied_files_folder}/set_metadata.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset_branch.sh && \
     chmod 755 ${copied_files_folder}/workflows_reset.sh && \
@@ -143,7 +144,7 @@ RUN chmod 777 ${copied_files_folder}/entrypoint.sh && \
     sudo cp /usr/share/applications/Workflows_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
     # make shortcuts owned by knimeuser and executable
     sudo chown -R ${knimeuser}: ${knimeuser_home}/Desktop/ && \
-    sudo chmod -R 770 ${knimeuser_home}/Desktop && \
+    sudo chmod -R 777 ${knimeuser_home}/Desktop && \
 #
 ################################################# FINAL ACTIONS ########################################################
 #

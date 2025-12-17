@@ -1,4 +1,4 @@
-FROM ubuntu_xfce:24.04
+FROM cfprot/ubuntu_xfce:24.04
 
 ############################################ set environment variables #################################################
 
