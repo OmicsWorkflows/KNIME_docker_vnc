@@ -1,4 +1,4 @@
-FROM cfprot/environment:5.8.0a
+FROM cfprot/environment:5.8.0a-pre2
 
 ############################################ set environment variables #################################################
 
@@ -171,4 +171,5 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
 ENV dockerfile_version=${dockerfile_version}
 
 EXPOSE 5901
-ENTRYPOINT ["/usr/copied_files/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "-lc"]
+CMD ["sleep 2147483647"]

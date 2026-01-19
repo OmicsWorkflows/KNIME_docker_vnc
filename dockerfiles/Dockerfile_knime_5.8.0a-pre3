@@ -1,4 +1,4 @@
-FROM cfprot/environment:5.8.0a
+FROM cfprot/environment:5.8.0a-pre2
 
 ############################################ set environment variables #################################################
 

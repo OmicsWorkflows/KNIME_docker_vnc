@@ -57,7 +57,7 @@ ARG knime_openms_extension=de.openms.feature.feature.group/3.4.0.202501170921
 ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.4.7.v202406251140
 
 # installs KNIME
-ADD --chown=${knimeuser}:${knimeuser} https://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
+ADD --chown=knimeuser:knimeuser https://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
 RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
     rm ${knimeuser_home}/${knime_file} && \
     #rename knime folder to be without the version
@@ -107,13 +107,14 @@ RUN sudo wget -O /root/tigervnc-${tigervnc_version}.x86_64.tar.gz https://source
 # create folders
 # RUN sudo chown -R ${knimeuser}: ${knimeuser_home} && \
 RUN mkdir ${knime_workspace_folder} && \
-    sudo chown -R ${knimeuser}:${knimeuser} ${knime_workspace_folder}
+    sudo chown -R knimeuser:knimeuser ${knime_workspace_folder}
 
 # copy external files to docker image
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder}/home_folder/.config ${knimeuser_home}/.config
 COPY --chown=${knimeuser}:${knimeuser} ${files_to_copy_folder} ${copied_files_folder}
-RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
+RUN chmod 777 ${copied_files_folder}/entrypoint.sh && \
     chmod 755 ${copied_files_folder}/knime_with_workspace.sh && \
+    chmod 755 ${copied_files_folder}/set_metadata.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset.sh && \
     chmod 755 ${copied_files_folder}/metanodes_reset_branch.sh && \
     chmod 755 ${copied_files_folder}/workflows_reset.sh && \
@@ -143,7 +144,7 @@ RUN chmod 755 ${copied_files_folder}/entrypoint.sh && \
     sudo cp /usr/share/applications/Workflows_templates_reset_branch.desktop ${knimeuser_home}/Desktop/ && \
     # make shortcuts owned by knimeuser and executable
     sudo chown -R ${knimeuser}: ${knimeuser_home}/Desktop/ && \
-    sudo chmod -R 770 ${knimeuser_home}/Desktop && \
+    sudo chmod -R 777 ${knimeuser_home}/Desktop && \
 #
 ################################################# FINAL ACTIONS ########################################################
 #
