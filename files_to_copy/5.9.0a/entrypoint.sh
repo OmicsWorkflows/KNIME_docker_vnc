@@ -16,6 +16,9 @@ if [ ! -v "$CONTAINER_TIMEZONE" ]; then
  cat /usr/share/zoneinfo/${CONTAINER_TIMEZONE} > /etc/localtime
 fi
 
+# remove .metadata folder from a reused workspace
+rm -rf ~/knime-workspace/.metadata
+
 # remove display lock - if locked, vnc cannot initiate
 # happens eg. if updating container to new image (the lock from first vnc will be saved)
 rm -f /tmp/.X1-lock
