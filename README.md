@@ -23,44 +23,64 @@ Please note that the procedure below was successfully tested on Ubuntu 20.04 (64
       - start_container.sh - Linux
       - start_container.bat and start_container_Rancher.bat - Windows
       - start_container.command - Mac
-3. Adjust "start_container" or "start_container_Rancher" (Windows only) script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings), default VNC server password and timezone you want to use. Please, check the script file settings part itself for all the details.
-   - it is a good practice to create brand new folder that will hold all your KNIME workspaces ("workspaces_folder" variable) and one additional subfolder in it to be used for the specific container (to be specified during the script running)
-   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container. This may require you to setup shared drive on Windows machines
+3. Create the KNIME workspaces folder and prepare at least one workspace folder to be used for the running container
+    - you will need to provide one folder when running the KNIME container in the next step - so called "KNIME workspace"
+    - KNIME workspace folder is base folder used by KNIME application to be run inside the container and will contain all your future workflows including the data inputs and outputs
+    - it is practical to use multiple workspaces, e.g., one for each user and or KNIME container version, thus we work with the concept of "KNIME workspaces" folder where multiple workspaces can be located
+    - as for the individual KNIME workspace folder, the easiest way to use the KNIME and our KNIME metanodes and workflows ecosystem is to use preset KNIME workspace folder provided in this repository in the form of its zip archive - [knime-workspace_4-7-7a.zip](https://github.com/OmicsWorkflows/KNIME_docker_vnc/blob/sequential_4.7.7a/knime-workspace_4-7-7a.zip)
+        - the preset KNIME workspace folder contains two subfolders
+            - .metadata - settings of the KNIME application running inside the container (e.g., python version to be used by KNIME settings); do note that the starting dot can make the folder not directly visible by your operation system (e.g., Linux)
+            - gitfolders - github repositories folders preset to be on request synchronized with the actual content of the KNIME_workflows and KNIME_metanode repositories
+    - so, to prepare KNIME workspaces folder to contain multiple workspaces in future and one first workspace using the provided zip file, do the following:
+        - unzip the knime-workspace_4-7-7a.zip archive to get "KNIME_workspace" folder it contains
+        - create folder dedicated to KNIME workspaces on your system
+            - on Windows system you can create e.g., "D:\knime-workspaces" folder to contain all your workspaces
+        - move the extracted folder "knime-workspace" into the workspaces folder created in the previous step
+        - rename the knime-workspace folder if needed (e.g., "knime-workspace_1")
+        - KNIME workspace folder to be used by running container can look like this on the Windows system using the examples mentioned above:
+            - D:\knime-workspaces\knime-workspace_1
+4. Adjust "start_container" or "start_container_Rancher" (Windows only) script for your platform (Windows, Linux, Mac) to meet your system setup, especially folder that will contain your workspace(s) ("folder_with_workspaces" settings; "D:\knime-workspaces" folder mentioned in the example of the previous step), default VNC server password and timezone you want to use. Please, check the script file settings part itself for all the details.
+   - please note that our docker image is designed to mount selected folder from your local filesystem to enable data transfer between the container and the system running the container
    - KNIME has to have write access to the KNIME workspace folder, please adjust the access rights to the KNIME workspace folder if needed
-4. Run the "start_container" or "start_container_Rancher" (Windows only) script for your platform to create a docker container based on the prebuild image, there are two supported ways:
+5. Run the "start_container" or "start_container_Rancher" (Windows only) script for your platform to create a docker container based on the prebuild image, there are two supported ways:
    1. run the script file itself without any argument (e.g. by double-clicking on it) and provide few arguments when asked;
    
       or
    
    2. run the script file on the command line with 3 parameters provided directly and separated by space: `IMAGE_NAME`, `PORT_TO_RUN_ON`, `WORKSPACE`
       - examples for container start are:
-         - **Windows (Docker)**: `start_container.bat cfprot/knime:latest 5901 test`
-         - **Windows (Rancher)**: `start_container_Rancher.bat cfprot/knime:latest 5901 test`
-         - **Linux**: `./start_container.sh cfprot/knime:latest 5901 test`      
-         - **Mac**: `./start_container.command cfprot/knime:latest 5901 test`      
+         - **Windows (Docker)**: `start_container.bat cfprot/knime:latest 5901 knime-workspace`
+         - **Windows (Rancher)**: `start_container_Rancher.bat cfprot/knime:latest 5901 knime-workspace`
+         - **Linux**: `./start_container.sh cfprot/knime:latest 5901 knime-workspace`      
+         - **Mac**: `./start_container.command cfprot/knime:latest 5901 knime-workspace`      
          - where:
             - **`cfprot/knime:latest`** points to the latest docker image version of cfprot/knime docker image (change `latest` tag to e.g. `3.7.2a` to run specific version of the docker image)
             - **`5901`** specifies the port on which the container will be accesible for VNC connection
-            - **`test`** is the folder within workspaces folder (see "folder_with_workspaces" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
+            - **`knime-workspace`** is the folder within workspaces folder (see "folder_with_workspaces" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
    - please note that the script may need to be set as executable on your system prior its usage
    - please note that this step will automatically initiate download of the selected docker image version from the [docker hub](https://hub.docker.com/r/cfprot/knime/tags); the download process will take place only once, when you will want to use concrete docker image for the first time; the images have around 5GB so the download process will take some time
    - the downloaded image will take about 10GB on your hard drive based on your docker application settings
    - there will be messages from the docker container start you can ignore after the download will be completed
    - you can close the window with the script output as well now or you can just minimize it to use it to stop the started container
-5. Access the running container using VNC viewer at specified port number, e.g. "localhost::5901" in case of connecting into the locally running container. Use the password `knime` or the one you have set in the script file. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release to connect into the running container.
-6. You can verify that everything is set up correctly by starting KNIME and confirming the locations of its workspace. This will create some files on your hard drive inside the workspace folder specified before.
-7. You can transfer data to and from the running container using the specified workspace folder that is identical on your computer and inside the container
-   - e.g. "C:\knime-workspaces\test" on your computer (you specify this folder during the container start)
+6. Access the running container using VNC viewer at specified port number, e.g. "localhost::5901" in case of connecting into the locally running container. Use the password `knime` or the one you have set in the script file. We recommend to use latest [TigerVNC viewer](https://github.com/TigerVNC/tigervnc/releases) release to connect into the running container.
+7. You can verify that everything is set up correctly by starting KNIME. This will create some files on your hard drive inside the workspace folder specified before.
+8. You can transfer data to and from the running container using the specified workspace folder that is identical on your computer and inside the container
+   - e.g. "C:\knime-workspaces\knime-workspace" on your computer (you specify this folder during the container start)
    - "/home/knimeuser/knime-workspace/" inside the running container (this is fixed destination folder; it is specified in the container start script file as well, but should not be changed)
-8. The container will run until you restart your system that is running the container or kill the container start process. If you would like to get information on the actually running docker containers or stop the currently running container, you can use the following commands on the command line (for all, Windows, Linux and Mac systems)
+9. The container will run until you restart your system that is running the container or kill the container start process. If you would like to get information on the actually running docker containers or stop the currently running container, you can use the following commands on the command line (for all, Windows, Linux and Mac systems)
    - `docker ps -a` lists the running docker containers
    - `docker stop knime5901` stops and kills the running container with name "knime5901"
 
         - WARNING: you may lose not saved work from inside of your container as this will remove the container completely and you will not be able to access it again! Save your work and close the KNIME application prior this command running optimally!
     - `docker system prune -a` removes downloaded and currently not used docker images from your system
         - WARNING: you will need to download the docker image again if needed later on
-9. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), unzip also "gitfolders.zip" file content directly into your workspace folder - it contains "gitfolders" folder with two additional subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
-10. To stop the running container you can
+10. If you want to use also our [metanodes](https://github.com/OmicsWorkflows/KNIME_metanodes) and or [workflows](https://github.com/OmicsWorkflows/KNIME_workflows), the KNIME workspace preset folder contains gitfolders folder for this purpose with two subfolders ("KNIME_metanodes" and "KNIME_workflows") to hold the content of the two GitHub repositories
+    - initially, the gitfolders subfolders contain only the necessary settings so git application running inside the KNIME container can fetch the data from the dedicated Github repositories
+    - to get the current version of the Metanodes and or Workflows, you need to double click the given repository reset shortcut present on the desktop inside the running KNIME container
+        - Reset Metanodes templates - resets the content of the "/home/knimeuser/knime-workspace/gitfolders/KNIME_metanodes/" folder so it is inline with the actual github repository state
+        - Reset Workflows templates - resets the content of the "/home/knimeuser/knime-workspace/gitfolders/KNIME_workflows/" folder so it is inline with the actual github repository state
+    - do note that the github reset uses the given KNIME container version (e.g. 4-7-7a) and checks for the content of the corresponding branch only, each container version may have its own set of workflows and metanodes
+11. To stop the running container you can
     - press `Ctrl+C` while the container start script window is active
     - use the `docker stop 'container name'` command in the command line (see above)
     - restart the computer
