@@ -1,9 +1,9 @@
-FROM cfprot/environment:5.9.0a-pre3
+FROM cfprot/environment:5.9.0a-pre4
 
 ############################################ set environment variables #################################################
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=5.9.0a-pre3
+ARG dockerfile_version=5.9.0a-pre4
 ARG python_env_latest=5-9-0a
 ARG R_env_latest=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 
