@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # Github repository checked
-repo=KNIME_workflows
+repo=KNIME_metanodes
 
 # repository directory
 directory=/home/knimeuser/knime-workspace/gitfolders/$repo
-extract_dir="$directory/Workflow_unpacked"
 
 # branch to reset the repository to
 # replace the 'master' with the name of the respective branch you want to reset to based on the info on Github
@@ -76,54 +75,6 @@ else
   zenity --error --text="Branch does not exists!\n\nIt might have been deleted recently.\nPlease verify and adjust the script file accordingly.\n\nChecked branch name:\n"$branch"" --title="Branch does not exists!"  --width=300
   exit 1
 fi
-
-# find all .zip and .knwf files in the repo
-mkdir -p "$extract_dir"
-
-find "$directory" -type f \( -iname "*.zip" -o -iname "*.knwf" \) | while IFS= read -r file; do
-  # target directory = filename without extension
-  name=$(basename "$file" | sed 's/\.[^.]*$//')
-
-  # relative path inside repository
-  relative_dir=$(dirname "${file#$directory/Workflow_templates/}")
-  target_parent="$extract_dir/$relative_dir"
-  mkdir -p "$target_parent"
-
-  backup_dir="$target_parent/.${name}.backup"
-  error_dir="$target_parent/.${name}.error"
-  target_dir="$target_parent/$name"
-  
-  # rename original folder
-  rm -rf "$backup_dir"
-  if [ -d "$target_dir" ]; then
-    mv "$target_dir" "$backup_dir"
-  fi
-  rm -rf "$target_dir"
-  
-  unzip_return=$(unzip -o "$file" -d "$target_parent" 2>&1)
-  if [ $? != 0 ]; then
-    # create a folder with failed unpacking, if a folder was created
-    if [ -d "$target_dir" ]; then
-      mv "$target_dir" "$error_dir"
-    fi
-    
-    # if previous successful unpacking exists, restore
-    if [ -d "$backup_dir" ]; then
-      mv "$backup_dir" "$target_dir"
-    fi
-  
-    notify-send -u critical -i dialog-error "${repo} repository" \
-    "<b>Unzip failed!</b> \
-    \rFile: $file \
-    \r \
-    \r${unzip_return}"
-    exit 1
-  fi
-  
-  # remove backup dir
-  rm -rf "$backup_dir"
-  
-done
 
 # shows the notification about the finished task
 notify-send -u critical -i process-completed "${repo} repository" \

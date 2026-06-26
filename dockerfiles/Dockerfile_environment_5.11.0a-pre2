@@ -7,7 +7,7 @@ ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=5.9.0a-pre4
+ARG dockerfile_version=5.11.0a-pre2
 ARG python_env_version=5-9-0a
 ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
 ARG copied_files_folder=/usr/copied_files
@@ -59,13 +59,15 @@ RUN echo 'export PYENV_ROOT="${PYENV_ROOT}"' >> .bashrc && \
     # initiates pyenv and pyenv virtualenv
     echo 'eval "$(pyenv init -)"' >> .bashrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc && \
-    ### environment - 5.8.0a
+    ### environment - 5.11.0a
     # installs base python
     pyenv install ${python_version} && \
     # sets virtualenv
     pyenv virtualenv ${python_version} ${python_env_version} && \
     # installs some extra Ubuntu packages required by some python modules
     sudo apt-get update -y  && sudo apt-get install -y \
+    # package required by the fs R package
+    libuv1-dev \
     # packages for pycairo and pygobject
     libcairo2-dev \
     libjpeg-dev \

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Reset Workflows templates
+Comment=Resets the git repository of the KNIME Workflows templates
+Exec=/usr/copied_files/workflows_reset.sh
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/usr/share/icons/elementary-xfce/actions/48/view-refresh.png

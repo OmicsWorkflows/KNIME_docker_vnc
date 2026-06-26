@@ -1,15 +1,13 @@
 #!/bin/bash
 
 # repository to use
-repo=KNIME_workflows
+repo=KNIME_metanodes
 
 # default branch
 branch_def=master
 
 # repository directory
 directory=/home/knimeuser/knime-workspace/gitfolders/${repo}
-extract_dir="$directory/Workflow_unpacked"
-
 # file to hold the last used branch
 last_branch_file=~/.last_branch_${repo}
 
@@ -114,55 +112,8 @@ if [ $? != 0 ] ; then
 fi
 
 # writes down small file that will hold the last used branch name
+
 echo "$branch" > "$last_branch_file"
-
-# ensure extract directory exists
-mkdir -p "$extract_dir"
-
-# unpack workflows safely
-find "$directory" -type f \( -iname "*.zip" -o -iname "*.knwf" \) | while IFS= read -r file; do
-  name=$(basename "$file" | sed 's/\.[^.]*$//')
-
-  # relative path inside repository
-  relative_dir=$(dirname "${file#$directory/Workflow_templates/}")
-  target_parent="$extract_dir/$relative_dir"
-  mkdir -p "$target_parent"
-
-  backup_dir="$target_parent/.${name}.backup"
-  error_dir="$target_parent/.${name}.error"
-  target_dir="$target_parent/$name"
-  
-  # rename original folder
-  rm -rf "$backup_dir"
-  if [ -d "$target_dir" ]; then
-    mv "$target_dir" "$backup_dir"
-  fi
-  rm -rf "$target_dir"
-  
-  unzip_return=$(unzip -o "$file" -d "$target_parent" 2>&1)
-  if [ $? != 0 ]; then
-    # create a folder with failed unpacking, if a folder was created
-    if [ -d "$target_dir" ]; then
-      mv "$target_dir" "$error_dir"
-    fi
-    
-    # if previous successful unpacking exists, restore
-    if [ -d "$backup_dir" ]; then
-      mv "$backup_dir" "$target_dir"
-    fi
-  
-    notify-send -u critical -i dialog-error "${repo} repository" \
-    "<b>Unzip failed!</b> \
-    \rFile: $file \
-    \r \
-    \r${unzip_return}"
-    exit 1
-  fi
-  
-  # remove backup dir
-  rm -rf "$backup_dir"
-
-done
 
 # shows the notification about the finished task
 notify-send -u critical -i process-completed "${repo} repository" \

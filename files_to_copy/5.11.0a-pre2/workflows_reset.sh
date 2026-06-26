@@ -81,6 +81,12 @@ fi
 mkdir -p "$extract_dir"
 
 find "$directory" -type f \( -iname "*.zip" -o -iname "*.knwf" \) | while IFS= read -r file; do
+
+  # Skip archives that are not KNIME workflows
+  if ! unzip -l "$file" 2>/dev/null | grep -q "workflow\.knime"; then
+    continue
+  fi
+
   # target directory = filename without extension
   name=$(basename "$file" | sed 's/\.[^.]*$//')
 
