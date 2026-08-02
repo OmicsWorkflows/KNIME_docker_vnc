@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Knime
+Comment=Knime with workspace
+Exec=/usr/copied_files/knime_with_workspace.sh
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/home/knimeuser/knime/icon.xpm
