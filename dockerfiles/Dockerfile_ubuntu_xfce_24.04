@@ -8,6 +8,11 @@ ARG knimeuser_home=/home/${knimeuser}
 
 ######################################### Installs basic packages ######################################################
 
+# delete default user ubuntu
+RUN touch /var/mail/ubuntu && \
+    chown ubuntu /var/mail/ubuntu && \
+    userdel -r ubuntu
+
 # needs to be done in noninteractive way to install tzdata
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -16,13 +21,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     build-essential \
     curl \
     cron \
-    firefox \
     gedit \
     git \
     gtk2-engines-pixbuf \
     htop \
     man \
     mc \
+    snapd \
     software-properties-common \
     sudo \
     unzip \
@@ -46,6 +51,19 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     chown -R ${knimeuser} ${knimeuser_home} && \
     adduser ${knimeuser} sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      wget gnupg ca-certificates \
+    && install -d -m 0755 /etc/apt/keyrings \
+    && wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- \
+       | gpg --dearmor > /etc/apt/keyrings/packages.mozilla.org.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.gpg] https://packages.mozilla.org/apt mozilla main" \
+       > /etc/apt/sources.list.d/mozilla.list \
+    && printf 'Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000\n' \
+       > /etc/apt/preferences.d/mozilla \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends firefox \
+    && rm -rf /var/lib/apt/lists/*
 
 USER ${knimeuser}
 

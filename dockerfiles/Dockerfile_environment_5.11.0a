@@ -1,4 +1,4 @@
-FROM cfprot/ubuntu_xfce:24.04-pre2
+FROM cfprot/ubuntu_xfce:24.04
 
 ############################################ set environment variables #################################################
 
@@ -7,7 +7,7 @@ ARG knimeuser=knimeuser
 ARG knimeuser_home=/home/${knimeuser}
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=5.9.0a
+ARG dockerfile_version=5.11.0a-pre3
 ARG python_env_version=5-9-0a
 ARG files_to_copy_folder=./files_to_copy/${dockerfile_version}
 ARG copied_files_folder=/usr/copied_files
@@ -59,13 +59,15 @@ RUN echo 'export PYENV_ROOT="${PYENV_ROOT}"' >> .bashrc && \
     # initiates pyenv and pyenv virtualenv
     echo 'eval "$(pyenv init -)"' >> .bashrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> .bashrc && \
-    ### environment - 5.8.0a
+    ### environment - 5.11.0a
     # installs base python
     pyenv install ${python_version} && \
     # sets virtualenv
     pyenv virtualenv ${python_version} ${python_env_version} && \
     # installs some extra Ubuntu packages required by some python modules
     sudo apt-get update -y  && sudo apt-get install -y \
+    # package required by the fs R package
+    libuv1-dev \
     # packages for pycairo and pygobject
     libcairo2-dev \
     libjpeg-dev \
@@ -135,12 +137,12 @@ RUN sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("remotes", "ragg", "pkgdo
     sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("Rserve"),repos="https://rforge.net/")' && \
     ## installs stable R packages from Bioconductor
     sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("BiocManager"), repos="http://cran.rstudio.com/")' && \
-    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "clusterProfiler", "ComplexHeatmap", "impute", "limma", "pcaMethods", "preprocessCore", "pvca", "sva", "vsn"))' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'BiocManager::install(c("Biobase", "clusterProfiler", "ComplexHeatmap", "DEqMS", "impute", "limma", "limpa", "pcaMethods", "preprocessCore", "pvca", "sva", "vsn"))' && \
     ## installs additional R packages from default R cran
-    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("compositions", "ComplexUpset", "factoextra", "ggpubr", "gplots", "gprofiler2", "imp4p", "iq", "lawstat", "Peptides", "plotly", "robCompositions", "shiny", "tidyverse", "umap", "UpSetR"), repos = "http://cran.r-project.org")' && \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages(c("class", "compositions", "ComplexUpset", "factoextra", "ggpubr", "gplots", "gprofiler2", "imp4p", "iq", "lawstat", "Peptides", "plotly", "robCompositions", "rrcovNA", "shiny", "tidyverse", "umap", "UpSetR"), repos = "http://cran.r-project.org")' && \
     ## installs additional R packages from sources
     sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/corpcor_1.6.10.tar.gz", repos = NULL, type="source")' && \
-    sudo ${R_INSTALL_DIR}/bin/R -e 'devtools::install_url("https://cran.r-project.org/src/contrib/Archive/sROC/sROC_0.1-2.tar.gz", dependencies = TRUE)'&& \
+    sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/sROC/sROC_0.1-2.tar.gz", dependencies = TRUE)'&& \
     sudo ${R_INSTALL_DIR}/bin/R -e 'install.packages("https://cran.r-project.org/src/contrib/Hotelling_1.0-8.tar.gz", repos = NULL, type="source")'
 ######################################################### Entry ########################################################
 
