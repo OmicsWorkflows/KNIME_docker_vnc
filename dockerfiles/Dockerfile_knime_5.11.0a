@@ -1,10 +1,10 @@
-FROM cfprot/environment:5.11.0a-pre3
+FROM cfprot/environment:5.11.0a
 
 ############################################ set environment variables #################################################
 
 # change the version of the docker file here to correspond to the docker file name
-ARG dockerfile_version=5.11.0a-pre3
-ARG python_env_latest=5-9-0a
+ARG dockerfile_version=5.11.0a
+ARG python_env_latest=5-11-0a
 ARG R_env_latest=${knimeuser_home}/.Renv/${R_VERSION}/${dockerfile_version}
 
 ## default folders (knime_folder and knime_workspace_folder ENVs are used in shortcut to knime, others can be ARG)
@@ -57,6 +57,7 @@ ARG knime_big_data_formats_extension=org.knime.features.bigdata.fileformats.feat
 ARG knime_openms_extension=de.openms.feature.feature.group/3.5.0.202512111229
 ARG knime_pia_extension=de.mpc.pia.feature.feature.group/1.4.7.v202511271459
 ARG knime_vernalis_extension=com.vernalis.knime.feature.feature.group/1.38.2.v202605270913
+ARG knime_image_processing_extension=org.knime.knip.feature.feature.group/1.8.3.v202512031239
 
 # installs KNIME
 ADD --chown=${knimeuser}:${knimeuser} https://download.knime.org/analytics-platform/linux/${knime_file} ${knimeuser_home}/
@@ -81,7 +82,8 @@ RUN tar -xvf ${knimeuser_home}/${knime_file} -C ${knimeuser_home}/  && \
     -i ${knime_big_data_formats_extension} \
     -i ${knime_openms_extension} \
     -i ${knime_pia_extension} \
-    -i ${knime_vernalis_extension} && \
+    -i ${knime_vernalis_extension} \
+    -i ${knime_image_processing_extension} && \
     # change max heap for knime (default is 2048m, i.e. -Xmx2g, which might not always be sufficient)
     sed -i 's/-Xmx.*/-XX:InitialRAMPercentage=5/' ${knime_folder}/knime.ini && \
     echo '-XX:MaxRAMPercentage=25' >> ${knime_folder}/knime.ini && \
