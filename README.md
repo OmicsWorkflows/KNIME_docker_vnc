@@ -3,7 +3,7 @@ Docker file and associated files for running KNIME inside the Docker container b
 
 The repository is meant for sharing docker files and accompanied files/scripts and to make easier usage of prebuild docker images hosted on docker hub ([https://hub.docker.com/r/cfprot/knime/](https://hub.docker.com/r/cfprot/knime/)).
 
-The current docker image version is built using KNIME 4.7.7, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
+The current docker image version is built using KNIME 5.11.0, see [the list of used programs below](https://github.com/OmicsWorkflows/KNIME_docker_vnc#list-of-used-programs-and-extensions-and-the-respective-licences).
 
 ## Prebuild Docker Images Usage
 
@@ -39,7 +39,7 @@ Please note that the procedure below was successfully tested on Ubuntu 20.04 (64
          - **Linux**: `./start_container.sh cfprot/knime:latest 5901 test`      
          - **Mac**: `./start_container.command cfprot/knime:latest 5901 test`      
          - where:
-            - **`cfprot/knime:latest`** points to the latest docker image version of cfprot/knime docker image (change `latest` tag to e.g. `3.7.2a` to run specific version of the docker image)
+            - **`cfprot/knime:latest`** points to the latest docker image version of cfprot/knime docker image (change `latest` tag to e.g. `4.7.7a` to run specific version of the docker image)
             - **`5901`** specifies the port on which the container will be accesible for VNC connection
             - **`test`** is the folder within workspaces folder (see "folder_with_workspaces" settings in the script) that will be mounted as KNIME workspace folder and will be used by default by KNIME
    - please note that the script may need to be set as executable on your system prior its usage
@@ -71,86 +71,138 @@ Please note that only the latest docker file/image version is mentioned here.
 
 The repository utilizes [docker](https://www.docker.com/) files and the docker images are hosted on [docker hub](https://hub.docker.com).
 
-Docker image contains the below-mentioned selected tools found needed and or helping during the work with the KNIME environment. It runs on top of Ubuntu 20.04 LTS. The current version of the docker environment contains the following list of programs and other additional programs and packages required by the following ones. Please inspect your local installation and contact us if you can not locate your local application/package version and or license terms associated to the used program(s).
+Docker image contains the below-mentioned selected tools found needed and or helping during the work with the KNIME environment. It runs on top of Ubuntu 24.04 LTS. The current version of the docker environment contains the following list of programs and other additional programs and packages required by the following ones. Please inspect your local installation and contact us if you can not locate your local application/package version and or license terms associated to the used program(s).
 
 #### Operation system and its components (alphabetical order)
-- [git](https://git-scm.com/) 2.25.1
-  - The git consists of the following GNU General Public License version 2.0. Licence terms are available here: http://opensource.org/licenses/GPL-2.0
-- [KNIME](https://www.knime.com/) 4.7.7
-  - The KNIME nodes consists of the following GNU GPL 3.0 License. Licence terms are available here: https://www.knime.com/downloads/full-license
-- [Python](https://www.python.org/) 3.10.4 and 3.6.9
-  - The Python consists of the following Python 3.10 License. Licence terms are available here: https://docs.python.org/3.10/license.html
-- [R](https://www.r-project.org/) 4.2.0 and 3.6.3
-  - The R consists of the following GNU General Public Licences. Licence terms are available here: https://www.r-project.org/Licenses/
-- [TigerVNC](https://tigervnc.org/) 1.10.0
-  - The TigerVNC consists of the following GNU General Public Licence. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
-- [Ubuntu](https://www.ubuntu.com/) 20.04
-  - The Ubuntu consists of the following Ubuntu License. Licence terms are available here: https://www.ubuntu.com/licensing
+- [git](https://git-scm.com/) 2.43.0
+  - git was released under the GNU General Public License 2.0. Licence terms are available here: http://opensource.org/licenses/GPL-2.0
+- [KNIME](https://www.knime.com/) 5.11.0
+  - KNIME was released under the GNU General Public License version 3. Licence terms are available here: https://www.knime.com/downloads/full-license
+- [Python](https://www.python.org/) 3.11.4
+  - Python was released under the Python 3.10 License. Licence terms are available here: https://docs.python.org/3.10/license.html
+- [R](https://www.r-project.org/) 4.5.2
+  - R was released under the GNU General Public Licence 2.0 (and higher). Licence terms are available here: https://www.r-project.org/Licenses/
+- [TurboVNC](https://turbovnc.org) 3.1.1
+  - TurboVNC was released under the GNU General Public Licence 2.0. Licence terms are available here: https://github.com/TigerVNC/tigervnc/blob/master/LICENCE.TXT
+- [Ubuntu](https://www.ubuntu.com/) 24.04
+  - Ubuntu was released under the Ubuntu License. Licence terms are available here: https://www.ubuntu.com/licensing
 
 #### KNIME extensions on top of the standard KNIME Analytics Platform installation (alphabetical order)
 
-- KNIME Expressions (4.7.3.v202305091619)
-- KNIME Interactive R Statistics Integration (4.7.0.v202211090002)
-- KNIME Python Legacy Integration (4.7.1.v202301311311)
-- KNIME Python Integration (4.7.3.v202305111430)
-- KNIME Report Designer (4.7.2.v202303211209)
-- KNIME Testing Framework (4.7.2.v202303211209)
-- [OpenMS](http://www.openms.de/) 2.7.0 (2.7.0.202109131426)
-    - The OpenMS consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [PIA](https://github.com/mpc-bioinformatics/pia) 1.4.5 (1.4.5.v202201211506)
-    - The PIA consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- KNIME Expressions	(5.11.0.v202602211516)
+- KNIME Extension for Big Data File Formats (5.11.0.v202602211509)
+- KNIME Image Processing (1.8.3.v202512031239)
+- KNIME Interactive R Statistics Integration (5.9.0.v202511132128)
+- KNIME Python 2 Integration (legacy) (5.11.0.v202602010958)
+- KNIME Python Integration (5.11.0.v202602211520)
+- KNIME Report Designer (BIRT) (5.10.0.v202512040946)
+- KNIME Testing Framework UI (5.10.0.v202512051515)
+- [OpenMS](http://www.openms.de/) (3.5.0.202512111229)
+    - The OpenMS extension was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [PIA](https://github.com/mpc-bioinformatics/pia) (1.4.7.v202511)271459
+    - The PIA extension was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [Vernalis KNIME nodes](https://www.knime.com/book/vernalis-cheminformatics-nodes) (1.38.2.v202605270913)
+    - The Vernalis extension was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.knime.com/sites/default/files/inline-images/gplv3.txt
 
 #### Python 3 or 2 packages (alphabetical order; not covering the packages installed automatically together with the mentioned ones)
-- [dash](https://plotly.com/dash/) 1.12.0 (python 3)
-    - The Dash consists of the following MIT License. Licence terms are available here: https://github.com/plotly/dash/blob/master/LICENSE
-- [dash-bio](https://dash.plotly.com/dash-bio) 0.4.8 (python 3)
-    - The dash-bio consists of the following MIT License. Licence terms are available here: https://github.com/plotly/dash-bio/blob/master/LICENSE
-- [matplotlib](https://matplotlib.org/) 3.1.3 (python 3) and 2.2.4 (python 2)
-    - The matplotlib consists of the following Python Software Foundation License (BSD compatible). Licence terms are available here: https://matplotlib.org/users/license.html
-- [numpy](http://www.numpy.org/) 1.18.1 (python 3) and 1.16.6 (python 2)
-    - The numpy consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [pandas](https://pandas.pydata.org/) 1.0.1 (python 3) and 0.24.2 (python 2)
-    - The pandas consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [scipy](https://www.scipy.org/) 1.4.1 (python 3) and 1.2.3 (python 2)
-    - The scipy consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [seaborn](https://seaborn.pydata.org/) 0.10.0 (python 3) and 0.9.0 (python 2)
-    - The seaborn consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
-- [statsmodels](https://www.statsmodels.org/stable/index.html) 0.11.1 (python 3) and 0.10.2 (python 2)
-    - The statsmodels consists of the following BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [dash](https://github.com/plotly/dash)
+    - The dash package was released under the MIT license. Licence terms are available here: https://github.com/plotly/dash/blob/master/LICENSE
+- [dash-bio](https://github.com/plotly/dash-bio)
+    - The dash-bio package was released under the MIT license. Licence terms are available here: https://github.com/plotly/dash-bio/blob/master/LICENSE
+- [matplotlib](https://matplotlib.org/)
+    - The matplotlib package was released under the Python Software Foundation License (BSD compatible). Licence terms are available here: https://matplotlib.org/users/license.html
+- [numpy](http://www.numpy.org/)
+    - The numpy package was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [pandas](https://pandas.pydata.org/)
+    - The pandas package was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [peptides](https://github.com/althonos/peptides.py)
+    - The peptides package was released under the General Public License (GPL), version 3. Licence terms are available here: https://github.com/althonos/peptides.py/blob/main/COPYING
+- [scipy](https://www.scipy.org/)
+    - The scipy package was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [seaborn](https://seaborn.pydata.org/)
+    - The seaborn package was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
+- [statsmodels](https://www.statsmodels.org/stable/index.html)
+    - The statsmodels package was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause
 
 #### R libraries (alphabetical order; not covering the libraries installed automatically together with the mentioned ones)
+- the following list is not complete, mentions only selected packages without their dependencies etc.
+
 - [Biobase](https://bioconductor.org/packages/release/bioc/html/Biobase.html)
-    - The Biobase consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
+    - The Biobase package was released under the Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
+- [BiocManager](https://cran.r-project.org/web/packages/BiocManager/index.html)
+    - The BiocManager package was released under the Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
+- [class](https://cran.r-project.org/web/packages/class/index.html)
+    - The class package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [clusterProfiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)
+    - The clusterProfiler package was released under the Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
+- [ComplexHeatmap](https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html)
+    - The ComplexHeatmap package was released under the MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://github.com/jokergoo/ComplexHeatmap/blob/master/LICENSE
+- [ComplexUpset](https://cran.r-project.org/web/packages/ComplexUpset/index.html)
+    - The ComplexHeatmap package was released under the MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/ComplexUpset/LICENSE
 - [compositions](https://cran.r-project.org/web/packages/compositions/index.html)
-    - The compositions consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The compositions package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [corpcor](https://cran.r-project.org/web/packages/corpcor/index.html)
-    - The corpcor consists of the following General Public License (GPL), version >=3 license. Licence terms are available here: https://cran.r-project.org/web/licenses/GPL-3
+    - The corpcor package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [DEqMS](https://bioconductor.org/packages/release/bioc/html/DEqMS.html)
+    - The DEqMS package was released under the LGPL license. Licence terms are available here: https://www.gnu.org/licenses/lgpl-3.0.html#license-text
+- [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
+    - The devtools package was released under the MIT license. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and here: https://cran.r-project.org/web/packages/devtools/LICENSE
+- [factoextra](https://cran.r-project.org/web/packages/factoextra/index.html)
+    - The factoextra package was released under the General Public License (GPL), version 2. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+- [FactoMineR](https://cran.r-project.org/web/packages/FactoMineR/index.html)
+    - The FactoMineR package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
+    - The ggpubr package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [gplots](https://cran.r-project.org/web/packages/gplots/index.html)
+    - The gplots package was released under the General Public License (GPL), version 2. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
 - [gprofiler2](https://cran.r-project.org/web/packages/gprofiler2/index.html)
-    - The gprofiler2 consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The gprofiler2 package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [Hotelling](https://cran.r-project.org/web/packages/Hotelling/index.html)
-    - The Hotelling consists of the following General Public License (GPL), version 2, 3 license. Licence terms are available here: https://cran.r-project.org/web/licenses/GPL-2, https://www.r-project.org/Licenses/GPL-3
+    - The Hotelling package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [imp4p](https://cran.r-project.org/web/packages/imp4p/index.html)
-    - The imp4p consists of the following General Public License (GPL), version 3 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The imp4p package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [impute](http://www.bioconductor.org/packages/release/bioc/html/impute.html)
-    - The impute consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+    - The impute consists of the following General Public License (GPL), version 2. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+- [iq](https://cran.r-project.org/web/packages/iq/index.html)
+    - The iq package was released under the BSD/3clause license. Licence terms are available here: https://opensource.org/licenses/BSD-3-Clause and here: https://cran.r-project.org/web/packages/iq/LICENSE
+- [lawstat](https://cran.r-project.org/web/packages/lawstat/index.html)
+    - The lawstat package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [limma](https://bioconductor.org/packages/release/bioc/html/limma.html)
-    - The limma consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+    - The limma package was released under the General Public License (GPL), version 2. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+- [limpa](https://www.bioconductor.org/packages/release/bioc/html/limpa.html)
+    - The limpa package was released under the General Public License (GPL), version 2. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+- [Peptides](https://cran.r-project.org/web/packages/Peptides/index.html)
+    - The Peptides package consists of the General Public License (GPL), version 2. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
 - [pcaMethods](https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html)
-    - The pcaMethods consists of the following General Public License (GPL), version 3 (or higher) license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The pcaMethods package was released under the General Public License (GPL), version 3 (or higher). Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
-    - The plotly consists of the following MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/plotly/LICENSE
+    - The plotly package was released under the MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/plotly/LICENSE
 - [preprocessCore](https://www.bioconductor.org/packages/release/bioc/html/preprocessCore.html)
-    - The preprocessCore consists of the following GNU Library General Public (LGPL) License, version 2 (or higher) license. Licence terms are available here: https://www.r-project.org/Licenses/LGPL-2
+    - The preprocessCore package was released under the the GNU Library General Public (LGPL) License, version 2 (or higher). Licence terms are available here: https://www.r-project.org/Licenses/LGPL-2
 - [proDA](https://const-ae.github.io/proDA/)
-    - The proDA consists of the following GPL-3 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The proDA package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [pvca](https://bioconductor.org/packages/release/bioc/html/pvca.html)
+    - The pvca package was released under the LGPL license. Licence terms are available here: https://www.gnu.org/licenses/lgpl-3.0.html#license-text
 - [robCompositions](https://cran.r-project.org/web/packages/robCompositions/index.html)
-    - The robCompositions consists of the following General Public License (GPL), version >=2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+    - The robCompositions package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [rrcovNA](https://cran.r-project.org/web/packages/rrcovNA/index.html)
+    - The rrcovNA package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
 - [Rserve](https://cran.r-project.org/web/packages/Rserve/index.html)
-    - The Rserve consists of the following General Public License (GPL), version 2 license. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+    - The Rserve package was released under the General Public License (GPL), version 2. Licence terms are available here: https://www.r-project.org/Licenses/GPL-2
+- [shiny](https://cran.r-project.org/web/packages/shiny/index.html)
+    - The shiny package was released under the MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/shiny/LICENSE 
+- [sROC](https://cran.r-project.org/web/packages/sROC/index.html)
+    - Using archived version. The sva package was released under the General Public License (GPL), version 3. Licence terms are available here: https://www.r-project.org/Licenses/GPL-3
+- [sva](https://bioconductor.org/packages/release/bioc/html/sva.html)
+    - The sva package was released under the Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
+- [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html)
+    - The tidyverse package was released under the MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/tidyverse/LICENSE
+- [umap](https://cran.r-project.org/web/packages/umap/index.html)
+    - The tidyverse package was released under the MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/umap/LICENSE
 - [UpSetR](https://cran.r-project.org/web/packages/UpSetR/index.html)
-    - The UpSetR consists of the following MIT license and License file. Licence terms are available here: https://cran.r-project.org/web/licenses/MIT and https://cran.r-project.org/web/packages/UpSetR/LICENSE
+    - UpSet application (https://caleydo.org/tools/upset/) (The UpSet application was released under the MIT license. Licence terms are available here: https://github.com/VCG/upset/blob/master/LICENSE)
 - [vsn](https://bioconductor.org/packages/release/bioc/html/vsn.html)
-    - The vsn consists of the following Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
+    - The vsn package was released under the Artistic-2.0 license. Licence terms are available here: https://opensource.org/licenses/Artistic-2.0
 
 # Contributors
 
